@@ -10,6 +10,6 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-void    ft_printf(char *fmt, ...);
+int    ft_printf(char *fmt, ...);
 
 #endif //FT_PRINTF_FT_PRINTF_H
