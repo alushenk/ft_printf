@@ -67,6 +67,20 @@ void test_printf()
 	printf("\n");
 }
 
+void test_size()
+{
+	size_t size = 2147483647;
+	char *s = ft_strnew(size);
+	for (int i = 0; i < size - 1; i++)
+	{
+		if (i % 10)
+			s[i] = 'x';
+		else
+			s[i] = '\n';
+	}
+	printf("%s", s);
+}
+
 int main()
 {
 	int a;
@@ -75,8 +89,8 @@ int main()
 	//a = printf("%ss%s\n", "111", "222");
 	//printf("%d\n", a);
 
-	//b = ft_printf("%d", 50);
-
+	b = ft_printf("%d", 50);
+	printf("%d\n", b);
 
 	test_printf();
 
