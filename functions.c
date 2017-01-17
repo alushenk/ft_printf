@@ -6,26 +6,32 @@
 
 void initialise_struct(t_format *format)
 {
+	format->flag = 0;
 	format->width = -1;
 	format->precision = -1;
+
+	format->size = ft_strnew(2);
 	ft_bzero(format->size, 3);
 }
 
-void check_flags(char *fmt)
+int check_flags(char *fmt, t_format *format)
 {
 	if (*fmt == '-')
-		g_flag |= 1;
+		format->flag |= 1;
 	else if (*fmt == '+')
-		g_flag |= 2;
+		format->flag |= 2;
 	else if (*fmt == ' ')
-		g_flag |= 4;
+		format->flag |= 4;
 	else if (*fmt == '#')
-		g_flag |= 8;
+		format->flag |= 8;
 	else if (*fmt == '0')
-		g_flag |= 16;
+		format->flag |= 16;
+	else
+		return (0);
+	return (1);
 }
 
-int check_width(char **fmt, va_list ap)
+int check_width(char **fmt, va_list ap, t_format *format)
 {
 	int result;
 	char *str;
@@ -38,7 +44,7 @@ int check_width(char **fmt, va_list ap)
 		result = (int) va_arg (ap, int);
 		if (result < 0)
 		{
-			g_flag |= 1;
+			format->flag |= 1;
 			//не творит ли оно хуню с минимальным интом?
 			//если творит, то творит ли оригинальный принтф такую же хуйню?
 			result = -result;
@@ -72,7 +78,7 @@ int check_precision(char **fmt, va_list ap)
 			{
 				//не творит ли оно хуню с минимальным интом?
 				//если творит, то творит ли оригинальный принтф такую же хуйню?
-				result = -result;
+				result = 0;
 			}
 		}
 		else
@@ -81,17 +87,35 @@ int check_precision(char **fmt, va_list ap)
 				result = result * 10 + (**fmt - '0');
 				str++;
 			}
-		*fmt = str;
-		return (result);
 	}
+	*fmt = str;
+	return (result);
 }
 
 char *check_size(char **fmt, va_list ap)
 {
+	char *str;
 	char *result;
 
-	result = ft_strnew(3);
-
+	result = NULL;
+	str = *fmt;
+	if (*str == 'h')
+		result = ft_strdup("h");
+	if (!strncmp(str, "hh", 2))
+		result = ft_strdup("hh");
+	if (*str == 'l')
+		result = ft_strdup("l");
+	if (!strncmp(str, "ll", 2))
+		result = ft_strdup("ll");
+	if (*str == 'j')
+		result = ft_strdup("j");
+	if (*str == 'z')
+		result = ft_strdup("z");
+	if (!result)
+		return (NULL);
+	str += ft_strlen(result);
+	*fmt = str;
+	return (result);
 }
 
 

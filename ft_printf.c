@@ -6,6 +6,7 @@
 
 void 	func(char *fmt, va_list ap, char *result)
 {
+	char *ptr;
 	while (*fmt)
 	{
 		while (*fmt != '%' && *fmt)
@@ -23,10 +24,15 @@ void 	func(char *fmt, va_list ap, char *result)
 		 * пиздонуть все check_ функции в один иф(одну строку). сделать чтоб они возвращали 1 или 0
 		 */
 		fmt++;
-		check_flags(fmt);
-		format->width = check_width(&fmt, ap);
+		while(check_flags(fmt, format))
+			fmt++;
+		format->width = check_width(&fmt, ap, format);
 		format->precision = check_precision(&fmt, ap);
-		format->size = check_size(&fmt, ap);
+		if ((ptr = check_size(&fmt, ap)))
+		{
+			ft_strcpy(format->size, ptr);
+			free(ptr);
+		}
 
 		fmt++;
 	}
@@ -51,13 +57,12 @@ int    ft_printf(char *fmt, ...)
 	char	result[2048];
 
 	g_count = 0;
-	g_flag = 0;
 	format = (t_format*)malloc(sizeof(t_format));
 	initialise_struct(format);
 
     va_start(ap, fmt);
 	func(fmt, ap, result);
     va_end(ap);
-	ft_putstr(result);
+	//ft_putstr(result);
 	return (g_count);
 }

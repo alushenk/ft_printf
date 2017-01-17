@@ -65,6 +65,8 @@ void test_printf()
 	printf("%*d\n", width, num);
 	printf("%2$*1$d\n", width, num);
 	printf("\n");
+
+
 }
 
 void test_size()
@@ -81,7 +83,7 @@ void test_size()
 	printf("%s", s);
 }
 
-int main()
+void test_prog()
 {
 	int a;
 	int b;
@@ -89,10 +91,15 @@ int main()
 	//a = printf("%ss%s\n", "111", "222");
 	//printf("%d\n", a);
 
-	b = ft_printf("%d", 50);
-	printf("%d\n", b);
+	b = ft_printf("%+-# 025.3hd", 50);
+	printf("%+-# 025.3hd", 50);
+	printf("|||||||||");
+	//printf("%d\n", b);
+}
 
-	test_printf();
-
+int main()
+{
+	test_prog();
+	//test_printf();
 	return 0;
 }
