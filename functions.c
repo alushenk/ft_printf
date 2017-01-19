@@ -20,10 +20,15 @@ int skip_atoi(char **s)
 
 void initialise_struct(t_format *format)
 {
+	/*
+	 * продумать значения по умолчанию, как себя ведет прога если они остаются неизмененными.
+	 * как поведут себя функции check_ если эти значения изменить
+	 */
 	format->flag = 0;
 	format->width = 0;
 	format->precision = 0;
 	format->size = 0;
+	format->type = 0;
 }
 
 int check_flags(char **fmt, t_format *format)
@@ -73,6 +78,7 @@ int check_precision(char **fmt, va_list ap, t_format *format)
 			format->precision = (int) va_arg (ap, int);
 			if (format->precision < 0)
 				format->precision = 0;
+			return (1);
 		}
 		else if ((format->precision = skip_atoi(fmt)))
 			return (1);
@@ -80,7 +86,7 @@ int check_precision(char **fmt, va_list ap, t_format *format)
 	return (0);
 }
 
-int check_size(char **fmt, va_list ap, t_format *format)
+int check_size(char **fmt, t_format *format)
 {
 	size_t len;
 	/*
@@ -105,6 +111,25 @@ int check_size(char **fmt, va_list ap, t_format *format)
 		return (0);
 	(*fmt) += len;
 	return (1);
+}
+
+void check_type(char **fmt, t_format *format)
+{
+	/*
+	 * если спецификатор формата отсутствует?
+	 */
+	if (**fmt == 's')
+		write_string(format);
+	if (**fmt == 'S')
+		write_wchar_string(format);
+	if (**fmt == 'p')
+		write_pointer(format);
+	if (**fmt == 'd' || **fmt == 'i')
+		write_decimal(format);
+	if (**fmt == 'c')
+		write_char(format);
+	if (**fmt == 'C')
+		write_long_char(format);
 }
 
 

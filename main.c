@@ -96,8 +96,8 @@ void test_prog()
 	//a = printf("%ss%s\n", "111", "222");
 	//printf("%d\n", a);
 
-	b = ft_printf("%+25.3hhd", 50);
-	printf("%+-# 025.3hd", 50);
+	b = ft_printf("%+- *.*.4.*hhd", 44, 5, 1, 50);
+	printf("%+-# 025.3hs", "sss");
 	printf("|||||||||");
 	//printf("%d\n", b);
 }
