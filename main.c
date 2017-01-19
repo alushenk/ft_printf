@@ -67,6 +67,11 @@ void test_printf()
 	printf("\n");
 
 
+	//printf("%0*s\n", INT_MAX, "1234");
+
+	printf("%**.*.*s\n", 1, 10, -2 , 1, "abc");
+	printf("%**.*f\n", 1, 10, -2, 1.3333);
+	printf("%*.2s\n", 10, "abc");
 }
 
 void test_size()
@@ -91,7 +96,7 @@ void test_prog()
 	//a = printf("%ss%s\n", "111", "222");
 	//printf("%d\n", a);
 
-	b = ft_printf("%+-# 025.3hd", 50);
+	b = ft_printf("%+25.3hhd", 50);
 	printf("%+-# 025.3hd", 50);
 	printf("|||||||||");
 	//printf("%d\n", b);
