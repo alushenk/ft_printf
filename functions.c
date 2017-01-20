@@ -18,17 +18,31 @@ int skip_atoi(char **s)
 	return ((int) i);
 }
 
-void initialise_struct(t_format *format)
+void initialise_struct(t_format **format)
 {
 	/*
 	 * продумать значения по умолчанию, как себя ведет прога если они остаются неизмененными.
 	 * как поведут себя функции check_ если эти значения изменить
+	 *
+	 * нету смысла фришить сам поинтер на структуру, можно тупо его обнулять
 	 */
-	format->flag = 0;
-	format->width = 0;
-	format->precision = 0;
-	format->size = 0;
-	format->type = 0;
+	if (!*format)
+	{
+		*format = (t_format*)malloc(sizeof(t_format));
+		(*format)->prefix = NULL;
+		(*format)->sufix = NULL;
+	}
+	(*format)->flag = 0;
+	(*format)->width = 0;
+	(*format)->precision = 0;
+	(*format)->size = 0;
+	(*format)->type = 0;
+	if ((*format)->prefix)
+		free((*format)->prefix);
+	(*format)->prefix = NULL;
+	if ((*format)->sufix)
+		free((*format)->sufix);
+	(*format)->sufix = NULL;
 }
 
 int check_flags(char **fmt, t_format *format)
@@ -89,17 +103,18 @@ int check_precision(char **fmt, va_list ap, t_format *format)
 int check_size(char **fmt, t_format *format)
 {
 	size_t len;
-	/*
- 	* сортануть из в прорядке возрастания/убывания размера, и потом просто маской читать самый крайний
-	 *
-	 * важно чтобы сначала шли проверки на два символа, иначе при 'l' не зайдет в 'll'
- 	*/
+
 	len = 1;
-	if (!strncmp(*fmt, "ll", len = 2))
+	/*
+	 * важно чтобы сначала шли проверки на два символа, иначе при 'l' не зайдет в 'll'
+	 *
+	 * "&&" в ифах - мастерство укорачивать код костылями
+	 */
+	if (!strncmp(*fmt, "hh", 2) && len++)
 		format->size |= 1;
-	else if (!strncmp(*fmt, "hh", len = 2))
-		format->size |= 2;
 	else if (**fmt == 'h')
+		format->size |= 2;
+	else if (!strncmp(*fmt, "ll", 2) && len++)
 		format->size |= 4;
 	else if (**fmt == 'l')
 		format->size |= 8;
@@ -115,21 +130,19 @@ int check_size(char **fmt, t_format *format)
 
 void check_type(char **fmt, t_format *format)
 {
+	char *type;
+
+	type = "sSpdDioOuUxXcC";
 	/*
-	 * если спецификатор формата отсутствует?
+	 * если спецификатор формата отсутствует, выводится только префикс
+	 *
+	 * если это левая буква - она выведется на следующей итерации
 	 */
-	if (**fmt == 's')
-		write_string(format);
-	if (**fmt == 'S')
-		write_wchar_string(format);
-	if (**fmt == 'p')
-		write_pointer(format);
-	if (**fmt == 'd' || **fmt == 'i')
-		write_decimal(format);
-	if (**fmt == 'c')
-		write_char(format);
-	if (**fmt == 'C')
-		write_long_char(format);
+	if (ft_strchr(type, **fmt))
+	{
+		format->type = **fmt;
+		(*fmt)++;
+	}
 }
 
 

@@ -96,8 +96,11 @@ void test_prog()
 	//a = printf("%ss%s\n", "111", "222");
 	//printf("%d\n", a);
 
-	b = ft_printf("%+- *.*.4.*hhd", 44, 5, 1, 50);
-	printf("%+-# 025.3hs", "sss");
+	b = ft_printf("suka blyad:%+- *.*.4.*hhc", 44, 5, 1, 50);
+	//printf("%+-# 025.3r", "sss");
+	//printf("%+-# 025.3", "sss");
+	//printf("%+-# 025.3s", "sss");
+	printf("suka blyad:%+- *.*.4.*ls", 4, 5, 6, "nahuy");
 	printf("|||||||||");
 	//printf("%d\n", b);
 }

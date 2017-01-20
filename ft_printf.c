@@ -4,21 +4,31 @@
 
 #include "ft_printf.h"
 
-void 	func(char *fmt, va_list ap, char *result, t_format *format)
+size_t		get_len(char *str)
+{
+	size_t i;
+
+	i = 0;
+	while (str[i] != '%' && str[i])
+		i++;
+	return (i);
+}
+
+void 		func(char *fmt, va_list ap, char *result, t_format *format)
 {
 	char	*ptr;
+	size_t	prefix_size;
 
 	while (*fmt)
 	{
-		while (*fmt != '%' && *fmt)
+		if ((prefix_size = get_len(fmt)))
 		{
-			*result++ = *fmt++;
+			format->prefix = ft_strnew(prefix_size);
+			ft_strncpy(format->prefix, fmt, prefix_size);
 		}
+		fmt += prefix_size;
 		if (*fmt == '\0')
-		{
-			*result = '\0';
 			break;
-		}
 		fmt++;
 		while(check_flags(&fmt, format))
 			fmt++;
@@ -26,6 +36,7 @@ void 	func(char *fmt, va_list ap, char *result, t_format *format)
 		while (check_precision(&fmt, ap, format));
 		while ((check_size(&fmt, format)));
 		check_type(&fmt, format);
+		do_print(format, ap);
 		fmt++;
 	}
 /*
@@ -40,11 +51,17 @@ void 	func(char *fmt, va_list ap, char *result, t_format *format)
 int    ft_printf(char *fmt, ...)
 {
     va_list ap;
+	/*
+	 * реализовать расширение буфера с помощью связанных списков
+	 * или тупо расширять с помощью малоков и буфера
+	 *
+	 * когда указатель дойдет до конца - расширить или создать еще один элемент размером с буфер
+	 */
 	char	result[2048];
 	t_format	*format;
 
-	format = (t_format*)malloc(sizeof(t_format));
-	initialise_struct(format);
+	format = NULL;
+	initialise_struct(&format);
 
     va_start(ap, fmt);
 	func(fmt, ap, result, format);
