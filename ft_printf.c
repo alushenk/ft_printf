@@ -17,27 +17,29 @@ size_t		get_len(char *str)
 void 		func(char *fmt, va_list ap, char *result, t_format *format)
 {
 	char	*ptr;
-	size_t	prefix_size;
+	size_t	prefix_len;
 
 	while (*fmt)
 	{
-		if ((prefix_size = get_len(fmt)))
+		initialise_struct(&format);
+		if ((prefix_len = get_len(fmt)))
 		{
-			format->prefix = ft_strnew(prefix_size);
-			ft_strncpy(format->prefix, fmt, prefix_size);
+			format->prefix = ft_strnew(prefix_len);
+			ft_strncpy(format->prefix, fmt, prefix_len);
+			format->prefix_len = prefix_len;
 		}
-		fmt += prefix_size;
-		if (*fmt == '\0')
-			break;
-		fmt++;
-		while(check_flags(&fmt, format))
+		fmt += prefix_len;
+		if (*fmt != '\0')
+		{
 			fmt++;
-		while(check_width(&fmt, ap, format));
-		while (check_precision(&fmt, ap, format));
-		while ((check_size(&fmt, format)));
-		check_type(&fmt, format);
+			while(check_flags(&fmt, format))
+				fmt++;
+			while(check_width(&fmt, ap, format));
+			while (check_precision(&fmt, ap, format));
+			while ((check_size(&fmt, format)));
+			check_type(&fmt, format);
+		}
 		do_print(format, ap);
-		fmt++;
 	}
 /*
 	if(!ft_strcmp(fmt, "%s"))
@@ -61,8 +63,6 @@ int    ft_printf(char *fmt, ...)
 	t_format	*format;
 
 	format = NULL;
-	initialise_struct(&format);
-
     va_start(ap, fmt);
 	func(fmt, ap, result, format);
     va_end(ap);

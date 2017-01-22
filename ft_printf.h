@@ -16,16 +16,38 @@
  * stores the limits of the types for the different platforms
  */
 #include <limits.h>
+/*
+ * flag
+ */
+#define LEFT 1
+#define SIGN 2
+#define SPACE 4
+#define HASH 8
+#define ZEROPAD 16
+/*
+ * size
+ */
+#define SIGNED_CHAR 1
+#define SHORT 2
+#define LONG_LONG 4
+#define LONG 8
+#define INTMAX_T 16
+#define SIZE_T 32
 
 typedef struct 			s_format
 {
 	int		flag;
+	/*
+	 * сделать проверку где-то в коде на макс/мин инт
+	 * для width и precision
+	 */
 	int 	width;
 	int 	precision;
 	int		size;
 	char 	type;
 
 	char	*prefix;
+	size_t 	prefix_len;
 	char 	*sufix;
 }						t_format;
 

@@ -37,6 +37,7 @@ void initialise_struct(t_format **format)
 	(*format)->precision = 0;
 	(*format)->size = 0;
 	(*format)->type = 0;
+	(*format)->prefix_len = 0;
 	if ((*format)->prefix)
 		free((*format)->prefix);
 	(*format)->prefix = NULL;
@@ -48,15 +49,15 @@ void initialise_struct(t_format **format)
 int check_flags(char **fmt, t_format *format)
 {
 	if (**fmt == '-')
-		format->flag |= 1;
+		format->flag |= LEFT;
 	else if (**fmt == '+')
-		format->flag |= 2;
+		format->flag |= SIGN;
 	else if (**fmt == ' ')
-		format->flag |= 4;
+		format->flag |= SPACE;
 	else if (**fmt == '#')
-		format->flag |= 8;
+		format->flag |= HASH;
 	else if (**fmt == '0')
-		format->flag |= 16;
+		format->flag |= ZEROPAD;
 	else
 		return (0);
 	return (1);
@@ -111,17 +112,17 @@ int check_size(char **fmt, t_format *format)
 	 * "&&" в ифах - мастерство укорачивать код костылями
 	 */
 	if (!strncmp(*fmt, "hh", 2) && len++)
-		format->size |= 1;
+		format->size |= SIGNED_CHAR;
 	else if (**fmt == 'h')
-		format->size |= 2;
+		format->size |= SHORT;
 	else if (!strncmp(*fmt, "ll", 2) && len++)
-		format->size |= 4;
+		format->size |= LONG_LONG;
 	else if (**fmt == 'l')
-		format->size |= 8;
+		format->size |= LONG;
 	else if (**fmt == 'j')
-		format->size |= 16;
+		format->size |= INTMAX_T;
 	else if (**fmt == 'z')
-		format->size |= 32;
+		format->size |= SIZE_T;
 	else
 		return (0);
 	(*fmt) += len;
