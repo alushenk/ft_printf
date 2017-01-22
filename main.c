@@ -88,7 +88,7 @@ void test_size()
 	printf("%s", s);
 }
 
-void test_prog()
+void test_string()
 {
 	int a;
 	int b;
@@ -96,19 +96,50 @@ void test_prog()
 	//a = printf("%ss%s\n", "111", "222");
 	//printf("%d\n", a);
 
-	b = ft_printf("suka blyad:%*.8s\n", 40, "nahuy");
+	b = ft_printf("suka blyad:%#-0*.8s pizdets %s\n", 40, "nahuy", "govno");
 	printf("|||||||||\n");
+	printf("%d\n", b);
 	//printf("%+-# 025.3r", "sss");
 	//printf("%+-# 025.3", "sss");
 	//printf("%+-# 025.3s", "sss");
-	printf("suka blyad:%*.8s\n", 40, "nahuy");
-	printf("|||||||||");
+	b = printf("suka blyad:%#-0*.8s pizdets %s\n", 40, "nahuy", "govno");
+	printf("|||||||||\n");
+	printf("%d\n", b);
 	//printf("%d\n", b);
+}
+
+void test_decimal()
+{
+	int b;
+
+	b = ft_printf("suka blyad:%#-0*.8d\n", 40, 55);
+	printf("|||||||||\n");
+	printf("%d\n", b);
+	printf("suka blyad:%#-0*.8d\n", 40, 55);
+	printf("|||||||||\n");
+	printf("%d\n", b);
+}
+
+void test_pointer()
+{
+	int a = 55;
+	int b;
+	int *ptr = &a;
+
+
+	b = ft_printf("suka blyad:%*.8p", 40, ptr);
+	printf("|||||||||\n");
+	printf("%d\n", b);
+	b = printf("suka blyad:%*.8p", 40, ptr);
+	printf("|||||||||\n");
+	printf("%d\n", b);
 }
 
 int main(void)
 {
-	test_prog();
+	//test_string();
 	//test_printf();
+	//test_decimal;
+	test_pointer();
 	return 0;
 }

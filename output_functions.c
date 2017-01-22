@@ -6,13 +6,19 @@
 
 void write_string(t_format *format, va_list ap)
 {
-	char		*s;
-	size_t		len;
-	size_t		i;
-	char 		c;
+	char *s;
+	size_t len;
+	size_t i;
+	char c;
 /*
  * don't give a shit about size specifier
- * but, "l" character causes error with "s" type
+ * but, "l" character causes no output
+ *
+ * sp no
+ * +  no
+ * #  no
+ * 0  yes
+ * -  yes
  */
 	s = va_arg(ap, char *);
 	len = ft_strlen(s);
@@ -21,6 +27,7 @@ void write_string(t_format *format, va_list ap)
 	 */
 	if (len > format->width)
 		format->width = len;
+	format->sufix_len = format->width;
 	if (format->precision && len > format->precision)
 		len = format->precision;
 	format->sufix = ft_strnew(format->width);
@@ -48,9 +55,6 @@ void write_string(t_format *format, va_list ap)
 		while (i < format->width)
 			format->sufix[i] = '0';
 	}
-
-
-
 }
 
 void write_wchar_string(t_format *format)
@@ -60,7 +64,9 @@ void write_wchar_string(t_format *format)
 
 void write_pointer(t_format *format)
 {
-
+	/*
+	 * # дописывает 0x в начало по идее
+	 */
 }
 
 void write_decimal(t_format *format, va_list ap)
@@ -80,7 +86,7 @@ void write_long_char(t_format *format)
 
 }
 
-void	do_print(t_format *format, va_list ap)
+size_t do_print(t_format *format, va_list ap)
 {
 	if (format->type == 'd' || format->type == 'i')
 		write_decimal(format, ap);
@@ -89,4 +95,9 @@ void	do_print(t_format *format, va_list ap)
 
 	ft_putstr(format->prefix);
 	ft_putstr(format->sufix);
+	/*
+	 * так как ft_strlen не проверяет на NULL то делаю это здесь
+	 */
+	return ((format->prefix ? ft_strlen(format->prefix) : 0) + (format->sufix ? ft_strlen(format->sufix) : 0));
+	return (0);
 }

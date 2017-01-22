@@ -4,7 +4,7 @@
 
 #include "ft_printf.h"
 
-size_t		get_len(char *str)
+size_t get_len(char *str)
 {
 	size_t i;
 
@@ -14,58 +14,53 @@ size_t		get_len(char *str)
 	return (i);
 }
 
-void 		func(char *fmt, va_list ap, char *result, t_format *format)
+int		func(char *fmt, va_list ap, t_format *format)
 {
 	char	*ptr;
-	size_t	prefix_len;
+	size_t	result;
 
+	result = 0;
 	while (*fmt)
 	{
 		initialise_struct(&format);
-		if ((prefix_len = get_len(fmt)))
+		if ((format->prefix_len = get_len(fmt)))
 		{
-			format->prefix = ft_strnew(prefix_len);
-			ft_strncpy(format->prefix, fmt, prefix_len);
-			format->prefix_len = prefix_len;
+			format->prefix = ft_strnew(format->prefix_len);
+			ft_strncpy(format->prefix, fmt, format->prefix_len);
 		}
-		fmt += prefix_len;
+		fmt += format->prefix_len;
 		if (*fmt != '\0')
 		{
 			fmt++;
-			while(check_flags(&fmt, format))
+			while (check_flags(&fmt, format))
 				fmt++;
-			while(check_width(&fmt, ap, format));
+			while (check_width(&fmt, ap, format));
 			while (check_precision(&fmt, ap, format));
 			while ((check_size(&fmt, format)));
 			check_type(&fmt, format);
 		}
-		do_print(format, ap);
+		result += do_print(format, ap);
 	}
-/*
-	if(!ft_strcmp(fmt, "%s"))
-	{
-		char *p = va_arg (ap, char *);
-		ft_putstr(p);
-	}
-*/
+	if (result > INT_MAX)
+		return (-1);
+	return ((int)result);
 }
 
-int    ft_printf(char *fmt, ...)
+int ft_printf(char *fmt, ...)
 {
-    va_list ap;
+	va_list ap;
+	t_format *format;
+	int result;
 	/*
 	 * реализовать расширение буфера с помощью связанных списков
 	 * или тупо расширять с помощью малоков и буфера
-	 *
 	 * когда указатель дойдет до конца - расширить или создать еще один элемент размером с буфер
-	 */
-	char	result[2048];
-	t_format	*format;
+	*/
 
 	format = NULL;
-    va_start(ap, fmt);
-	func(fmt, ap, result, format);
-    va_end(ap);
-	//ft_putstr(result);
-	return (0);
+	va_start(ap, fmt);
+	result = func(fmt, ap, format);
+	va_end(ap);
+
+	return (result);
 }

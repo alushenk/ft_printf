@@ -49,6 +49,7 @@ typedef struct 			s_format
 	char	*prefix;
 	size_t 	prefix_len;
 	char 	*sufix;
+	size_t 	sufix_len;
 }						t_format;
 
 /*
@@ -67,7 +68,7 @@ void		check_type(char **fmt, t_format *format);
 /*
  * output functions
  */
-void		do_print(t_format *format, va_list ap);
+size_t		do_print(t_format *format, va_list ap);
 void		write_string(t_format *format, va_list ap);
 void		write_decimal(t_format *format, va_list ap);
 

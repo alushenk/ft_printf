@@ -38,6 +38,7 @@ void initialise_struct(t_format **format)
 	(*format)->size = 0;
 	(*format)->type = 0;
 	(*format)->prefix_len = 0;
+	(*format)->sufix_len = 0;
 	if ((*format)->prefix)
 		free((*format)->prefix);
 	(*format)->prefix = NULL;
