@@ -14,6 +14,8 @@ void write_string(t_format *format, va_list ap)
  * don't give a shit about size specifier
  * but, "l" character causes no output
  *
+ * "l" demands conversion to "wchar_t" which is UTF-8 shit (the next function after this)
+ *
  * sp no
  * +  no
  * #  no
@@ -72,8 +74,18 @@ void write_pointer(t_format *format)
 void write_decimal(t_format *format, va_list ap)
 {
 	int num;
+	size_t i;
+	void (*foo[6])(t_format *a, va_list b);
 
-	num = (int) va_arg (ap, int);
+	initialise_array(foo);
+	i = 0;
+	num = 0;
+	while(!(format->size & (1 << i)) && i < 6)
+		i++;
+	if (i == 6)
+		num = (int) va_arg (ap, int);
+	else
+		foo[i](format, ap);
 }
 
 void write_char(t_format *format)
@@ -83,6 +95,15 @@ void write_char(t_format *format)
 
 void write_long_char(t_format *format)
 {
+
+}
+
+
+
+void initialise_array(void (*foo[])(t_format* , va_list))
+{
+	foo[0] = &write_d_hh;
+	foo[1] = &write_d_h;
 
 }
 

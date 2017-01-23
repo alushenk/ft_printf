@@ -40,6 +40,8 @@ typedef struct 			s_format
 	/*
 	 * сделать проверку где-то в коде на макс/мин инт
 	 * для width и precision
+	 *
+	 * хранить базу( > 2 && < 16)
 	 */
 	int 	width;
 	int 	precision;
@@ -68,8 +70,17 @@ void		check_type(char **fmt, t_format *format);
 /*
  * output functions
  */
+void 		initialise_array(void (*foo[])(t_format* , va_list));
 size_t		do_print(t_format *format, va_list ap);
 void		write_string(t_format *format, va_list ap);
 void		write_decimal(t_format *format, va_list ap);
+/*
+ * output decimal functions
+ */
+void 	write_d_hh(t_format *format, va_list ap);
+void 	write_d_h(t_format *format, va_list ap);
+void	write_d_long(t_format *format, va_list ap);
+
+
 
 #endif //FT_PRINTF_FT_PRINTF_H

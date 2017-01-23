@@ -112,10 +112,10 @@ void test_decimal()
 {
 	int b;
 
-	b = ft_printf("suka blyad:%#-0*.8d\n", 40, 55);
+	b = ft_printf("%hhd\n", 5555555);
 	printf("|||||||||\n");
 	printf("%d\n", b);
-	printf("suka blyad:%#-0*.8d\n", 40, 55);
+	printf("%hhd\n", 5555555);
 	printf("|||||||||\n");
 	printf("%d\n", b);
 }
@@ -139,7 +139,7 @@ int main(void)
 {
 	//test_string();
 	//test_printf();
-	//test_decimal;
-	test_pointer();
+	test_decimal();
+	//test_pointer();
 	return 0;
 }

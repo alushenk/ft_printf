@@ -111,19 +111,21 @@ int check_size(char **fmt, t_format *format)
 	 * важно чтобы сначала шли проверки на два символа, иначе при 'l' не зайдет в 'll'
 	 *
 	 * "&&" в ифах - мастерство укорачивать код костылями
+	 *
+	 * как оно себя ведет при считывании hhh или lll (сейчас работает только с одной и двумя)
 	 */
-	if (!strncmp(*fmt, "hh", 2) && len++)
-		format->size |= SIGNED_CHAR;
-	else if (**fmt == 'h')
-		format->size |= SHORT;
+	if (**fmt == 'z')
+		format->size |= SIZE_T;
+	else if (**fmt == 'j')
+		format->size |= INTMAX_T;
 	else if (!strncmp(*fmt, "ll", 2) && len++)
 		format->size |= LONG_LONG;
 	else if (**fmt == 'l')
 		format->size |= LONG;
-	else if (**fmt == 'j')
-		format->size |= INTMAX_T;
-	else if (**fmt == 'z')
-		format->size |= SIZE_T;
+	else if (!strncmp(*fmt, "hh", 2) && len++)
+		format->size |= SIGNED_CHAR;
+	else if (**fmt == 'h')
+		format->size |= SHORT;
 	else
 		return (0);
 	(*fmt) += len;
