@@ -64,7 +64,7 @@ void write_wchar_string(t_format *format)
 
 }
 
-void write_pointer(t_format *format)
+void write_pointer(t_format *format, va_list ap)
 {
 	/*
 	 * # дописывает 0x в начало по идее
@@ -102,18 +102,69 @@ void write_long_char(t_format *format)
 
 void initialise_array(void (*foo[])(t_format* , va_list))
 {
-	foo[0] = &write_d_hh;
-	foo[1] = &write_d_h;
+	foo[0] = &write_d_h;
+	foo[1] = &write_d_hh;
+
+}
+
+void	write_signed_num(t_format *format, va_list ap)
+{
+	ssize_t num;
+	ssize_t temp;
+	char *mas;
+	int i;
+	int j;
+
+	mas = "0123456789abcdef";
+	num = va_arg(ap, size_t);
+	if (format->base < 2 || format->base > 16 || !(format->sufix = ft_strnew(sizeof(char) * 64)))
+		return;
+	temp = num;
+	i = 0;
+	if (num < 0)
+	{
+		if (format->base == 10)
+		{
+			format->sufix[i] = '-';
+			i++;
+		}
+		temp = -num;
+	}
+	num = temp;
+	j = 0;
+	while (temp / format->base > 0)
+	{
+		temp /= format->base;
+		j++;
+	}
+	while (j >= i)
+	{
+		format->sufix[j + i] = mas[num % format->base];
+		num /= format->base;
+		j--;
+	}
+}
+
+void	write_unsigned_num(t_format *format, va_list ap)
+{
 
 }
 
 size_t do_print(t_format *format, va_list ap)
 {
-	if (format->type == 'd' || format->type == 'i')
-		write_decimal(format, ap);
-	if (format->type == 's' || format->type == 'S')
+	/*
+	 * сделать начальный иф для чара? или писать его как обычное число преобразованое в строку(атои)
+	 *
+	 * для флоата тоже, или пихануть проверку в атоях
+	 */
+	if (format->type == 's')
 		write_string(format, ap);
-
+	else if (format->type == 'p')
+		write_pointer(format, ap);
+	else if (format->flag & SIGNED)
+		write_signed_num(format, ap);
+	else
+		write_unsigned_num(format, ap);
 	ft_putstr(format->prefix);
 	ft_putstr(format->sufix);
 	/*

@@ -7,19 +7,19 @@
 /*
  * signed char
  */
-void 	write_d_hh(t_format *format, va_list ap)
-{
-	char result;
-
-	result = (char) va_arg(ap, char);
-	format->sufix = ft_itoa(result);
-}
-
 void 	write_d_h(t_format *format, va_list ap)
 {
 	short result;
 
 	result = (short) va_arg(ap, short);
+	format->sufix = ft_itoa(result);
+}
+
+void 	write_d_hh(t_format *format, va_list ap)
+{
+	char result;
+
+	result = (char) va_arg(ap, char);
 	format->sufix = ft_itoa(result);
 }
 

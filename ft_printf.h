@@ -20,19 +20,24 @@
  * flag
  */
 #define LEFT 1
-#define SIGN 2
+#define PLUS 2
 #define SPACE 4
 #define HASH 8
 #define ZEROPAD 16
+
+#define SIGNED 32
+
 /*
  * size
+ *
+ * играет роль порядок H и HH
  */
-#define SIGNED_CHAR 1
-#define SHORT 2
-#define LONG_LONG 4
-#define LONG 8
-#define INTMAX_T 16
-#define SIZE_T 32
+#define H 1 /* short */
+#define HH 2 /* char */
+#define L 4 /* long */
+#define LL 8 /* long long */
+#define J 16 /* max_t */
+#define Z 32 /* size_t */
 
 typedef struct 			s_format
 {
@@ -47,6 +52,7 @@ typedef struct 			s_format
 	int 	precision;
 	int		size;
 	char 	type;
+	int 	base;
 
 	char	*prefix;
 	size_t 	prefix_len;
@@ -74,6 +80,7 @@ void 		initialise_array(void (*foo[])(t_format* , va_list));
 size_t		do_print(t_format *format, va_list ap);
 void		write_string(t_format *format, va_list ap);
 void		write_decimal(t_format *format, va_list ap);
+void write_pointer(t_format *format, va_list ap);
 /*
  * output decimal functions
  */
@@ -81,6 +88,8 @@ void 	write_d_hh(t_format *format, va_list ap);
 void 	write_d_h(t_format *format, va_list ap);
 void	write_d_long(t_format *format, va_list ap);
 
+void	write_signed_num(t_format *format, va_list ap);
+void	write_unsigned_num(t_format *format, va_list ap);
 
 
 #endif //FT_PRINTF_FT_PRINTF_H

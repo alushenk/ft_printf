@@ -112,10 +112,10 @@ void test_decimal()
 {
 	int b;
 
-	b = ft_printf("%hhd\n", 5555555);
+	b = ft_printf("%x\n", 75);
 	printf("|||||||||\n");
 	printf("%d\n", b);
-	printf("%hhd\n", 5555555);
+	b = printf("%x\n", 75);
 	printf("|||||||||\n");
 	printf("%d\n", b);
 }

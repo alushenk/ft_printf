@@ -28,7 +28,7 @@ void initialise_struct(t_format **format)
 	 */
 	if (!*format)
 	{
-		*format = (t_format*)malloc(sizeof(t_format));
+		*format = (t_format *) malloc(sizeof(t_format));
 		(*format)->prefix = NULL;
 		(*format)->sufix = NULL;
 	}
@@ -39,6 +39,7 @@ void initialise_struct(t_format **format)
 	(*format)->type = 0;
 	(*format)->prefix_len = 0;
 	(*format)->sufix_len = 0;
+	(*format)->base = 10;
 	if ((*format)->prefix)
 		free((*format)->prefix);
 	(*format)->prefix = NULL;
@@ -52,7 +53,7 @@ int check_flags(char **fmt, t_format *format)
 	if (**fmt == '-')
 		format->flag |= LEFT;
 	else if (**fmt == '+')
-		format->flag |= SIGN;
+		format->flag |= PLUS;
 	else if (**fmt == ' ')
 		format->flag |= SPACE;
 	else if (**fmt == '#')
@@ -115,17 +116,17 @@ int check_size(char **fmt, t_format *format)
 	 * как оно себя ведет при считывании hhh или lll (сейчас работает только с одной и двумя)
 	 */
 	if (**fmt == 'z')
-		format->size |= SIZE_T;
+		format->size |= Z;
 	else if (**fmt == 'j')
-		format->size |= INTMAX_T;
+		format->size |= J;
 	else if (!strncmp(*fmt, "ll", 2) && len++)
-		format->size |= LONG_LONG;
+		format->size |= LL;
 	else if (**fmt == 'l')
-		format->size |= LONG;
+		format->size |= L;
 	else if (!strncmp(*fmt, "hh", 2) && len++)
-		format->size |= SIGNED_CHAR;
+		format->size |= HH;
 	else if (**fmt == 'h')
-		format->size |= SHORT;
+		format->size |= H;
 	else
 		return (0);
 	(*fmt) += len;
@@ -142,11 +143,22 @@ void check_type(char **fmt, t_format *format)
 	 *
 	 * если это левая буква - она выведется на следующей итерации
 	 */
-	if (ft_strchr(type, **fmt))
-	{
-		format->type = **fmt;
-		(*fmt)++;
-	}
+	if (!ft_strchr(type, **fmt))
+		return;
+	format->type = **fmt;
+	if (**fmt == 'd' || **fmt == 'i' || **fmt == 'D')
+		format->flag |= SIGNED;
+	if (**fmt == 'D' || **fmt == 'S' || **fmt == 'O' || **fmt == 'U' || **fmt == 'E' ||
+		**fmt == 'X' || **fmt == 'F' || **fmt == 'G' || **fmt == 'A' || **fmt == 'C')
+		format->size |= L;
+	if (**fmt == 'o' || **fmt == 'O')
+		format->base = 8;
+	if (**fmt == 'x' || **fmt == 'X')
+		format->base = 16;
+
+	//if (**fmt == 'o' || **fmt == 'U' || **fmt == 'x' || **fmt == 'X')
+	//unsigned
+	(*fmt)++;
 }
 
 
