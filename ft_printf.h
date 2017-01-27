@@ -32,12 +32,17 @@
  *
  * играет роль порядок H и HH
  */
-#define H 1 /* short */
-#define HH 2 /* char */
-#define L 4 /* long */
-#define LL 8 /* long long */
-#define J 16 /* max_t */
-#define Z 32 /* size_t */
+
+#define H 32 /* short */
+#define HH 16 /* char */
+#define L 8 /* long */
+#define LL 4 /* long long */
+#define J 2 /* max_t */
+#define Z 1 /* size_t */
+
+#define RESULT_UNSIGNED size_t
+#define RESULT_SIGNED ssize_t
+#define RESULT NULL
 
 typedef struct 			s_format
 {
@@ -88,8 +93,6 @@ void 	write_d_hh(t_format *format, va_list ap);
 void 	write_d_h(t_format *format, va_list ap);
 void	write_d_long(t_format *format, va_list ap);
 
-void	write_signed_num(t_format *format, va_list ap);
-void	write_unsigned_num(t_format *format, va_list ap);
-
+void	write_num(t_format *format, va_list ap);
 
 #endif //FT_PRINTF_FT_PRINTF_H

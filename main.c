@@ -72,6 +72,10 @@ void test_printf()
 	printf("%**.*.*s\n", 1, 10, -2 , 1, "abc");
 	printf("%**.*f\n", 1, 10, -2, 1.3333);
 	printf("%*.2s\n", 10, "abc");
+	printf("\n");
+
+	int d = printf("%0*.*d", 10, 1, 33);
+	printf("\n%d", d);
 }
 
 void test_size()
@@ -112,10 +116,22 @@ void test_decimal()
 {
 	int b;
 
-	b = ft_printf("%x\n", 75);
+	/*
+	 * 18446744073709551615 не зохавает
+	 *
+	 * 18446744071562067969 при касте из -min int
+	 *
+	 * сделать X x для хекса
+	 */
+
+	unsigned long long n = -2147483647;
+	char *format = "%lx\n";
+
+	b = ft_printf(format, n);
 	printf("|||||||||\n");
 	printf("%d\n", b);
-	b = printf("%x\n", 75);
+
+	b = printf(format, n);
 	printf("|||||||||\n");
 	printf("%d\n", b);
 }

@@ -7,6 +7,8 @@
 /*
  * signed char
  */
+
+/*
 void 	write_d_h(t_format *format, va_list ap)
 {
 	short result;
@@ -30,3 +32,5 @@ void	write_d_long(t_format *format, va_list ap)
 	result = (long) va_arg(ap, long);
 
 }
+
+ */

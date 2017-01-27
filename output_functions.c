@@ -71,6 +71,7 @@ void write_pointer(t_format *format, va_list ap)
 	 */
 }
 
+/*
 void write_decimal(t_format *format, va_list ap)
 {
 	int num;
@@ -87,7 +88,7 @@ void write_decimal(t_format *format, va_list ap)
 	else
 		foo[i](format, ap);
 }
-
+*/
 void write_char(t_format *format)
 {
 
@@ -99,55 +100,76 @@ void write_long_char(t_format *format)
 }
 
 
-
+/*
 void initialise_array(void (*foo[])(t_format* , va_list))
 {
 	foo[0] = &write_d_h;
 	foo[1] = &write_d_hh;
 
 }
-
-void	write_signed_num(t_format *format, va_list ap)
+*/
+ssize_t cast_signed(t_format *format, va_list ap)
 {
-	ssize_t num;
+	ssize_t result;
+/*
+ * если зохавать из va_arg больше/меньше байт чем там должно быть, мы зацепим следующий параметр?
+ *s
+ * че будет если этим считать  unsigned тип?
+ */
+	if (format->flag & SIGNED)
+	{
+		result = (format->size & LL) ? (long long) va_arg(ap, long long) :
+				 (format->size & L) ? (long) va_arg(ap, long) :
+				 (format->size & H) ? (short) va_arg(ap, short) :
+				 (format->size & HH) ? (char) va_arg(ap, char) :
+				 (int) va_arg(ap, int);
+	}
+	else
+	{
+		result = (format->size & LL) ? (unsigned long long) va_arg(ap, unsigned long long) :
+				 (format->size & L) ? (unsigned long) va_arg(ap, unsigned long) :
+				 (format->size & H) ? (unsigned short) va_arg(ap, unsigned short) :
+				 (format->size & HH) ? (unsigned char) va_arg(ap, unsigned char) :
+				 (unsigned int) va_arg(ap, unsigned int);
+	}
+	return (result);
+}
+
+void write_num(t_format *format, va_list ap)
+{
+	size_t num;
 	ssize_t temp;
 	char *mas;
 	int i;
-	int j;
 
 	mas = "0123456789abcdef";
-	num = va_arg(ap, size_t);
 	if (format->base < 2 || format->base > 16 || !(format->sufix = ft_strnew(sizeof(char) * 64)))
 		return;
-	temp = num;
+	temp = cast_signed(format, ap);
+	num = (size_t) temp;
 	i = 0;
-	if (num < 0)
+	if (temp < 0)
 	{
 		if (format->base == 10)
 		{
 			format->sufix[i] = '-';
 			i++;
 		}
-		temp = -num;
+		//if (format->flag & SIGNED)
+			num = (size_t) -temp;
 	}
-	num = temp;
-	j = 0;
+	temp = num;
 	while (temp / format->base > 0)
 	{
 		temp /= format->base;
-		j++;
+		i++;
 	}
-	while (j >= i)
+	while (num > 0)
 	{
-		format->sufix[j + i] = mas[num % format->base];
+		format->sufix[i] = mas[num % format->base];
 		num /= format->base;
-		j--;
+		i--;
 	}
-}
-
-void	write_unsigned_num(t_format *format, va_list ap)
-{
-
 }
 
 size_t do_print(t_format *format, va_list ap)
@@ -161,10 +183,8 @@ size_t do_print(t_format *format, va_list ap)
 		write_string(format, ap);
 	else if (format->type == 'p')
 		write_pointer(format, ap);
-	else if (format->flag & SIGNED)
-		write_signed_num(format, ap);
-	else
-		write_unsigned_num(format, ap);
+	else if (format->type)
+		write_num(format, ap);
 	ft_putstr(format->prefix);
 	ft_putstr(format->sufix);
 	/*
