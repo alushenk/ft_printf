@@ -7,7 +7,7 @@
 void write_string(t_format *format, va_list ap)
 {
 	char *s;
-	size_t len;
+	int len;
 	size_t i;
 	char c;
 /*
@@ -23,7 +23,7 @@ void write_string(t_format *format, va_list ap)
  * -  yes
  */
 	s = va_arg(ap, char *);
-	len = ft_strlen(s);
+	len =(int)ft_strlen(s);
 	/*
 	 * проверка на INT_MAX
 	 */
@@ -111,13 +111,6 @@ void initialise_array(void (*foo[])(t_format* , va_list))
 size_t cast_signed(t_format *format, va_list ap)
 {
 	size_t result;
-/*
- * если зохавать из va_arg больше/меньше байт чем там должно быть, мы зацепим следующий параметр?
- *
- * че будет если этим считать  unsigned тип?
- *
- * все что меньше инта конвертит в инт
- */
 	/*
 		result = (format->size & LL) ? (long long) va_arg(ap, long long) :
 				 (format->size & L) ? (long) va_arg(ap, long) :
@@ -125,14 +118,14 @@ size_t cast_signed(t_format *format, va_list ap)
 				 (format->size & HH) ? (char) va_arg(ap, char) :
 				 (int) va_arg(ap, int);
 	*/
-		result = (format->size & J) ? (size_t) va_arg(ap, size_t) :
-				 (format->size & Z) ? (uintmax_t) va_arg(ap, uintmax_t) :
-				 (format->size & LL) ? (unsigned long long) va_arg(ap, unsigned long long) :
-				 (format->size & L) ? (unsigned long) va_arg(ap, unsigned long) :
-				 (format->size & U) ? (unsigned) va_arg(ap, unsigned) :
-				 (format->size & H) ? (short) va_arg(ap, int) :
-				 (format->size & HH) ? (char) va_arg(ap, int) :
-				 (size_t) va_arg(ap, int);
+	result = (format->size & J) ? (size_t) va_arg(ap, size_t) :
+			 (format->size & Z) ? (uintmax_t) va_arg(ap, uintmax_t) :
+			 (format->size & LL) ? (unsigned long long) va_arg(ap, unsigned long long) :
+			 (format->size & L) ? (unsigned long) va_arg(ap, unsigned long) :
+			 (format->size & U) ? (unsigned) va_arg(ap, unsigned) :
+			 (format->size & H) ? (short) va_arg(ap, int) :
+			 (format->size & HH) ? (char) va_arg(ap, int) :
+			 (size_t) va_arg(ap, int);
 
 	return (result);
 }
@@ -192,6 +185,6 @@ size_t do_print(t_format *format, va_list ap)
 	/*
 	 * так как ft_strlen не проверяет на NULL то делаю это здесь
 	 */
-	return (format->prefix_len + (format->sufix ? ft_strlen(format->sufix) : 0));
+	return (format->prefix_len + format->sufix_len);
 	return (0);
 }

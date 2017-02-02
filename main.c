@@ -97,16 +97,15 @@ void test_string()
 	int a;
 	int b;
 
-	//a = printf("%ss%s\n", "111", "222");
-	//printf("%d\n", a);
+	char *format = "suka blyad:%#-0*.8s pizdets %040s\n";
 
-	b = ft_printf("suka blyad:%#-0*.8s pizdets %s\n", 40, "nahuy", "govno");
+	b = ft_printf(format, 40, "nahuy", "govno");
 	printf("|||||||||\n");
 	printf("%d\n", b);
 	//printf("%+-# 025.3r", "sss");
 	//printf("%+-# 025.3", "sss");
 	//printf("%+-# 025.3s", "sss");
-	b = printf("suka blyad:%#-0*.8s pizdets %s\n", 40, "nahuy", "govno");
+	b = printf(format, 40, "nahuy", "govno");
 	printf("|||||||||\n");
 	printf("%d\n", b);
 	//printf("%d\n", b);
@@ -155,9 +154,9 @@ void test_pointer()
 
 int main(void)
 {
-	//test_string();
+	test_string();
 	//test_printf();
-	test_decimal();
+	//test_decimal();
 	//test_pointer();
 	return 0;
 }

@@ -29,10 +29,7 @@
 
 /*
  * size
- *
- * играет роль порядок H и HH
  */
-
 #define U 64
 #define H 32 /* short */
 #define HH 16 /* char */
@@ -40,10 +37,6 @@
 #define LL 4 /* long long */
 #define J 2 /* max_t */
 #define Z 1 /* size_t */
-
-#define RESULT_UNSIGNED size_t
-#define RESULT_SIGNED ssize_t
-#define RESULT NULL
 
 typedef struct 			s_format
 {
