@@ -27,9 +27,7 @@ void write_string(t_format *format, va_list ap)
 	/*
 	 * проверка на INT_MAX
 	 */
-	if (len > format->width)
-		format->width = len;
-	format->sufix_len = format->width;
+
 	if (format->precision && len > format->precision)
 		len = format->precision;
 	format->sufix = ft_strnew(format->width);
@@ -159,6 +157,8 @@ void write_num(t_format *format, va_list ap)
 		temp /= format->base;
 		i++;
 	}
+	//надо проверить
+	format->sufix_len = i;
 	while (num > 0)
 	{
 		format->sufix[i] = mas[num % format->base];
@@ -181,6 +181,9 @@ size_t do_print(t_format *format, va_list ap)
 	else if (format->type)
 		write_num(format, ap);
 	ft_putstr(format->prefix);
+	if (format->sufix_len > format->width)
+		format->width = format->sufix_len;
+	format->sufix_len = format->width;
 	ft_putstr(format->sufix);
 	/*
 	 * так как ft_strlen не проверяет на NULL то делаю это здесь

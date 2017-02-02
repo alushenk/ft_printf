@@ -56,7 +56,7 @@ typedef struct 			s_format
 	char	*prefix;
 	size_t 	prefix_len;
 	char 	*sufix;
-	size_t 	sufix_len;
+	int 	sufix_len;
 }						t_format;
 
 /*
