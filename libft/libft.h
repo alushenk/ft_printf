@@ -97,5 +97,9 @@ int					ft_islower(int c);
 int					ft_isspace(int c);
 int					ft_isupper(int c);
 int					ft_isxdigit(int c);
+/*
+ * ADDITIONAL FUNCTIONS
+ */
+void				print_mem_bytes(void *adress, ssize_t size);
 
 #endif
