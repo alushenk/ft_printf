@@ -136,19 +136,14 @@ void write_num(t_format *format, va_list ap)
 	int i;
 
 	mas = (format->type == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
-	if (format->base < 2 || format->base > 16 || !(format->sufix = ft_strnew(sizeof(char) * 64)))
-		return;
+	format->sufix = ft_strnew(sizeof(char) * 64);
 	num = cast_signed(format, ap);
-	//print_mem_bytes(&num, sizeof(num));
 	i = 0;
 	temp = 1;
 	if ((format->flag & SIGNED) && (num & temp << 63))
 	{
 		if (format->base == 10)
-		{
-			format->sufix[i] = '-';
-			i++;
-		}
+			format->num_prefix = '-';
 		num = -num;
 	}
 	temp = num;
