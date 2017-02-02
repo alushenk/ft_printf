@@ -149,12 +149,15 @@ void check_type(char **fmt, t_format *format)
 	if (**fmt == 'd' || **fmt == 'i' || **fmt == 'D')
 		format->flag |= SIGNED;
 	if (**fmt == 'D' || **fmt == 'S' || **fmt == 'O' || **fmt == 'U' || **fmt == 'E' ||
-		**fmt == 'X' || **fmt == 'F' || **fmt == 'G' || **fmt == 'A' || **fmt == 'C')
+		**fmt == 'F' || **fmt == 'G' || **fmt == 'A' || **fmt == 'C')
 		format->size |= L;
 	if (**fmt == 'o' || **fmt == 'O')
 		format->base = 8;
 	if (**fmt == 'x' || **fmt == 'X')
 		format->base = 16;
+	//делать для U?
+	if (**fmt == 'x' || **fmt == 'X' || **fmt == 'o' || **fmt == 'O' || **fmt == 'u')
+		format->size |= U;
 
 	//if (**fmt == 'o' || **fmt == 'U' || **fmt == 'x' || **fmt == 'X')
 	//unsigned

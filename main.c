@@ -124,16 +124,18 @@ void test_decimal()
 	 * сделать X x для хекса
 	 */
 
-	unsigned long long n = -2147483647;
-	char *format = "%lx\n";
+	char n = -1;
+	char *format = "suka %25u blyad\n";
 
 	b = ft_printf(format, n);
-	printf("|||||||||\n");
 	printf("%d\n", b);
+	print_mem_bytes(&n, sizeof(n));
+	printf("|||||||||\n");
 
 	b = printf(format, n);
-	printf("|||||||||\n");
 	printf("%d\n", b);
+	print_mem_bytes(&n, sizeof(n));
+	printf("|||||||||\n");
 }
 
 void test_pointer()

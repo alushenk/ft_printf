@@ -2,6 +2,8 @@
 // Created by Anton Lushenko on 2/2/17.
 //
 
+#include "libft.h"
+
 void print_mem_bytes(void *adress, ssize_t size)
 {
 	char *ptr;

@@ -33,6 +33,7 @@
  * играет роль порядок H и HH
  */
 
+#define U 64
 #define H 32 /* short */
 #define HH 16 /* char */
 #define L 8 /* long */
@@ -85,7 +86,7 @@ void 		initialise_array(void (*foo[])(t_format* , va_list));
 size_t		do_print(t_format *format, va_list ap);
 void		write_string(t_format *format, va_list ap);
 void		write_decimal(t_format *format, va_list ap);
-void write_pointer(t_format *format, va_list ap);
+void		write_pointer(t_format *format, va_list ap);
 /*
  * output decimal functions
  */

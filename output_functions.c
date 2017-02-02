@@ -108,55 +108,57 @@ void initialise_array(void (*foo[])(t_format* , va_list))
 
 }
 */
-ssize_t cast_signed(t_format *format, va_list ap)
+size_t cast_signed(t_format *format, va_list ap)
 {
-	ssize_t result;
+	size_t result;
 /*
  * если зохавать из va_arg больше/меньше байт чем там должно быть, мы зацепим следующий параметр?
- *s
+ *
  * че будет если этим считать  unsigned тип?
+ *
+ * все что меньше инта конвертит в инт
  */
-	if (format->flag & SIGNED)
-	{
+	/*
 		result = (format->size & LL) ? (long long) va_arg(ap, long long) :
 				 (format->size & L) ? (long) va_arg(ap, long) :
 				 (format->size & H) ? (short) va_arg(ap, short) :
 				 (format->size & HH) ? (char) va_arg(ap, char) :
 				 (int) va_arg(ap, int);
-	}
-	else
-	{
-		result = (format->size & LL) ? (unsigned long long) va_arg(ap, unsigned long long) :
+	*/
+		result = (format->size & J) ? (size_t) va_arg(ap, size_t) :
+				 (format->size & Z) ? (uintmax_t) va_arg(ap, uintmax_t) :
+				 (format->size & LL) ? (unsigned long long) va_arg(ap, unsigned long long) :
 				 (format->size & L) ? (unsigned long) va_arg(ap, unsigned long) :
-				 (format->size & H) ? (unsigned short) va_arg(ap, unsigned short) :
-				 (format->size & HH) ? (unsigned char) va_arg(ap, unsigned char) :
-				 (unsigned int) va_arg(ap, unsigned int);
-	}
+				 (format->size & U) ? (unsigned) va_arg(ap, unsigned) :
+				 (format->size & H) ? (short) va_arg(ap, int) :
+				 (format->size & HH) ? (char) va_arg(ap, int) :
+				 (size_t) va_arg(ap, int);
+
 	return (result);
 }
 
 void write_num(t_format *format, va_list ap)
 {
 	size_t num;
-	ssize_t temp;
+	size_t temp;
 	char *mas;
 	int i;
 
-	mas = "0123456789abcdef";
+	mas = (format->type == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
 	if (format->base < 2 || format->base > 16 || !(format->sufix = ft_strnew(sizeof(char) * 64)))
 		return;
-	temp = cast_signed(format, ap);
-	num = (size_t) temp;
+	num = cast_signed(format, ap);
+	//print_mem_bytes(&num, sizeof(num));
 	i = 0;
-	if (temp < 0)
+	temp = 1;
+	if ((format->flag & SIGNED) && (num & temp << 63))
 	{
 		if (format->base == 10)
 		{
 			format->sufix[i] = '-';
 			i++;
 		}
-		//if (format->flag & SIGNED)
-			num = (size_t) -temp;
+		num = -num;
 	}
 	temp = num;
 	while (temp / format->base > 0)
@@ -190,6 +192,6 @@ size_t do_print(t_format *format, va_list ap)
 	/*
 	 * так как ft_strlen не проверяет на NULL то делаю это здесь
 	 */
-	return ((format->prefix ? ft_strlen(format->prefix) : 0) + (format->sufix ? ft_strlen(format->sufix) : 0));
+	return (format->prefix_len + (format->sufix ? ft_strlen(format->sufix) : 0));
 	return (0);
 }
