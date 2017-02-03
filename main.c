@@ -92,16 +92,14 @@ void test_string()
 	int a;
 	int b;
 
-	char *format = "suka blyad: %-30.10s pizdets %s\n";
+	char *format = "suka blyad: %010.20sdd\n";
 
-	b = ft_printf(format, "nahuy", "govno");
-	printf("|||||||||\n");
+	b = ft_printf(format, "nahuy");
 	printf("%d\n", b);
 	//printf("%+-# 025.3r", "sss");
 	//printf("%+-# 025.3", "sss");
 	//printf("%+-# 025.3s", "sss");
-	b = printf(format, "nahuy", "govno");
-	printf("|||||||||\n");
+	b = printf(format, "nahuy");
 	printf("%d\n", b);
 	//printf("%d\n", b);
 }
@@ -119,17 +117,15 @@ void test_decimal()
 	 */
 
 	size_t n = 4294967296;
-	char *format = "%020.15zd\n";
+	char *format = "%0-20.15zddd\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);
 	print_mem_bytes(&n, sizeof(n));
-	printf("|||||||||\n");
 
 	b = printf(format, n);
 	printf("%d\n", b);
 	print_mem_bytes(&n, sizeof(n));
-	printf("|||||||||\n");
 }
 
 void test_pointer()
@@ -151,7 +147,7 @@ int main(void)
 {
 	test_string();
 	//test_printf();
-	//test_decimal();
+	test_decimal();
 	//test_pointer();
 	//test_size();
 	return 0;

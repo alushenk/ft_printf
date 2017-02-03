@@ -128,21 +128,23 @@ void 	format_string(t_format *format)
 	char 	*temp;
 
 	len = format->width - format->sufix_len;
-	if (len <= 0 && format->flag & LEFT)
+	if (len <= 0)
 		return;
-
+	format->sufix_len += len;
+	c = ((format->flag & ZEROPAD) && !(format->flag & LEFT)) ? '0' : ' ';
 	str = ft_strnew(sizeof(char) * len);
-	c = format->flag & ZEROPAD ? '0' : ' ';
 	i = 0;
 	while (i < len)
 	{
 		str[i] = (char)c;
 		i++;
 	}
-	format->sufix_len += len;
 	temp = ft_strdup(format->sufix);
 	free(format->sufix);
-	format->sufix = ft_strjoin(str, temp);
+	if (format->flag & LEFT)
+		format->sufix = ft_strjoin(temp, str);
+	else
+		format->sufix = ft_strjoin(str, temp);
 	free(temp);
 }
 
