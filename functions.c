@@ -34,7 +34,7 @@ void initialise_struct(t_format **format)
 	}
 	(*format)->flag = 0;
 	(*format)->width = 0;
-	(*format)->precision = 0;
+	(*format)->precision = -1;
 	(*format)->size = 0;
 	(*format)->type = 0;
 	(*format)->prefix_len = 0;

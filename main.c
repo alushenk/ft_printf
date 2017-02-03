@@ -80,16 +80,11 @@ void test_printf()
 
 void test_size()
 {
-	size_t size = 2147483647;
+	size_t size = 2147483645;
 	char *s = ft_strnew(size);
-	for (int i = 0; i < size - 1; i++)
-	{
-		if (i % 10)
-			s[i] = 'x';
-		else
-			s[i] = '\n';
-	}
-	printf("%s", s);
+	for (size_t i = 0; i < size; i++)
+		s[i] = 'x';
+	printf("g%d%s", 5, s);
 }
 
 void test_string()
@@ -123,8 +118,8 @@ void test_decimal()
 	 * сделать X x для хекса
 	 */
 
-	char n = -1;
-	char *format = "suka %25u blyad\n";
+	size_t n = -4294967296;
+	char *format = "%jx\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);
@@ -154,9 +149,10 @@ void test_pointer()
 
 int main(void)
 {
-	test_string();
+	//test_string();
 	//test_printf();
-	//test_decimal();
+	test_decimal();
 	//test_pointer();
+	//test_size();
 	return 0;
 }

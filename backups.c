@@ -30,3 +30,39 @@ char *check_size(char **fmt, va_list ap)
 	return (result);
 }
  */
+
+/*
+void initialise_array(void (*foo[])(t_format* , va_list))
+{
+	foo[0] = &write_d_h;
+	foo[1] = &write_d_hh;
+
+}
+*/
+
+/*
+void write_decimal(t_format *format, va_list ap)
+{
+	int num;
+	size_t i;
+	void (*foo[6])(t_format *a, va_list b);
+
+	initialise_array(foo);
+	i = 0;
+	num = 0;
+	while(!(format->size & (1 << i)) && i < 6)
+		i++;
+	if (i == 6)
+		num = (int) va_arg (ap, int);
+	else
+		foo[i](format, ap);
+}
+*/
+
+/*
+	result = (format->size & LL) ? (long long) va_arg(ap, long long) :
+			 (format->size & L) ? (long) va_arg(ap, long) :
+			 (format->size & H) ? (short) va_arg(ap, short) :
+			 (format->size & HH) ? (char) va_arg(ap, char) :
+			 (int) va_arg(ap, int);
+*/

@@ -57,7 +57,7 @@ typedef struct 			s_format
 	char	*prefix;
 	size_t 	prefix_len;
 	char 	*sufix;
-	int 	sufix_len;
+	size_t 	sufix_len;
 }						t_format;
 
 /*
@@ -81,6 +81,7 @@ size_t		do_print(t_format *format, va_list ap);
 void		write_string(t_format *format, va_list ap);
 void		write_decimal(t_format *format, va_list ap);
 void		write_pointer(t_format *format, va_list ap);
+void		format_string(t_format *format);
 /*
  * output decimal functions
  */
