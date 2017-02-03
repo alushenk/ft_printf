@@ -92,7 +92,7 @@ void test_string()
 	int a;
 	int b;
 
-	char *format = "suka blyad: %.3s pizdets %s\n";
+	char *format = "suka blyad: %-30.10s pizdets %s\n";
 
 	b = ft_printf(format, "nahuy", "govno");
 	printf("|||||||||\n");
@@ -119,7 +119,7 @@ void test_decimal()
 	 */
 
 	size_t n = 4294967296;
-	char *format = "%- 20zd\n";
+	char *format = "%020.15zd\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);
@@ -149,9 +149,9 @@ void test_pointer()
 
 int main(void)
 {
-	//test_string();
+	test_string();
 	//test_printf();
-	test_decimal();
+	//test_decimal();
 	//test_pointer();
 	//test_size();
 	return 0;

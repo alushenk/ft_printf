@@ -57,8 +57,8 @@ size_t cast_signed(t_format *format, va_list ap)
 {
 	size_t result;
 
-	result = (format->size & J) ? (size_t) va_arg(ap, size_t) :
-			 (format->size & Z) ? (uintmax_t) va_arg(ap, uintmax_t) :
+	result = (format->size & Z) ? (size_t) va_arg(ap, size_t) :
+			 (format->size & J) ? (uintmax_t) va_arg(ap, uintmax_t) :
 			 (format->size & LL) ? (unsigned long long) va_arg(ap, unsigned long long) :
 			 (format->size & L) ? (unsigned long) va_arg(ap, unsigned long) :
 			 (format->size & U) ? (unsigned) va_arg(ap, unsigned) :
@@ -110,7 +110,7 @@ void write_num(t_format *format, va_list ap)
 		i++;
 	}
 	//надо проверить
-	format->sufix_len = (size_t) i;
+	format->sufix_len = (size_t) i + 1;
 	while (num > 0)
 	{
 		format->sufix[i] = mas[num % format->base];
@@ -118,46 +118,36 @@ void write_num(t_format *format, va_list ap)
 		i--;
 	}
 }
-/*
+
 void 	format_string(t_format *format)
 {
 	int		c;
 	size_t	i;
+	ssize_t len;
+	char	*str;
+	char 	*temp;
 
+	len = format->width - format->sufix_len;
+	if (len <= 0 && format->flag & LEFT)
+		return;
 
-	if (format->sufix_len > format->width)
-		format->width = format->sufix_len;
-	format->sufix_len = format->width;
-
-
+	str = ft_strnew(sizeof(char) * len);
 	c = format->flag & ZEROPAD ? '0' : ' ';
 	i = 0;
-	if (!(format->flag & LEFT))
-		while (len < format->width--)
-		{
-			format->sufix[i] = c;
-			i++;
-		}
-	else
-		i += len;
-	ft_strncat(format->sufix, s, len);
-	while (len < format->width--)
-		format->sufix[i++] = ' ';
-
-	if (format->flag == 4)
+	while (i < len)
 	{
-		ft_strcpy(format->sufix, s);
-		i = 0;
-		while (format->sufix[i])
-			i++;
-		while (i < format->width)
-			format->sufix[i] = '0';
+		str[i] = (char)c;
+		i++;
 	}
+	format->sufix_len += len;
+	temp = ft_strdup(format->sufix);
+	free(format->sufix);
+	format->sufix = ft_strjoin(str, temp);
+	free(temp);
 }
-*/
+
 size_t do_print(t_format *format, va_list ap)
 {
-
 	/*
 	 * сделать начальный иф для чара? или писать его как обычное число преобразованое в строку(атои)
 	 *
@@ -165,14 +155,14 @@ size_t do_print(t_format *format, va_list ap)
 	 */
 	if (format->type == 's')
 		write_string(format, ap);
-	else if (format->type == 'p')
-		write_pointer(format, ap);
 	else if (format->type)
 		write_num(format, ap);
+
+	format_string(format);
+	/*
+	 * если длинна всего барахла не превышает максимальный инт
+	 */
 	ft_putstr(format->prefix);
-
-	//format_string(format);
-
 	ft_putstr(format->sufix);
 
 	return (format->prefix_len + format->sufix_len);

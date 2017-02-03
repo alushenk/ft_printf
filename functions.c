@@ -37,9 +37,9 @@ void initialise_struct(t_format **format)
 	(*format)->precision = -1;
 	(*format)->size = 0;
 	(*format)->type = 0;
+	(*format)->base = 10;
 	(*format)->prefix_len = 0;
 	(*format)->sufix_len = 0;
-	(*format)->base = 10;
 	if ((*format)->prefix)
 		free((*format)->prefix);
 	(*format)->prefix = NULL;
@@ -158,6 +158,12 @@ void check_type(char **fmt, t_format *format)
 	//делать для U?
 	if (**fmt == 'x' || **fmt == 'X' || **fmt == 'o' || **fmt == 'O' || **fmt == 'u')
 		format->size |= U;
+	if (**fmt == 'p')
+	{
+		format->base = 16;
+		format->size |= Z;
+		format->flag |= HASH;
+	}
 
 	//if (**fmt == 'o' || **fmt == 'U' || **fmt == 'x' || **fmt == 'X')
 	//unsigned

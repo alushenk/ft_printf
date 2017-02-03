@@ -52,7 +52,6 @@ typedef struct 			s_format
 	int		size;
 	char 	type;
 	int 	base;
-	char 	num_prefix;
 
 	char	*prefix;
 	size_t 	prefix_len;
