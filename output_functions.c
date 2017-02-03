@@ -84,8 +84,24 @@ void write_num(t_format *format, va_list ap)
 	if ((format->flag & SIGNED) && (num & temp << 63))
 	{
 		if (format->base == 10)
-			format->num_prefix = '-';
+		{
+			format->sufix[i] = '-';
+			i++;
+		}
 		num = -num;
+	}
+	else
+	{
+		if (format->flag & PLUS)
+		{
+			format->sufix[i] = '+';
+			i++;
+		}
+		else if (format->flag & SPACE)
+		{
+			format->sufix[i] = ' ';
+			i++;
+		}
 	}
 	temp = num;
 	while (temp / format->base > 0)
@@ -94,7 +110,7 @@ void write_num(t_format *format, va_list ap)
 		i++;
 	}
 	//надо проверить
-	format->sufix_len = (size_t) i + 1;
+	format->sufix_len = (size_t) i;
 	while (num > 0)
 	{
 		format->sufix[i] = mas[num % format->base];
@@ -141,6 +157,7 @@ void 	format_string(t_format *format)
 */
 size_t do_print(t_format *format, va_list ap)
 {
+
 	/*
 	 * сделать начальный иф для чара? или писать его как обычное число преобразованое в строку(атои)
 	 *

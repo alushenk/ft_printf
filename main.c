@@ -92,15 +92,15 @@ void test_string()
 	int a;
 	int b;
 
-	char *format = "suka blyad:%#-0*.8s pizdets %040s\n";
+	char *format = "suka blyad: %.3s pizdets %s\n";
 
-	b = ft_printf(format, 40, "nahuy", "govno");
+	b = ft_printf(format, "nahuy", "govno");
 	printf("|||||||||\n");
 	printf("%d\n", b);
 	//printf("%+-# 025.3r", "sss");
 	//printf("%+-# 025.3", "sss");
 	//printf("%+-# 025.3s", "sss");
-	b = printf(format, 40, "nahuy", "govno");
+	b = printf(format, "nahuy", "govno");
 	printf("|||||||||\n");
 	printf("%d\n", b);
 	//printf("%d\n", b);
@@ -118,8 +118,8 @@ void test_decimal()
 	 * сделать X x для хекса
 	 */
 
-	size_t n = -4294967296;
-	char *format = "%jx\n";
+	size_t n = 4294967296;
+	char *format = "%- 20zd\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);
