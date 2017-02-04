@@ -103,7 +103,7 @@ void test_decimal()
 {
 	int b;
 	size_t n = 4294967296;
-	char *format = "%+025.20zddd\n";
+	char *format = "%+025.15zddd\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);

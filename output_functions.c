@@ -103,18 +103,25 @@ void write_num(t_format *format, va_list ap)
 
 void	format_num(t_format *format)
 {
+	ssize_t len;
+	size_t i;
 
-	if (format->sufix[0] != '-')
+	i = 0;
+	len = format->precision - format->sufix_len;
+
+	if (format->sufix[i] != '-')
 	{
 		if (format->flag & PLUS)
-			format->sufix[0] = '+';
+			format->sufix[i] = '+';
 		else if (format->flag & SPACE)
-			format->sufix[0] = ' ';
+			format->sufix[i] = ' ';
 		else
 		{
 			ft_memmove(format->sufix, format->sufix + 1, 63);
 			format->sufix_len--;
+			i--;
 		}
+		i++;
 	}
 
 }
