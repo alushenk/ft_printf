@@ -66,7 +66,6 @@ void test_printf()
 	printf("%2$*1$d\n", width, num);
 	printf("\n");
 
-
 	//printf("%0*s\n", INT_MAX, "1234");
 
 	printf("%**.*.*s\n", 1, 10, -2 , 1, "abc");
@@ -96,28 +95,15 @@ void test_string()
 
 	b = ft_printf(format, "nahuy");
 	printf("%d\n", b);
-	//printf("%+-# 025.3r", "sss");
-	//printf("%+-# 025.3", "sss");
-	//printf("%+-# 025.3s", "sss");
 	b = printf(format, "nahuy");
 	printf("%d\n", b);
-	//printf("%d\n", b);
 }
 
 void test_decimal()
 {
 	int b;
-
-	/*
-	 * 18446744073709551615 не зохавает
-	 *
-	 * 18446744071562067969 при касте из -min int
-	 *
-	 * сделать X x для хекса
-	 */
-
 	size_t n = 4294967296;
-	char *format = "%0-20.15zddd\n";
+	char *format = "%+025.20zddd\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);

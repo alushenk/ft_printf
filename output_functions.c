@@ -10,10 +10,6 @@ void write_string(t_format *format, va_list ap)
 {
 	char *s;
 /*
- * "l" character causes no output
- *
- * "l" demands conversion to "wchar_t" which is UTF-8 shit (the next function after this)
- *
  * sp no
  * +  no
  * #  no
@@ -33,7 +29,9 @@ void write_string(t_format *format, va_list ap)
 
 void write_wchar_string(t_format *format)
 {
-
+	/*
+	 * "l" demands conversion to "wchar_t" which is UTF-8 shit
+	 */
 }
 
 void write_pointer(t_format *format, va_list ap)
@@ -84,32 +82,16 @@ void write_num(t_format *format, va_list ap)
 	if ((format->flag & SIGNED) && (num & temp << 63))
 	{
 		if (format->base == 10)
-		{
 			format->sufix[i] = '-';
-			i++;
-		}
 		num = -num;
 	}
-	else
-	{
-		if (format->flag & PLUS)
-		{
-			format->sufix[i] = '+';
-			i++;
-		}
-		else if (format->flag & SPACE)
-		{
-			format->sufix[i] = ' ';
-			i++;
-		}
-	}
+	i++;
 	temp = num;
 	while (temp / format->base > 0)
 	{
 		temp /= format->base;
 		i++;
 	}
-	//надо проверить
 	format->sufix_len = (size_t) i + 1;
 	while (num > 0)
 	{
@@ -117,6 +99,24 @@ void write_num(t_format *format, va_list ap)
 		num /= format->base;
 		i--;
 	}
+}
+
+void	format_num(t_format *format)
+{
+
+	if (format->sufix[0] != '-')
+	{
+		if (format->flag & PLUS)
+			format->sufix[0] = '+';
+		else if (format->flag & SPACE)
+			format->sufix[0] = ' ';
+		else
+		{
+			ft_memmove(format->sufix, format->sufix + 1, 63);
+			format->sufix_len--;
+		}
+	}
+
 }
 
 void 	format_string(t_format *format)
@@ -158,7 +158,10 @@ size_t do_print(t_format *format, va_list ap)
 	if (format->type == 's')
 		write_string(format, ap);
 	else if (format->type)
+	{
 		write_num(format, ap);
+		format_num(format);
+	}
 
 	format_string(format);
 	/*
