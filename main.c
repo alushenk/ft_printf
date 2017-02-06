@@ -91,7 +91,7 @@ void test_string()
 	int a;
 	int b;
 
-	char *format = "suka blyad: %010.20sdd\n";
+	char *format = "suka blyad: %025.15sdd\n";
 
 	b = ft_printf(format, "nahuy");
 	printf("%d\n", b);
@@ -103,7 +103,7 @@ void test_decimal()
 {
 	int b;
 	size_t n = 4294967296;
-	char *format = "%+025.15zddd\n";
+	char *format = "%025.15zddd\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);

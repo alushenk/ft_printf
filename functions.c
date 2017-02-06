@@ -40,6 +40,7 @@ void initialise_struct(t_format **format)
 	(*format)->base = 10;
 	(*format)->prefix_len = 0;
 	(*format)->sufix_len = 0;
+	(*format)->num_prefix = 0;
 	if ((*format)->prefix)
 		free((*format)->prefix);
 	(*format)->prefix = NULL;

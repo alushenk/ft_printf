@@ -48,15 +48,16 @@ typedef struct 			s_format
 	 * хранить базу( > 2 && < 16)
 	 */
 	int 	width;
-	int 	precision;
+	ssize_t	precision;
 	int		size;
 	char 	type;
 	int 	base;
+	char	num_prefix;
 
 	char	*prefix;
-	size_t 	prefix_len;
+	ssize_t prefix_len;
 	char 	*sufix;
-	size_t 	sufix_len;
+	ssize_t sufix_len;
 }						t_format;
 
 /*

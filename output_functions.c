@@ -82,17 +82,16 @@ void write_num(t_format *format, va_list ap)
 	if ((format->flag & SIGNED) && (num & temp << 63))
 	{
 		if (format->base == 10)
-			format->sufix[i] = '-';
+			format->num_prefix = '-';
 		num = -num;
 	}
-	i++;
 	temp = num;
 	while (temp / format->base > 0)
 	{
 		temp /= format->base;
 		i++;
 	}
-	format->sufix_len = (size_t) i + 1;
+	format->sufix_len = (size_t)i + 1;
 	while (num > 0)
 	{
 		format->sufix[i] = mas[num % format->base];
@@ -104,24 +103,35 @@ void write_num(t_format *format, va_list ap)
 void	format_num(t_format *format)
 {
 	ssize_t len;
-	size_t i;
+	size_t	i;
+	char	*str;
 
-	i = 0;
-	len = format->precision - format->sufix_len;
-
-	if (format->sufix[i] != '-')
+	if (!format->num_prefix)
 	{
 		if (format->flag & PLUS)
-			format->sufix[i] = '+';
+			format->num_prefix = '+';
 		else if (format->flag & SPACE)
-			format->sufix[i] = ' ';
-		else
+			format->num_prefix = ' ';
+	}
+	len = format->precision - format->sufix_len;
+	if (len > 0)
+	{
+		i = 0;
+		str = ft_strnew(format->precision + 1);
+		if (format->num_prefix)
 		{
-			ft_memmove(format->sufix, format->sufix + 1, 63);
-			format->sufix_len--;
-			i--;
+			str[i] = format->num_prefix;
+			i++;
 		}
-		i++;
+		while(len--)
+		{
+			str[i] = '0';
+			i++;
+		}
+		format->sufix_len += i;
+		ft_strcpy(str + i, format->sufix);
+		free(format->sufix);
+		format->sufix = str;
 	}
 
 }
@@ -138,7 +148,9 @@ void 	format_string(t_format *format)
 	if (len <= 0)
 		return;
 	format->sufix_len += len;
-	c = ((format->flag & ZEROPAD) && !(format->flag & LEFT)) ? '0' : ' ';
+	c = (format->flag & ZEROPAD && !(format->flag & LEFT)) ? '0' : ' ';
+	if (format->type != 's' && format->type != 'S')
+		c = ' ';
 	str = ft_strnew(sizeof(char) * len);
 	i = 0;
 	while (i < len)
