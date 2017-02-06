@@ -104,7 +104,7 @@ void test_decimal()
 	int b;
 	size_t n = 4294967296;
 	//"%0 .1 025.15-+zddd\n"
-	char *format = "%025#.15+zOdd\n";
+	char *format = "%10zu\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);
@@ -132,7 +132,7 @@ void test_pointer()
 
 int main(void)
 {
-	test_string();
+	//test_string();
 	//test_printf();
 	test_decimal();
 	//test_pointer();
