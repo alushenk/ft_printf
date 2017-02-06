@@ -68,11 +68,11 @@ void		initialise_struct(t_format **format);
 /*
  * check functions
  */
-int			check_flags(char **fmt, t_format *format);
-int			check_width(char **fmt, va_list ap, t_format *format);
-int			check_precision(char **fmt, va_list ap, t_format *format);
-int			check_size(char **fmt, t_format *format);
-void		check_type(char **fmt, t_format *format);
+void			check_flags(char **fmt, t_format *format);
+void			check_width(char **fmt, va_list ap, t_format *format);
+void			check_precision(char **fmt, va_list ap, t_format *format);
+void			check_size(char **fmt, t_format *format);
+int				check_type(char **fmt, t_format *format);
 /*
  * output functions
  */

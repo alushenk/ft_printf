@@ -49,7 +49,7 @@ void initialise_struct(t_format **format)
 	(*format)->sufix = NULL;
 }
 
-int check_flags(char **fmt, t_format *format)
+void check_flags(char **fmt, t_format *format)
 {
 	if (**fmt == '-')
 		format->flag |= LEFT;
@@ -62,15 +62,14 @@ int check_flags(char **fmt, t_format *format)
 	else if (**fmt == '0')
 		format->flag |= ZEROPAD;
 	else
-		return (0);
-	return (1);
+		return;
+	(*fmt)++;
 }
 
-int check_width(char **fmt, va_list ap, t_format *format)
+void check_width(char **fmt, va_list ap, t_format *format)
 {
 	if (**fmt == '*')
 	{
-		(*fmt)++;
 		format->width = (int) va_arg (ap, int);
 		if (format->width < 0)
 		{
@@ -80,41 +79,34 @@ int check_width(char **fmt, va_list ap, t_format *format)
 			format->width = -format->width;
 		}
 	}
-	else if (ft_isdigit(**fmt) && (format->width = skip_atoi(fmt)))
-		return (1);
-	return (0);
+	else if (ft_isdigit(**fmt))
+		format->width = skip_atoi(fmt);
 }
 
-int check_precision(char **fmt, va_list ap, t_format *format)
+void check_precision(char **fmt, va_list ap, t_format *format)
 {
 	if (**fmt == '.')
 	{
 		(*fmt)++;
 		if (**fmt == '*')
 		{
-			(*fmt)++;
 			format->precision = (int) va_arg (ap, int);
 			if (format->precision < 0)
 				format->precision = 0;
-			return (1);
+			(*fmt)++;
 		}
-		else if ((format->precision = skip_atoi(fmt)))
-			return (1);
+		else
+			format->precision = skip_atoi(fmt);
 	}
-	return (0);
 }
 
-int check_size(char **fmt, t_format *format)
+void check_size(char **fmt, t_format *format)
 {
 	size_t len;
 
 	len = 1;
 	/*
-	 * важно чтобы сначала шли проверки на два символа, иначе при 'l' не зайдет в 'll'
-	 *
 	 * "&&" в ифах - мастерство укорачивать код костылями
-	 *
-	 * как оно себя ведет при считывании hhh или lll (сейчас работает только с одной и двумя)
 	 */
 	if (**fmt == 'z')
 		format->size |= Z;
@@ -129,23 +121,17 @@ int check_size(char **fmt, t_format *format)
 	else if (**fmt == 'h')
 		format->size |= H;
 	else
-		return (0);
+		return;
 	(*fmt) += len;
-	return (1);
 }
 
-void check_type(char **fmt, t_format *format)
+int check_type(char **fmt, t_format *format)
 {
 	char *type;
 
 	type = "sSpdDioOuUxXcC";
-	/*
-	 * если спецификатор формата отсутствует, выводится только префикс
-	 *
-	 * если это левая буква - она выведется на следующей итерации
-	 */
-	if (!ft_strchr(type, **fmt))
-		return;
+	if (!**fmt || !ft_strchr(type, **fmt))
+		return (0);
 	format->type = **fmt;
 	if (**fmt == 'd' || **fmt == 'i' || **fmt == 'D')
 		format->flag |= SIGNED;
@@ -165,10 +151,8 @@ void check_type(char **fmt, t_format *format)
 		format->size |= Z;
 		format->flag |= HASH;
 	}
-
-	//if (**fmt == 'o' || **fmt == 'U' || **fmt == 'x' || **fmt == 'X')
-	//unsigned
 	(*fmt)++;
+	return (1);
 }
 
 

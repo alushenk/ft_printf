@@ -23,6 +23,9 @@ void write_string(t_format *format, va_list ap)
 	 */
 	if (format->precision >= 0 && format->sufix_len > format->precision)
 		format->sufix_len = format->precision;
+	/*
+	 * можно не делать копию, а просто присвоить ссылку
+	 */
 	format->sufix = ft_strnew(sizeof(char) * format->sufix_len);
 	ft_strncpy(format->sufix, s, format->sufix_len);
 }

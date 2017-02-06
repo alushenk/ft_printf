@@ -29,15 +29,16 @@ int		func(char *fmt, va_list ap, t_format *format)
 			ft_strncpy(format->prefix, fmt, format->prefix_len);
 		}
 		fmt += format->prefix_len;
-		if (*fmt != '\0')
-		{
+		if (*fmt)
 			fmt++;
-			while (check_flags(&fmt, format))
-				fmt++;
-			while (check_width(&fmt, ap, format));
-			while (check_precision(&fmt, ap, format));
-			while ((check_size(&fmt, format)));
-			check_type(&fmt, format);
+		while(*fmt)
+		{
+			check_flags(&fmt, format);
+			check_width(&fmt, ap, format);
+			check_precision(&fmt, ap, format);
+			check_size(&fmt, format);
+			if (check_type(&fmt, format))
+				break;
 		}
 		result += do_print(format, ap);
 	}
