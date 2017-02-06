@@ -52,7 +52,7 @@ typedef struct 			s_format
 	int		size;
 	char 	type;
 	int 	base;
-	char	num_prefix;
+	char	*num_prefix;
 
 	char	*prefix;
 	ssize_t prefix_len;

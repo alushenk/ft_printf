@@ -85,7 +85,7 @@ void write_num(t_format *format, va_list ap)
 	if ((format->flag & SIGNED) && (num & temp << 63))
 	{
 		if (format->base == 10)
-			format->num_prefix = '-';
+			format->num_prefix[0] = '-';
 		num = -num;
 	}
 	temp = num;
@@ -103,19 +103,28 @@ void write_num(t_format *format, va_list ap)
 	}
 }
 
+void	format_num_prefix(t_format *format)
+{
+	if (!format->num_prefix)
+	{
+		if (format->flag & PLUS)
+			format->num_prefix[0] = '+';
+		else if (format->flag & SPACE)
+			format->num_prefix[0] = ' ';
+	}
+	if (format->base == 16 && (format->flag & HASH))
+	{
+		format->num_prefix[0] = '0';
+		format->num_prefix[1] = (format->type == 'X') ? 'X' : 'x';
+	}
+}
+
 void	format_num(t_format *format)
 {
 	ssize_t len;
 	size_t	i;
 	char	*str;
 
-	if (!format->num_prefix)
-	{
-		if (format->flag & PLUS)
-			format->num_prefix = '+';
-		else if (format->flag & SPACE)
-			format->num_prefix = ' ';
-	}
 	len = format->precision - format->sufix_len;
 	if (len > 0)
 	{
@@ -123,8 +132,11 @@ void	format_num(t_format *format)
 		str = ft_strnew(format->precision + 1);
 		if (format->num_prefix)
 		{
-			str[i] = format->num_prefix;
-			i++;
+			while(format->num_prefix[i])
+			{
+				str[i] = format->num_prefix[i];
+				i++;
+			}
 		}
 		while(len--)
 		{
@@ -147,8 +159,7 @@ void 	format_string(t_format *format)
 	char	*str;
 	char 	*temp;
 
-	len = format->width - format->sufix_len;
-	if (len <= 0)
+	if ((len = format->width - format->sufix_len) <= 0)
 		return;
 	format->sufix_len += len;
 	c = (format->flag & ZEROPAD && !(format->flag & LEFT)) ? '0' : ' ';
@@ -182,6 +193,7 @@ size_t do_print(t_format *format, va_list ap)
 	else if (format->type)
 	{
 		write_num(format, ap);
+		format_num_prefix(format);
 		format_num(format);
 	}
 

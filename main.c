@@ -104,7 +104,7 @@ void test_decimal()
 	int b;
 	size_t n = 4294967296;
 	//"%0 .1 025.15-+zddd\n"
-	char *format = "%0 .1 025.15-+zddd\n";
+	char *format = "%025#.15+zOdd\n";
 
 	b = ft_printf(format, n);
 	printf("%d\n", b);

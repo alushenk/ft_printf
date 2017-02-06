@@ -31,6 +31,7 @@ void initialise_struct(t_format **format)
 		*format = (t_format *) malloc(sizeof(t_format));
 		(*format)->prefix = NULL;
 		(*format)->sufix = NULL;
+		(*format)->num_prefix = ft_strnew(2);
 	}
 	(*format)->flag = 0;
 	(*format)->width = 0;
@@ -40,7 +41,8 @@ void initialise_struct(t_format **format)
 	(*format)->base = 10;
 	(*format)->prefix_len = 0;
 	(*format)->sufix_len = 0;
-	(*format)->num_prefix = 0;
+	if ((*format)->num_prefix)
+		ft_bzero((*format)->num_prefix, 2);
 	if ((*format)->prefix)
 		free((*format)->prefix);
 	(*format)->prefix = NULL;
