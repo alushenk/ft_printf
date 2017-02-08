@@ -88,21 +88,23 @@ void write_num(t_format *format, va_list ap)
 		num = -num;
 	}
 	temp = num;
-	i = 0;
-	while ((temp /= format->base) > 0)
+	i = (temp) ? 0 : 1;
+	while (temp > 0)
+	{
+		temp /= format->base;
 		i++;
-	format->sufix_len = (size_t)i + 1;
-	while (i >= 0)
+	}
+	format->sufix_len = i;
+	while (--i >= 0)
 	{
 		format->sufix[i] = mas[num % format->base];
 		num /= format->base;
-		i--;
 	}
 }
 
 void	format_num_prefix(t_format *format)
 {
-	if (!format->num_prefix)
+	if (!format->num_prefix[0])
 	{
 		if (format->flag & PLUS)
 			format->num_prefix[0] = '+';
@@ -122,30 +124,23 @@ void	format_num(t_format *format)
 	size_t	i;
 	char	*str;
 
-	len = format->precision - format->sufix_len;
-	if (len > 0)
+	len = (format->precision > format->sufix_len) ? format->precision : format->sufix_len;
+	i = 0;
+	str = ft_strnew(len + 1);
+	while(format->num_prefix[i])
 	{
-		i = 0;
-		str = ft_strnew(format->precision + 1);
-		if (format->num_prefix)
-		{
-			while(format->num_prefix[i])
-			{
-				str[i] = format->num_prefix[i];
-				i++;
-			}
-		}
-		while(len--)
-		{
-			str[i] = '0';
-			i++;
-		}
-		format->sufix_len += i;
-		ft_strcpy(str + i, format->sufix);
-		free(format->sufix);
-		format->sufix = str;
+		str[i] = format->num_prefix[i];
+		i++;
 	}
-
+	while(format->sufix_len < format->precision--)
+	{
+		str[i] = '0';
+		i++;
+	}
+	format->sufix_len += i;
+	ft_strcpy(str + i, format->sufix);
+	free(format->sufix);
+	format->sufix = str;
 }
 
 void 	format_string(t_format *format)
@@ -156,10 +151,10 @@ void 	format_string(t_format *format)
 	char	*str;
 	char 	*temp;
 
-	if ((len = format->width - format->sufix_len) == 0)
+	if ((len = format->width - format->sufix_len) <= 0 || format->width < format->precision)
 		return;
-	if (len < 0)
-		len = -len;
+//	if (len < 0)
+//		len = -len;
 	format->sufix_len += len;
 	c = (format->flag & ZEROPAD && !(format->flag & LEFT)) ? '0' : ' ';
 	if (format->type != 'S' && format->type != 's' && format->precision != -1)

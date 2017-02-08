@@ -87,18 +87,23 @@ void check_width(char **fmt, va_list ap, t_format *format)
 
 void check_precision(char **fmt, va_list ap, t_format *format)
 {
+	ssize_t result;
+
+	result = 0;
 	if (**fmt == '.')
 	{
 		(*fmt)++;
 		if (**fmt == '*')
 		{
-			format->precision = (int) va_arg (ap, int);
-			if (format->precision < 0)
-				format->precision = 0;
+			result = (int) va_arg (ap, int);
 			(*fmt)++;
 		}
 		else
-			format->precision = skip_atoi(fmt);
+			result = skip_atoi(fmt);
+		if (result < 0)
+			format->precision = -1;
+		else
+			format->precision = result;
 	}
 }
 

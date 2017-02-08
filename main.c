@@ -91,28 +91,29 @@ void test_string()
 	int a;
 	int b;
 
-	char *format = "suka blyad: %025.15sdd\n";
+	char *format = "suka blyad: %025.-5sdd\n";
 
-	b = ft_printf(format, "nahuy");
+	b = ft_printf(format, "n");
 	printf("%d\n", b);
-	b = printf(format, "nahuy");
+	b = printf(format, "n");
 	printf("%d\n", b);
 }
 
 void test_decimal()
 {
 	int b;
-	size_t n = 4294967296;
+	size_t n = 0;
 	//"%0 .1 025.15-+zddd\n"
-	char *format = "%10d\n";
+	char *format = "%020d vvv\n";
+	int precision = -15;
 
-	b = ft_printf(format, n);
+	b = ft_printf(format, precision, n);
 	printf("%d\n", b);
-	print_mem_bytes(&n, sizeof(n));
+	//print_mem_bytes(&n, sizeof(n));
 
-	b = printf(format, n);
+	b = printf(format, precision, n);
 	printf("%d\n", b);
-	print_mem_bytes(&n, sizeof(n));
+	//print_mem_bytes(&n, sizeof(n));
 }
 
 void test_pointer()
@@ -133,6 +134,7 @@ void test_pointer()
 int main(void)
 {
 	//test_string();
+	printf("\n");
 	//test_printf();
 	test_decimal();
 	//test_pointer();
