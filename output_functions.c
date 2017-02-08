@@ -73,14 +73,13 @@ size_t cast_signed(t_format *format, va_list ap)
 void write_num(t_format *format, va_list ap)
 {
 	size_t num;
-	size_t temp;
+	ssize_t temp;
 	char *mas;
 	int i;
 
 	mas = (format->type == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
 	format->sufix = ft_strnew(sizeof(char) * 64);
 	num = cast_signed(format, ap);
-	i = 0;
 	temp = 1;
 	if ((format->flag & SIGNED) && (num & temp << 63))
 	{
@@ -89,13 +88,11 @@ void write_num(t_format *format, va_list ap)
 		num = -num;
 	}
 	temp = num;
-	while (temp / format->base > 0)
-	{
-		temp /= format->base;
+	i = 0;
+	while ((temp /= format->base) > 0)
 		i++;
-	}
-	format->sufix_len = (size_t)i;
-	while (num > 0)
+	format->sufix_len = (size_t)i + 1;
+	while (i >= 0)
 	{
 		format->sufix[i] = mas[num % format->base];
 		num /= format->base;
