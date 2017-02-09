@@ -30,11 +30,11 @@ void test_decimal()
 	//"%0 .1 025.15-+zddd\n"
 
 	//"%020.0d vvv\n" - при пресижене ноль не надо ставить нули в начало
-	char *format = "%#*.*p vvv\n";
+	char *format = "%#*.*d vvv\n";
 	int width = 0;
 	int precision = 10;
 
-	b = ft_printf(format, &width, precision, n);
+	b = ft_printf(format, width, precision, n);
 	printf("%d\n", b);
 	//print_mem_bytes(&n, sizeof(n));
 
