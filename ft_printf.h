@@ -68,22 +68,38 @@ typedef struct 			s_format
 	ssize_t sufix_len;
 }						t_format;
 
+
 /*
- * additional functions
+ * ft_printf.c
  */
-int			ft_printf(char *fmt, ...);
-void		initialise_struct(t_format **format);
+size_t	get_len(char *str);
+static size_t cast_signed(t_format *format, va_list ap);
+size_t do_print(t_format *format, va_list ap);
+int		func(char *fmt, va_list ap, t_format *format);
+int		ft_printf(char *fmt, ...);
 /*
- * check functions
+ * parsing.c
  */
-void			check_flags(char **fmt, t_format *format);
-void			check_width(char **fmt, va_list ap, t_format *format);
-void			check_precision(char **fmt, va_list ap, t_format *format);
-void			check_size(char **fmt, t_format *format);
-int				check_type(char **fmt, t_format *format);
+void check_flags(char **fmt, t_format *format);
+void check_width(char **fmt, va_list ap, t_format *format);
+void check_precision(char **fmt, va_list ap, t_format *format);
+void check_size(char **fmt, t_format *format);
+int check_type(char **fmt, t_format *format);
 /*
- * output functions
+ * format.c
  */
-size_t		do_print(t_format *format, va_list ap);
+void	format_num_prefix(t_format *format);
+void	format_num(t_format *format);
+void 	format_string(t_format *format);
+/*
+ * output.c
+ */
+static void write_string(t_format *format, va_list ap);
+static void write_num(t_format *format, va_list ap);
+/*
+ * functions.c
+ */
+int skip_atoi(char **s);
+void initialise_struct(t_format **format);
 
 #endif //FT_PRINTF_FT_PRINTF_H
