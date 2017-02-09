@@ -91,21 +91,24 @@ void test_string()
 	int a;
 	int b;
 
-	char *format = "suka blyad: %025.-5sdd\n";
+	char *format = "suka blyad: %025.*sdd\n";
+	int precision = 5;
 
-	b = ft_printf(format, "n");
+	b = ft_printf(format, precision, "n");
 	printf("%d\n", b);
-	b = printf(format, "n");
+	b = printf(format, precision, "n");
 	printf("%d\n", b);
 }
 
 void test_decimal()
 {
 	int b;
-	size_t n = 0;
+	size_t n = 5;
 	//"%0 .1 025.15-+zddd\n"
-	char *format = "%020d vvv\n";
-	int precision = -15;
+
+	//"%020.0d vvv\n" - при пресижене ноль не надо ставить нули в начало
+	char *format = "%+-010.*d vvv\n";
+	int precision = -20;
 
 	b = ft_printf(format, precision, n);
 	printf("%d\n", b);

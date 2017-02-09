@@ -88,13 +88,18 @@ void write_num(t_format *format, va_list ap)
 		num = -num;
 	}
 	temp = num;
-	i = (temp) ? 0 : 1;
+	i = (num) ? 0 : 1;
 	while (temp > 0)
 	{
 		temp /= format->base;
 		i++;
 	}
 	format->sufix_len = i;
+	if (num == 0 && format->precision == 0)
+	{
+		format->sufix[0] = ' ';
+		return;
+	}
 	while (--i >= 0)
 	{
 		format->sufix[i] = mas[num % format->base];
@@ -125,6 +130,8 @@ void	format_num(t_format *format)
 	char	*str;
 
 	len = (format->precision > format->sufix_len) ? format->precision : format->sufix_len;
+	if (format->precision == -1 && format->width > len && !(format->flag & LEFT))
+		len = format->width;
 	i = 0;
 	str = ft_strnew(len + 1);
 	while(format->num_prefix[i])
@@ -132,7 +139,7 @@ void	format_num(t_format *format)
 		str[i] = format->num_prefix[i];
 		i++;
 	}
-	while(format->sufix_len < format->precision--)
+	while(format->sufix_len < len--)
 	{
 		str[i] = '0';
 		i++;
@@ -153,8 +160,6 @@ void 	format_string(t_format *format)
 
 	if ((len = format->width - format->sufix_len) <= 0 || format->width < format->precision)
 		return;
-//	if (len < 0)
-//		len = -len;
 	format->sufix_len += len;
 	c = (format->flag & ZEROPAD && !(format->flag & LEFT)) ? '0' : ' ';
 	if (format->type != 'S' && format->type != 's' && format->precision != -1)
