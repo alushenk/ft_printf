@@ -22,29 +22,31 @@ size_t	get_len(char *str)
 	return (i);
 }
 
-static size_t cast_signed(t_format *format, va_list ap)
+size_t	cast_signed(t_format *format, va_list ap)
 {
 	size_t result;
 
-	result = (format->size & Z) ? (size_t) va_arg(ap, size_t) :
-			 (format->size & J) ? (uintmax_t) va_arg(ap, uintmax_t) :
-			 (format->size & LL) ? (unsigned long long) va_arg(ap, unsigned long long) :
-			 (format->size & L) ? (unsigned long) va_arg(ap, unsigned long) :
-			 (format->size & U) ? (unsigned) va_arg(ap, unsigned) :
-			 (format->size & H) ? (short) va_arg(ap, int) :
-			 (format->size & HH) ? (char) va_arg(ap, int) :
-			 (size_t) va_arg(ap, int);
-
+	if (format->size & Z)
+		result = (size_t)va_arg(ap, size_t);
+	else if (format->size & J)
+		result = (uintmax_t)va_arg(ap, uintmax_t);
+	else if (format->size & LL)
+		result = (unsigned long long)va_arg(ap, unsigned long long);
+	else if (format->size & L)
+		result = (unsigned long)va_arg(ap, unsigned long);
+	else if (format->size & U)
+		result = (unsigned)va_arg(ap, unsigned);
+	else if (format->size & H)
+		result = (short)va_arg(ap, int);
+	else if (format->size & HH)
+		result = (char)va_arg(ap, int);
+	else
+		result = (size_t)va_arg(ap, int);
 	return (result);
 }
 
-size_t do_print(t_format *format, va_list ap)
+size_t	do_print(t_format *format, va_list ap)
 {
-	/*
-	 * сделать начальный иф для чара? или писать его как обычное число преобразованое в строку(атои)
-	 *
-	 * для флоата тоже, или пихануть проверку в атоях
-	 */
 	if (format->type == 's')
 		write_string(format, ap);
 	else if (format->type)
@@ -56,7 +58,6 @@ size_t do_print(t_format *format, va_list ap)
 	format_string(format);
 	ft_putstr(format->prefix);
 	ft_putstr(format->sufix);
-
 	return (format->prefix_len + format->sufix_len);
 	return (0);
 }

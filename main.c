@@ -26,12 +26,12 @@ void test_string()
 void test_decimal()
 {
 	int b;
-	size_t n = 12345;
+	size_t n = 5;
 	//"%0 .1 025.15-+zddd\n"
 
 	//"%020.0d vvv\n" - при пресижене ноль не надо ставить нули в начало
-	char *format = "%#*.*d vvv\n";
-	int width = 0;
+	char *format = "%-*.*lu vvv\n";
+	int width = 20;
 	int precision = 10;
 
 	b = ft_printf(format, width, precision, n);

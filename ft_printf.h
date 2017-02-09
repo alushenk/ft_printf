@@ -73,7 +73,7 @@ typedef struct 			s_format
  * ft_printf.c
  */
 size_t	get_len(char *str);
-static size_t cast_signed(t_format *format, va_list ap);
+size_t cast_signed(t_format *format, va_list ap);
 size_t do_print(t_format *format, va_list ap);
 int		func(char *fmt, va_list ap, t_format *format);
 int		ft_printf(char *fmt, ...);
@@ -94,8 +94,8 @@ void 	format_string(t_format *format);
 /*
  * output.c
  */
-static void write_string(t_format *format, va_list ap);
-static void write_num(t_format *format, va_list ap);
+void write_string(t_format *format, va_list ap);
+void write_num(t_format *format, va_list ap);
 /*
  * functions.c
  */

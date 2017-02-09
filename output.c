@@ -2,7 +2,7 @@
 
 #include "ft_printf.h"
 
-static void write_string(t_format *format, va_list ap)
+void write_string(t_format *format, va_list ap)
 {
 	char *s;
 
@@ -19,7 +19,7 @@ static void write_string(t_format *format, va_list ap)
 
 
 
-static void write_num(t_format *format, va_list ap)
+void write_num(t_format *format, va_list ap)
 {
 	size_t num;
 	size_t temp;
