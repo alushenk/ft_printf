@@ -16,7 +16,6 @@ size_t get_len(char *str)
 
 int		func(char *fmt, va_list ap, t_format *format)
 {
-	char	*ptr;
 	size_t	result;
 
 	result = 0;

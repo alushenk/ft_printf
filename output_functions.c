@@ -4,8 +4,6 @@
 
 #include "ft_printf.h"
 
-
-
 void write_string(t_format *format, va_list ap)
 {
 	char *s;
@@ -28,30 +26,6 @@ void write_string(t_format *format, va_list ap)
 	 */
 	format->sufix = ft_strnew(sizeof(char) * format->sufix_len);
 	ft_strncpy(format->sufix, s, format->sufix_len);
-}
-
-void write_wchar_string(t_format *format)
-{
-	/*
-	 * "l" demands conversion to "wchar_t" which is UTF-8 shit
-	 */
-}
-
-void write_pointer(t_format *format, va_list ap)
-{
-	/*
-	 * # дописывает 0x в начало по идее
-	 */
-}
-
-void write_char(t_format *format)
-{
-
-}
-
-void write_long_char(t_format *format)
-{
-
 }
 
 size_t cast_signed(t_format *format, va_list ap)
@@ -78,7 +52,6 @@ void write_num(t_format *format, va_list ap)
 	int i;
 
 	mas = (format->type == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
-	format->sufix = ft_strnew(sizeof(char) * 64);
 	num = cast_signed(format, ap);
 	temp = 1;
 	if ((format->flag & SIGNED) && (num & temp << 63))
@@ -94,6 +67,7 @@ void write_num(t_format *format, va_list ap)
 		temp /= format->base;
 		i++;
 	}
+	format->sufix = ft_strnew(sizeof(char) * (i + 1));
 	format->sufix_len = i;
 	if (num == 0 && format->precision == 0)
 	{
@@ -139,7 +113,7 @@ void	format_num(t_format *format)
 		str[i] = format->num_prefix[i];
 		i++;
 	}
-	while(format->sufix_len < len--)
+	while(format->sufix_len < (len - i))
 	{
 		str[i] = '0';
 		i++;
@@ -153,7 +127,7 @@ void	format_num(t_format *format)
 void 	format_string(t_format *format)
 {
 	int		c;
-	size_t	i;
+	ssize_t	i;
 	ssize_t len;
 	char	*str;
 	char 	*temp;
