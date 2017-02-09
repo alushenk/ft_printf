@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   format.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alushenk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/09 20:23:00 by alushenk          #+#    #+#             */
+/*   Updated: 2017/02/09 20:23:03 by alushenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	format_num_prefix(t_format *format)
@@ -28,48 +40,48 @@ void	format_num_prefix(t_format *format)
 	}
 }
 
-void	format_num(t_format *format)
+void	format_num(t_format *f)
 {
 	ssize_t len;
 	ssize_t	i;
 	char	*str;
 
-	len = (format->precision > format->sufix_len) ? format->precision : format->sufix_len;
-	if (format->precision == -1 && format->width > len && !(format->flag & LEFT))
-		len = format->width;
+	len = (f->precision > f->sufix_len) ? f->precision : f->sufix_len;
+	if (f->precision == -1 && f->width > len && !(f->flag & LEFT))
+		len = f->width;
 	i = 0;
-	if (format->base == 16 && (format->flag & HASH))
+	if (f->base == 16 && (f->flag & HASH))
 		len += 2;
 	str = ft_strnew(len + 1);
-	while(format->num_prefix[i])
+	while (f->num_prefix[i])
 	{
-		str[i] = format->num_prefix[i];
+		str[i] = f->num_prefix[i];
 		i++;
 	}
-	while(format->sufix_len < (len - i))
+	while (f->sufix_len < (len - i))
 	{
 		str[i] = '0';
 		i++;
 	}
-	format->sufix_len += i;
-	ft_strcpy(str + i, format->sufix);
-	free(format->sufix);
-	format->sufix = str;
+	f->sufix_len += i;
+	ft_strcpy(str + i, f->sufix);
+	free(f->sufix);
+	f->sufix = str;
 }
 
-void 	format_string(t_format *format)
+void	format_string(t_format *f)
 {
 	int		c;
 	ssize_t	i;
 	ssize_t len;
 	char	*str;
-	char 	*temp;
+	char	*temp;
 
-	if ((len = format->width - format->sufix_len) <= 0 || format->width < format->precision)
-		return;
-	format->sufix_len += len;
-	c = (format->flag & ZEROPAD && !(format->flag & LEFT)) ? '0' : ' ';
-	if (format->type != 'S' && format->type != 's' && format->precision != -1)
+	if ((len = f->width - f->sufix_len) <= 0 || f->width < f->precision)
+		return ;
+	f->sufix_len += len;
+	c = (f->flag & ZEROPAD && !(f->flag & LEFT)) ? '0' : ' ';
+	if (f->type != 'S' && f->type != 's' && f->precision != -1)
 		c = ' ';
 	str = ft_strnew(sizeof(char) * len);
 	i = 0;
@@ -78,11 +90,8 @@ void 	format_string(t_format *format)
 		str[i] = (char)c;
 		i++;
 	}
-	temp = ft_strdup(format->sufix);
-	free(format->sufix);
-	if (format->flag & LEFT)
-		format->sufix = ft_strjoin(temp, str);
-	else
-		format->sufix = ft_strjoin(str, temp);
+	temp = ft_strdup(f->sufix);
+	free(f->sufix);
+	f->sufix = f->flag & LEFT ? ft_strjoin(temp, str) : ft_strjoin(str, temp);
 	free(temp);
 }

@@ -60,7 +60,7 @@ void test_pointer()
 */
 int main(void)
 {
-	//test_string();
+	test_string();
 	printf("\n");
 	//test_printf();
 	test_decimal();

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int skip_atoi(char **s)
+int		skip_atoi(char **s)
 {
 	size_t i;
 
@@ -23,20 +23,14 @@ int skip_atoi(char **s)
 		if (i > INT_MAX)
 			return (INT_MAX);
 	}
-	return ((int) i);
+	return (i);
 }
 
-void initialise_struct(t_format **format)
+void	initialise_struct(t_format **format)
 {
-	/*
-	 * продумать значения по умолчанию, как себя ведет прога если они остаются неизмененными.
-	 * как поведут себя функции check_ если эти значения изменить
-	 *
-	 * нету смысла фришить сам поинтер на структуру, можно тупо его обнулять
-	 */
 	if (!*format)
 	{
-		*format = (t_format *) malloc(sizeof(t_format));
+		*format = (t_format *)malloc(sizeof(t_format));
 		(*format)->prefix = NULL;
 		(*format)->sufix = NULL;
 		(*format)->num_prefix = ft_strnew(2);
@@ -58,8 +52,3 @@ void initialise_struct(t_format **format)
 		free((*format)->sufix);
 	(*format)->sufix = NULL;
 }
-
-
-
-
-

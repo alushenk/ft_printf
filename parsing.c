@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alushenk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/09 19:26:25 by alushenk          #+#    #+#             */
+/*   Updated: 2017/02/09 19:26:27 by alushenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void check_flags(char **fmt, t_format *format)
+void	check_flags(char **fmt, t_format *format)
 {
 	if (**fmt == '-')
 		format->flag |= LEFT;
@@ -14,21 +25,19 @@ void check_flags(char **fmt, t_format *format)
 	else if (**fmt == '0')
 		format->flag |= ZEROPAD;
 	else
-		return;
+		return ;
 	(*fmt)++;
 }
 
-void check_width(char **fmt, va_list ap, t_format *format)
+void	check_width(char **fmt, va_list ap, t_format *format)
 {
 	if (**fmt == '*')
 	{
-		format->width = (int) va_arg (ap, int);
+		format->width = (int)va_arg(ap, int);
 		(*fmt)++;
 		if (format->width < 0)
 		{
 			format->flag |= 1;
-			//не творит ли оно хуню с минимальным интом?
-			//если творит, то творит ли оригинальный принтф такую же хуйню?
 			format->width = -format->width;
 		}
 	}
@@ -36,7 +45,7 @@ void check_width(char **fmt, va_list ap, t_format *format)
 		format->width = skip_atoi(fmt);
 }
 
-void check_precision(char **fmt, va_list ap, t_format *format)
+void	check_precision(char **fmt, va_list ap, t_format *format)
 {
 	ssize_t result;
 
@@ -46,7 +55,7 @@ void check_precision(char **fmt, va_list ap, t_format *format)
 		(*fmt)++;
 		if (**fmt == '*')
 		{
-			result = (int) va_arg (ap, int);
+			result = (int)va_arg(ap, int);
 			(*fmt)++;
 		}
 		else
@@ -58,14 +67,11 @@ void check_precision(char **fmt, va_list ap, t_format *format)
 	}
 }
 
-void check_size(char **fmt, t_format *format)
+void	check_size(char **fmt, t_format *format)
 {
 	size_t len;
 
 	len = 1;
-	/*
-	 * "&&" в ифах - мастерство укорачивать код костылями
-	 */
 	if (**fmt == 'z')
 		format->size |= Z;
 	else if (**fmt == 'j')
@@ -79,29 +85,27 @@ void check_size(char **fmt, t_format *format)
 	else if (**fmt == 'h')
 		format->size |= H;
 	else
-		return;
+		return ;
 	(*fmt) += len;
 }
 
-int check_type(char **fmt, t_format *format)
+int		check_type(char **fmt, t_format *format)
 {
-	char *type;
-
-	type = "sSpdDioOuUxXcC";
-	if (!**fmt || !ft_strchr(type, **fmt))
+	if (!**fmt || !ft_strchr("sSpdDioOuUxXcC", **fmt))
 		return (0);
 	format->type = **fmt;
 	if (**fmt == 'd' || **fmt == 'i' || **fmt == 'D')
 		format->flag |= SIGNED;
-	if (**fmt == 'D' || **fmt == 'S' || **fmt == 'O' || **fmt == 'U' || **fmt == 'E' ||
-		**fmt == 'F' || **fmt == 'G' || **fmt == 'A' || **fmt == 'C')
+	if (**fmt == 'D' || **fmt == 'S' || **fmt == 'O' ||
+		**fmt == 'U' || **fmt == 'E' || **fmt == 'F' ||
+		**fmt == 'G' || **fmt == 'A' || **fmt == 'C')
 		format->size |= L;
 	if (**fmt == 'o' || **fmt == 'O')
 		format->base = 8;
 	if (**fmt == 'x' || **fmt == 'X')
 		format->base = 16;
-	//делать для U?
-	if (**fmt == 'x' || **fmt == 'X' || **fmt == 'o' || **fmt == 'O' || **fmt == 'u')
+	if (**fmt == 'x' || **fmt == 'X' || **fmt == 'o' ||
+		**fmt == 'O' || **fmt == 'u')
 		format->size |= U;
 	if (**fmt == 'p')
 	{
