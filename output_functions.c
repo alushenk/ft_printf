@@ -1,10 +1,18 @@
-//
-// Created by Anton Lushenko on 1/19/17.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   output_functions.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alushenk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/09 16:41:21 by alushenk          #+#    #+#             */
+/*   Updated: 2017/02/09 16:41:24 by alushenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void write_string(t_format *format, va_list ap)
+static void write_string(t_format *format, va_list ap)
 {
 	char *s;
 /*
@@ -28,7 +36,7 @@ void write_string(t_format *format, va_list ap)
 	ft_strncpy(format->sufix, s, format->sufix_len);
 }
 
-size_t cast_signed(t_format *format, va_list ap)
+static size_t cast_signed(t_format *format, va_list ap)
 {
 	size_t result;
 
@@ -44,7 +52,7 @@ size_t cast_signed(t_format *format, va_list ap)
 	return (result);
 }
 
-void write_num(t_format *format, va_list ap)
+static void write_num(t_format *format, va_list ap)
 {
 	size_t num;
 	size_t temp;
@@ -107,7 +115,7 @@ void	format_num_prefix(t_format *format)
 void	format_num(t_format *format)
 {
 	ssize_t len;
-	size_t	i;
+	ssize_t	i;
 	char	*str;
 
 	len = (format->precision > format->sufix_len) ? format->precision : format->sufix_len;

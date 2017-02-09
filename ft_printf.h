@@ -1,6 +1,14 @@
-//
-// Created by warto on 1/11/2017.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alushenk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/09 16:41:45 by alushenk          #+#    #+#             */
+/*   Updated: 2017/02/09 16:41:50 by alushenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef FT_PRINTF_FT_PRINTF_H
 #define FT_PRINTF_FT_PRINTF_H
@@ -76,19 +84,6 @@ int				check_type(char **fmt, t_format *format);
 /*
  * output functions
  */
-void 		initialise_array(void (*foo[])(t_format* , va_list));
 size_t		do_print(t_format *format, va_list ap);
-void		write_string(t_format *format, va_list ap);
-void		write_decimal(t_format *format, va_list ap);
-void		write_pointer(t_format *format, va_list ap);
-void		format_string(t_format *format);
-/*
- * output decimal functions
- */
-void 	write_d_hh(t_format *format, va_list ap);
-void 	write_d_h(t_format *format, va_list ap);
-void	write_d_long(t_format *format, va_list ap);
-
-void	write_num(t_format *format, va_list ap);
 
 #endif //FT_PRINTF_FT_PRINTF_H
