@@ -47,7 +47,7 @@ size_t cast_signed(t_format *format, va_list ap)
 void write_num(t_format *format, va_list ap)
 {
 	size_t num;
-	ssize_t temp;
+	size_t temp;
 	char *mas;
 	int i;
 
@@ -69,11 +69,6 @@ void write_num(t_format *format, va_list ap)
 	}
 	format->sufix = ft_strnew(sizeof(char) * (i + 1));
 	format->sufix_len = i;
-	if (num == 0 && format->precision == 0)
-	{
-		format->sufix[0] = ' ';
-		return;
-	}
 	while (--i >= 0)
 	{
 		format->sufix[i] = mas[num % format->base];
@@ -83,17 +78,29 @@ void write_num(t_format *format, va_list ap)
 
 void	format_num_prefix(t_format *format)
 {
-	if (!format->num_prefix[0])
+	if (!ft_strncmp(format->sufix, "0\0", 2) && format->precision == 0)
+		format->sufix[0] = ' ';
+	if (format->num_prefix[0] == 0 && (format->flag & SIGNED))
 	{
 		if (format->flag & PLUS)
 			format->num_prefix[0] = '+';
 		else if (format->flag & SPACE)
 			format->num_prefix[0] = ' ';
+		if (format->sufix[0] == ' ')
+		{
+			ft_strcpy(format->sufix, format->num_prefix);
+			ft_bzero(format->num_prefix, 2);
+		}
 	}
-	if (format->base == 16 && (format->flag & HASH))
+	if (format->flag & HASH)
 	{
-		format->num_prefix[0] = '0';
-		format->num_prefix[1] = (format->type == 'X') ? 'X' : 'x';
+		if (format->base == 16)
+		{
+			format->num_prefix[0] = '0';
+			format->num_prefix[1] = (format->type == 'X') ? 'X' : 'x';
+		}
+		if (format->base == 8)
+			format->num_prefix[0] = '0';
 	}
 }
 
@@ -107,6 +114,8 @@ void	format_num(t_format *format)
 	if (format->precision == -1 && format->width > len && !(format->flag & LEFT))
 		len = format->width;
 	i = 0;
+	if (format->base == 16 && (format->flag & HASH))
+		len += 2;
 	str = ft_strnew(len + 1);
 	while(format->num_prefix[i])
 	{

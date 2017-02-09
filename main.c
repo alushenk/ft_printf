@@ -26,18 +26,19 @@ void test_string()
 void test_decimal()
 {
 	int b;
-	size_t n = 5;
+	size_t n = 12345;
 	//"%0 .1 025.15-+zddd\n"
 
 	//"%020.0d vvv\n" - при пресижене ноль не надо ставить нули в начало
-	char *format = "%+010d vvv\n";
-	int precision = 0;
+	char *format = "%#*.*zu vvv\n";
+	int width = -20;
+	int precision = 10;
 
-	b = ft_printf(format, precision, n);
+	b = ft_printf(format, width, precision, n);
 	printf("%d\n", b);
 	//print_mem_bytes(&n, sizeof(n));
 
-	b = printf(format, precision, n);
+	b = printf(format, width, precision, n);
 	printf("%d\n", b);
 	//print_mem_bytes(&n, sizeof(n));
 }
