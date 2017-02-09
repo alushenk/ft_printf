@@ -62,31 +62,31 @@ size_t	do_print(t_format *format, va_list ap)
 	return (0);
 }
 
-int		func(char *fmt, va_list ap, t_format *format)
+int		func(char *fmt, va_list ap, t_format **format)
 {
 	size_t	result;
 
 	result = 0;
 	while (*fmt)
 	{
-		initialise_struct(&format);
-		if ((format->prefix_len = get_len(fmt)))
+		initialise_struct(format);
+		if (((*format)->prefix_len = get_len(fmt)))
 		{
-			format->prefix = ft_strnew(format->prefix_len);
-			ft_strncpy(format->prefix, fmt, format->prefix_len);
+			(*format)->prefix = ft_strnew((*format)->prefix_len);
+			ft_strncpy((*format)->prefix, fmt, (*format)->prefix_len);
 		}
-		fmt += format->prefix_len;
+		fmt += (*format)->prefix_len;
 		fmt = (*fmt) ? fmt + 1 : fmt;
 		while (*fmt)
 		{
-			check_flags(&fmt, format);
-			check_width(&fmt, ap, format);
-			check_precision(&fmt, ap, format);
-			check_size(&fmt, format);
-			if (check_type(&fmt, format))
+			check_flags(&fmt, *format);
+			check_width(&fmt, ap, *format);
+			check_precision(&fmt, ap, *format);
+			check_size(&fmt, *format);
+			if (check_type(&fmt, *format))
 				break ;
 		}
-		result += do_print(format, ap);
+		result += do_print(*format, ap);
 	}
 	return ((int)result);
 }
@@ -99,9 +99,18 @@ int		ft_printf(char *fmt, ...)
 
 	format = NULL;
 	va_start(ap, fmt);
-	result = func(fmt, ap, format);
+	result = func(fmt, ap, &format);
 	va_end(ap);
 	if (result > INT_MAX)
 		result = -1;
+
+	if (format->prefix)
+		free(format->prefix);
+	if (format->sufix)
+		free(format->sufix);
+	if (format->num_prefix)
+		free(format->num_prefix);
+	if (format)
+		free(format);
 	return (result);
 }

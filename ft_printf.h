@@ -75,7 +75,7 @@ typedef struct 			s_format
 size_t	get_len(char *str);
 size_t cast_signed(t_format *format, va_list ap);
 size_t do_print(t_format *format, va_list ap);
-int		func(char *fmt, va_list ap, t_format *format);
+int		func(char *fmt, va_list ap, t_format **format);
 int		ft_printf(char *fmt, ...);
 /*
  * parsing.c
