@@ -77,7 +77,7 @@ void	format_string(t_format *f)
 	char	*str;
 	char	*temp;
 
-	if ((len = f->width - f->sufix_len) <= 0 || f->width < f->precision)
+	if ((len = f->width - f->sufix_len) <= 0)
 		return ;
 	f->sufix_len += len;
 	c = (f->flag & ZEROPAD && !(f->flag & LEFT)) ? '0' : ' ';

@@ -62,12 +62,12 @@ void test_pointer()
 void test_basic()
 {
 	int d;
-	char str = NULL;
-	char *format = "%020.*s\n";
-	int precision = 30;
+	char *str = NULL;
+	char *format = "%[\n";
+	int precision = -6;
 
-	d = ft_printf(format, precision, str);
-	printf("%d\n", d);
+	//d = ft_printf(format, precision, str);
+	//printf("%d\n", d);
 
 	d = printf(format, precision, str);
 	printf("%d\n", d);

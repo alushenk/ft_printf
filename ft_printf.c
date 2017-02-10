@@ -59,7 +59,6 @@ size_t	do_print(t_format *format, va_list ap)
 	ft_putstr(format->prefix);
 	ft_putstr(format->sufix);
 	return (format->prefix_len + format->sufix_len);
-	return (0);
 }
 
 int		func(char *fmt, va_list ap, t_format **format)
