@@ -52,3 +52,25 @@ void	initialise_struct(t_format **format)
 		free((*format)->sufix);
 	(*format)->sufix = NULL;
 }
+
+void	add_symbol(t_format *format, char sym)
+{
+	char	*temp;
+	size_t	len;
+
+	len = ft_strlen(format->prefix);
+	temp = NULL;
+	if (format->prefix)
+	{
+		temp = ft_strdup(format->prefix);
+		free(format->prefix);
+		format->prefix = ft_strnew(len + 1);
+		ft_strcpy(format->prefix, temp);
+	}
+	else
+		format->prefix = ft_strnew(1);
+	*(format->prefix + len) = sym;
+	format->prefix_len++;
+	if (temp)
+		free(temp);
+}

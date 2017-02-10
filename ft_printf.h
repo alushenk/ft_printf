@@ -80,10 +80,10 @@ int		ft_printf(char *fmt, ...);
 /*
  * parsing.c
  */
-void check_flags(char **fmt, t_format *format);
-void check_width(char **fmt, va_list ap, t_format *format);
-void check_precision(char **fmt, va_list ap, t_format *format);
-void check_size(char **fmt, t_format *format);
+int check_flags(char **fmt, t_format *format);
+int check_width(char **fmt, va_list ap, t_format *format);
+int check_precision(char **fmt, va_list ap, t_format *format);
+int check_size(char **fmt, t_format *format);
 int check_type(char **fmt, t_format *format);
 /*
  * format.c
@@ -101,5 +101,6 @@ void write_num(t_format *format, va_list ap);
  */
 int skip_atoi(char **s);
 void initialise_struct(t_format **format);
+void add_symbol(t_format *format, char sym);
 
 #endif //FT_PRINTF_FT_PRINTF_H

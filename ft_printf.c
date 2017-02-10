@@ -64,8 +64,10 @@ size_t	do_print(t_format *format, va_list ap)
 int		func(char *fmt, va_list ap, t_format **format)
 {
 	size_t	result;
+	int		skip;
 
 	result = 0;
+	skip = 0;
 	while (*fmt)
 	{
 		initialise_struct(format);
@@ -78,12 +80,18 @@ int		func(char *fmt, va_list ap, t_format **format)
 		fmt = (*fmt) ? fmt + 1 : fmt;
 		while (*fmt)
 		{
-			check_flags(&fmt, *format);
-			check_width(&fmt, ap, *format);
-			check_precision(&fmt, ap, *format);
-			check_size(&fmt, *format);
 			if (check_type(&fmt, *format))
 				break ;
+			if ((skip = check_flags(&fmt, *format)) ||
+				(skip = check_width(&fmt, ap, *format)) ||
+				(skip = check_precision(&fmt, ap, *format)) ||
+				(skip = check_size(&fmt, *format)))
+				fmt += skip;
+			else
+			{
+				add_symbol(*format, *fmt);
+				fmt++;
+			}
 		}
 		result += do_print(*format, ap);
 	}

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	check_flags(char **fmt, t_format *format)
+int		check_flags(char **fmt, t_format *format)
 {
 	if (**fmt == '-')
 		format->flag |= LEFT;
@@ -25,51 +25,61 @@ void	check_flags(char **fmt, t_format *format)
 	else if (**fmt == '0')
 		format->flag |= ZEROPAD;
 	else
-		return ;
-	(*fmt)++;
+		return (0);
+	return (1);
 }
 
-void	check_width(char **fmt, va_list ap, t_format *format)
+int		check_width(char **fmt, va_list ap, t_format *format)
 {
 	if (**fmt == '*')
 	{
 		format->width = (int)va_arg(ap, int);
-		(*fmt)++;
 		if (format->width < 0)
 		{
 			format->flag |= 1;
 			format->width = -format->width;
 		}
+		return (1);
 	}
 	else if (ft_isdigit(**fmt))
+	{
 		format->width = skip_atoi(fmt);
+		return (1);
+	}
+	return (0);
 }
 
-void	check_precision(char **fmt, va_list ap, t_format *format)
+int		check_precision(char **fmt, va_list ap, t_format *format)
 {
-	ssize_t result;
+	int num;
+	int result;
 
+	num = 0;
 	result = 0;
 	if (**fmt == '.')
 	{
 		(*fmt)++;
 		if (**fmt == '*')
 		{
-			result = (int)va_arg(ap, int);
-			(*fmt)++;
+			num = (int)va_arg(ap, int);
+			result = 1;
 		}
-		else
-			result = skip_atoi(fmt);
-		if (result < 0)
+		else if (ft_isdigit(**fmt))
+		{
+			num = skip_atoi(fmt);
+			result = 1;
+		}
+		if (num < 0)
 			format->precision = 0;
 		else
-			format->precision = result;
+			format->precision = num;
 	}
+	return (result);
 }
 
-void	check_size(char **fmt, t_format *format)
+int		check_size(char **fmt, t_format *format)
 {
-	size_t len;
+	int len;
 
 	len = 1;
 	if (**fmt == 'z')
@@ -85,8 +95,8 @@ void	check_size(char **fmt, t_format *format)
 	else if (**fmt == 'h')
 		format->size |= H;
 	else
-		return ;
-	(*fmt) += len;
+		return (0);
+	return (len);
 }
 
 int		check_type(char **fmt, t_format *format)
