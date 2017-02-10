@@ -14,12 +14,13 @@ void test_string()
 {
 	int b;
 
-	char *format = "suka blyad: %025.*sdd\n";
+	char *format = "suka blyad: %0*.*sdd\n";
+	int width = 20;
 	int precision = 5;
 
-	b = ft_printf(format, precision, "n");
+	b = ft_printf(format, width, precision, "n");
 	printf("%d\n", b);
-	b = printf(format, precision, "n");
+	b = printf(format, width, precision, "n");
 	printf("%d\n", b);
 }
 
@@ -32,7 +33,7 @@ void test_decimal()
 	//"%020.0d vvv\n" - при пресижене ноль не надо ставить нули в начало
 	char *format = "%-*.*lu vvv\n";
 	int width = 20;
-	int precision = 10;
+	int precision = -10;
 
 	b = ft_printf(format, width, precision, n);
 	printf("%d\n", b);
@@ -42,7 +43,7 @@ void test_decimal()
 	printf("%d\n", b);
 	//print_mem_bytes(&n, sizeof(n));
 }
-/*
+
 void test_pointer()
 {
 	int a = 55;
@@ -57,14 +58,29 @@ void test_pointer()
 	printf("|||||||||\n");
 	printf("%d\n", b);
 }
-*/
+
+void test_basic()
+{
+	int d;
+	char str = NULL;
+	char *format = "%020.*s\n";
+	int precision = 30;
+
+	d = ft_printf(format, precision, str);
+	printf("%d\n", d);
+
+	d = printf(format, precision, str);
+	printf("%d\n", d);
+}
+
 int main(void)
 {
 	test_string();
 	printf("\n");
-	//test_printf();
 	test_decimal();
 	//test_pointer();
 	//test_size();
+	printf("\n");
+	test_basic();
 	return 0;
 }

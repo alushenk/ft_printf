@@ -17,8 +17,10 @@ void	write_string(t_format *format, va_list ap)
 	char *s;
 
 	s = va_arg(ap, char *);
+	if (s == NULL)
+		s = ft_strdup("(null)");
 	format->sufix_len = (int)ft_strlen(s);
-	if (format->precision >= 0 && format->sufix_len > format->precision)
+	if (format->precision > 0 && format->sufix_len > format->precision)
 		format->sufix_len = format->precision;
 	format->sufix = ft_strnew(sizeof(char) * format->sufix_len);
 	ft_strncpy(format->sufix, s, format->sufix_len);

@@ -99,11 +99,11 @@ int		ft_printf(char *fmt, ...)
 
 	format = NULL;
 	va_start(ap, fmt);
+
 	result = func(fmt, ap, &format);
 	va_end(ap);
 	if (result > INT_MAX)
 		result = -1;
-
 	if (format->prefix)
 		free(format->prefix);
 	if (format->sufix)
