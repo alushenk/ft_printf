@@ -14,17 +14,24 @@
 
 void	write_string(t_format *format, va_list ap)
 {
-	char *s;
+	char	*s;
+	int		is_null;
 
+	is_null = 0;
 	s = va_arg(ap, char *);
 	if (s == NULL)
+	{
 		s = ft_strdup("(null)");
+		is_null = 1;
+	}
 	format->sufix_len = (int)ft_strlen(s);
 
 	if (format->precision > 0 && format->sufix_len > format->precision)
 		format->sufix_len = format->precision;
 	format->sufix = ft_strnew(sizeof(char) * format->sufix_len);
 	ft_strncpy(format->sufix, s, format->sufix_len);
+	if (is_null)
+		free(s);
 }
 
 void	write_num(t_format *format, va_list ap)
