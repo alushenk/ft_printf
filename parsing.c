@@ -54,30 +54,23 @@ int		check_width(char **fmt, va_list ap, t_format *format)
 
 int		check_precision(char **fmt, va_list ap, t_format *format)
 {
-	int num;
-	int result;
 	char *ptr;
 
 	ptr = *fmt;
-	num = 0;
-	result = 0;
 	if (*ptr == '.')
 	{
 		ptr++;
 		if (*ptr == '*')
 		{
 			ptr++;
-			num = (int)va_arg(ap, int);
-			result = 1;
+			format->precision = (int)va_arg(ap, int);
 		}
 		else if (ft_isdigit(*ptr))
 		{
-			num = skip_atoi(&ptr);
+			format->precision = skip_atoi(&ptr);
 		}
-		//if (num < 0)
-		//	format->precision = 0;
-		//else
-			format->precision = num;
+		else
+			format->precision = 0;
 	}
 	return (ptr - *fmt);
 }

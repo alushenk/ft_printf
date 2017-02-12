@@ -65,6 +65,8 @@ void	initialise_struct(t_format **format)
 	if ((*format)->sufix)
 		free((*format)->sufix);
 	(*format)->sufix = NULL;
+
+	(*format)->num = 0;
 }
 
 void	add_symbol(t_format *format, char sym)

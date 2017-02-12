@@ -29,22 +29,21 @@ void	write_string(t_format *format, va_list ap)
 
 void	write_num(t_format *format, va_list ap)
 {
-	size_t		num;
 	size_t		temp;
 	char		*mas;
 	int			i;
 
 	mas = (format->type == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
-	num = cast_signed(format, ap);
+	format->num = cast_signed(format, ap);
 	temp = 1;
-	if ((format->flag & SIGNED) && (num & temp << 63))
+	if ((format->flag & SIGNED) && (format->num & temp << 63))
 	{
 		if (format->base == 10)
 			format->num_prefix[0] = '-';
-		num = -num;
+		format->num = -format->num;
 	}
-	temp = num;
-	i = (num) ? 0 : 1;
+	temp = format->num;
+	i = (format->num) ? 0 : 1;
 	while (temp > 0)
 	{
 		temp /= format->base;
@@ -52,9 +51,10 @@ void	write_num(t_format *format, va_list ap)
 	}
 	format->sufix = ft_strnew(sizeof(char) * i);
 	format->sufix_len = i;
+	temp = format->num;
 	while (--i >= 0)
 	{
-		format->sufix[i] = mas[num % format->base];
-		num /= format->base;
+		format->sufix[i] = mas[temp % format->base];
+		temp /= format->base;
 	}
 }

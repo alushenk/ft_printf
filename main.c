@@ -75,14 +75,15 @@ void test_basic()
 void test_42()
 {
 	int d;
-	int num = 5427;
-	char *format = "%5.*x";
-	int precision = 10;
+	int num1 = 0;
+	int num2 = 0;
+	char *format = "%#.o";
+	int precision = 0;
 
-	d = ft_printf(format, precision, num);
+	d = ft_printf(format, num1, num2);
 	printf("\n%d\n", d);
 
-	d = printf(format, precision, num);
+	d = printf(format, num1, num2);
 	printf("\n%d\n", d);
 }
 

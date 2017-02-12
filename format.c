@@ -14,8 +14,6 @@
 
 void	format_num_prefix(t_format *format)
 {
-	if (!ft_strncmp(format->sufix, "0\0", 2) && format->precision == 0)
-		format->sufix[0] = ' ';
 	if (format->num_prefix[0] == 0 && (format->flag & SIGNED))
 	{
 		if (format->flag & PLUS)
@@ -23,7 +21,13 @@ void	format_num_prefix(t_format *format)
 		else if (format->flag & SPACE)
 			format->num_prefix[0] = ' ';
 	}
-	if ((format->flag & HASH) && ft_strncmp(format->sufix, "0\0", 2))
+	if (format->num == 0 && format->precision == 0)
+	{
+		ft_bzero(format->sufix, format->sufix_len);
+		format->sufix_len = 0;
+		//format->sufix[0] = ' ';
+	}
+	if (format->flag & HASH && format->num != 0)
 	{
 		if (format->base == 16)
 		{
@@ -43,7 +47,7 @@ void	format_num(t_format *f)
 
 
 	len = (f->precision > f->sufix_len) ? f->precision : f->sufix_len;
-	if (f->precision > 0 && f->width > len && !(f->flag & LEFT))
+	if ((f->flag & ZEROPAD) && f->width > len && f->precision == -1 && !(f->flag & LEFT))
 	{
 		len = f->width;
 		f->flag |= IS_WIDTH;

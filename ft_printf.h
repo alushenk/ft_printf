@@ -67,6 +67,8 @@ typedef struct 			s_format
 	ssize_t prefix_len;
 	char 	*sufix;
 	ssize_t sufix_len;
+
+	size_t num;
 }						t_format;
 
 
