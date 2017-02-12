@@ -26,6 +26,20 @@ int		skip_atoi(char **s)
 	return (i);
 }
 
+int		min_atoi(char *s)
+{
+	size_t i;
+
+	i = 0;
+	while (ft_isdigit(*s))
+	{
+		i = i * 10 + *s++ - '0';
+		if (i > INT_MAX)
+			return (INT_MAX);
+	}
+	return (i);
+}
+
 void	initialise_struct(t_format **format)
 {
 	if (!*format)
@@ -58,19 +72,19 @@ void	add_symbol(t_format *format, char sym)
 	char	*temp;
 	size_t	len;
 
-	len = ft_strlen(format->prefix);
+	len = ft_strlen(format->sufix);
 	temp = NULL;
-	if (format->prefix)
+	if (format->sufix)
 	{
-		temp = ft_strdup(format->prefix);
-		free(format->prefix);
-		format->prefix = ft_strnew(len + 1);
-		ft_strcpy(format->prefix, temp);
+		temp = ft_strdup(format->sufix);
+		free(format->sufix);
+		format->sufix = ft_strnew(len + 1);
+		ft_strcpy(format->sufix, temp);
 	}
 	else
-		format->prefix = ft_strnew(1);
-	*(format->prefix + len) = sym;
-	format->prefix_len++;
+		format->sufix = ft_strnew(1);
+	*(format->sufix + len) = sym;
+	format->sufix_len++;
 	if (temp)
 		free(temp);
 }

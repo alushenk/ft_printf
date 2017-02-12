@@ -31,6 +31,9 @@ int		check_flags(char **fmt, t_format *format)
 
 int		check_width(char **fmt, va_list ap, t_format *format)
 {
+	char *ptr;
+
+	ptr = *fmt;
 	if (**fmt == '*')
 	{
 		format->width = (int)va_arg(ap, int);
@@ -43,8 +46,8 @@ int		check_width(char **fmt, va_list ap, t_format *format)
 	}
 	else if (ft_isdigit(**fmt))
 	{
-		format->width = skip_atoi(fmt);
-		return (1);
+		format->width = skip_atoi(&ptr);
+		return (ptr - *fmt);
 	}
 	return (0);
 }
@@ -53,28 +56,30 @@ int		check_precision(char **fmt, va_list ap, t_format *format)
 {
 	int num;
 	int result;
+	char *ptr;
 
+	ptr = *fmt;
 	num = 0;
 	result = 0;
-	if (**fmt == '.')
+	if (*ptr == '.')
 	{
-		(*fmt)++;
-		if (**fmt == '*')
+		ptr++;
+		if (*ptr == '*')
 		{
+			ptr++;
 			num = (int)va_arg(ap, int);
 			result = 1;
 		}
-		else if (ft_isdigit(**fmt))
+		else if (ft_isdigit(*ptr))
 		{
-			num = skip_atoi(fmt);
-			result = 1;
+			num = skip_atoi(&ptr);
 		}
-		if (num < 0)
-			format->precision = 0;
-		else
+		//if (num < 0)
+		//	format->precision = 0;
+		//else
 			format->precision = num;
 	}
-	return (result);
+	return (ptr - *fmt);
 }
 
 int		check_size(char **fmt, t_format *format)

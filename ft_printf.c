@@ -91,6 +91,7 @@ int		func(char *fmt, va_list ap, t_format **format)
 			{
 				add_symbol(*format, *fmt);
 				fmt++;
+				break;
 			}
 		}
 		result += do_print(*format, ap);
@@ -111,13 +112,15 @@ int		ft_printf(char *fmt, ...)
 	va_end(ap);
 	if (result > INT_MAX)
 		result = -1;
-	if (format->prefix)
-		free(format->prefix);
-	if (format->sufix)
-		free(format->sufix);
-	if (format->num_prefix)
-		free(format->num_prefix);
 	if (format)
+	{
+		if (format->prefix)
+			free(format->prefix);
+		if (format->sufix)
+			free(format->sufix);
+		if (format->num_prefix)
+			free(format->num_prefix);
 		free(format);
+	}
 	return (result);
 }

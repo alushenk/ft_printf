@@ -34,6 +34,7 @@
 #define ZEROPAD 16
 
 #define SIGNED 32
+#define IS_WIDTH 64
 
 /*
  * size
@@ -100,6 +101,7 @@ void write_num(t_format *format, va_list ap);
  * functions.c
  */
 int skip_atoi(char **s);
+int		min_atoi(char *s);
 void initialise_struct(t_format **format);
 void add_symbol(t_format *format, char sym);
 

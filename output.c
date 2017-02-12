@@ -20,6 +20,7 @@ void	write_string(t_format *format, va_list ap)
 	if (s == NULL)
 		s = ft_strdup("(null)");
 	format->sufix_len = (int)ft_strlen(s);
+
 	if (format->precision > 0 && format->sufix_len > format->precision)
 		format->sufix_len = format->precision;
 	format->sufix = ft_strnew(sizeof(char) * format->sufix_len);
@@ -49,7 +50,7 @@ void	write_num(t_format *format, va_list ap)
 		temp /= format->base;
 		i++;
 	}
-	format->sufix = ft_strnew(sizeof(char) * (i + 1));
+	format->sufix = ft_strnew(sizeof(char) * i);
 	format->sufix_len = i;
 	while (--i >= 0)
 	{

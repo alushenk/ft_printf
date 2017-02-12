@@ -22,20 +22,15 @@ void	format_num_prefix(t_format *format)
 			format->num_prefix[0] = '+';
 		else if (format->flag & SPACE)
 			format->num_prefix[0] = ' ';
-		if (format->sufix[0] == ' ')
-		{
-			ft_strcpy(format->sufix, format->num_prefix);
-			ft_bzero(format->num_prefix, 2);
-		}
 	}
-	if (format->flag & HASH)
+	if ((format->flag & HASH) && ft_strncmp(format->sufix, "0\0", 2))
 	{
 		if (format->base == 16)
 		{
 			format->num_prefix[0] = '0';
 			format->num_prefix[1] = (format->type == 'X') ? 'X' : 'x';
 		}
-		if (format->base == 8)
+		if (format->base == 8 && (format->precision <= format->sufix_len))
 			format->num_prefix[0] = '0';
 	}
 }
@@ -46,19 +41,26 @@ void	format_num(t_format *f)
 	ssize_t	i;
 	char	*str;
 
+
 	len = (f->precision > f->sufix_len) ? f->precision : f->sufix_len;
-	if (f->precision == -1 && f->width > len && !(f->flag & LEFT))
+	if (f->precision > 0 && f->width > len && !(f->flag & LEFT))
+	{
 		len = f->width;
+		f->flag |= IS_WIDTH;
+	}
+
 	i = 0;
-	if (f->base == 16 && (f->flag & HASH))
-		len += 2;
+	//if (f->base == 16 && (f->flag & HASH))
+	//	len += 2;
 	str = ft_strnew(len + 1);
 	while (f->num_prefix[i])
 	{
 		str[i] = f->num_prefix[i];
 		i++;
 	}
-	while (f->sufix_len < (len - i))
+	if (f->flag & IS_WIDTH)
+		len -= i;
+	while (f->sufix_len < len--)
 	{
 		str[i] = '0';
 		i++;

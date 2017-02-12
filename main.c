@@ -27,13 +27,12 @@ void test_string()
 void test_decimal()
 {
 	int b;
-	size_t n = 5;
+	size_t n = 42;
 	//"%0 .1 025.15-+zddd\n"
-
 	//"%020.0d vvv\n" - при пресижене ноль не надо ставить нули в начало
-	char *format = "%+*.*d vvv\n";
+	char *format = "%+#0*.*d vvv\n";
 	int width = 20;
-	int precision = 10;
+	int precision = 3;
 
 	b = ft_printf(format, width, precision, n);
 	printf("%d\n", b);
@@ -73,15 +72,32 @@ void test_basic()
 	printf("%d\n", d);
 }
 
+void test_42()
+{
+	int d;
+	int num = 5427;
+	char *format = "%5.*x";
+	int precision = 10;
+
+	d = ft_printf(format, precision, num);
+	printf("\n%d\n", d);
+
+	d = printf(format, precision, num);
+	printf("\n%d\n", d);
+}
+
 int main(void)
 {
-	test_string();
+	//test_string();
 	//printf("\n");
-	test_decimal();
-
+	//test_decimal();
+	//printf("\n");
 	//test_pointer();
 	//test_size();
-	printf("\n");
-	test_basic();
+	//printf("\n");
+	//test_basic();
+	//printf("\n");
+
+	test_42();
 	return 0;
 }
