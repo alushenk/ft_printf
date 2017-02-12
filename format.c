@@ -27,9 +27,9 @@ void	format_num_prefix(t_format *format)
 		format->sufix_len = 0;
 		//format->sufix[0] = ' ';
 	}
-	if (format->flag & HASH && format->num != 0)
+	if (format->flag & HASH)
 	{
-		if (format->base == 16)
+		if (format->base == 16 && format->num != 0)
 		{
 			format->num_prefix[0] = '0';
 			format->num_prefix[1] = (format->type == 'X') ? 'X' : 'x';

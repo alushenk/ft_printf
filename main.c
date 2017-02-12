@@ -77,7 +77,7 @@ void test_42()
 	int d;
 	int num1 = 0;
 	int num2 = 0;
-	char *format = "%#.o";
+	char *format = "@moulitest: %#.o %#.0x";
 	int precision = 0;
 
 	d = ft_printf(format, num1, num2);
