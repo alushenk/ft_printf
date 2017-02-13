@@ -47,13 +47,13 @@ void test_pointer()
 {
 	int a = 55;
 	int b;
-	int *ptr = &a;
+	int *ptr = NULL;
+	char *format = "%.0p, %.p";
 
-
-	b = ft_printf("suka blyad:%*.0p", 40, ptr);
+	b = ft_printf(format, NULL);
 	printf("|||||||||\n");
 	printf("%d\n", b);
-	b = printf("suka blyad:%*.8p", 40, ptr);
+	b = printf(format, NULL);
 	printf("|||||||||\n");
 	printf("%d\n", b);
 }
@@ -108,13 +108,13 @@ int main(void)
 	//printf("\n");
 	//test_decimal();
 	//printf("\n");
-	//test_pointer();
+	test_pointer();
 	//test_size();
 	//printf("\n");
 	//test_basic();
 	//printf("\n");
 	//test_42();
 	//printf("\n");
-	test_char();
+	//test_char();
 	return 0;
 }
