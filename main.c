@@ -14,14 +14,13 @@ void test_string()
 {
 	int b;
 
-	char *format = "suka blyad: %0*.*sdd\n";
-	int width = 20;
-	int precision = 5;
+	char *format = "%4.s";
+	char *string = "42";
 
-	b = ft_printf(format, width, precision, "n");
-	printf("%d\n", b);
-	b = printf(format, width, precision, "n");
-	printf("%d\n", b);
+	b = ft_printf(format, string);
+	printf("\n%d\n", b);
+	b = printf(format, string);
+	printf("\n%d\n", b);
 }
 
 void test_decimal()
@@ -104,11 +103,11 @@ void test_char()
 
 int main(void)
 {
-	//test_string();
+	test_string();
 	//printf("\n");
 	//test_decimal();
 	//printf("\n");
-	test_pointer();
+	//test_pointer();
 	//test_size();
 	//printf("\n");
 	//test_basic();

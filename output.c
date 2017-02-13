@@ -18,6 +18,9 @@ void	write_string(t_format *format, va_list ap)
 	int		is_null;
 
 	is_null = 0;
+	s = NULL;
+	if (format->precision == 0)
+		return ;
 	s = va_arg(ap, char *);
 	if (s == NULL)
 	{
