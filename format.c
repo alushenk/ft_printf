@@ -33,7 +33,7 @@ void	format_num_prefix(t_format *format)
 			format->num_prefix[0] = '0';
 			format->num_prefix[1] = (format->type == 'X') ? 'X' : 'x';
 		}
-		if (format->base == 8 && (format->precision <= format->sufix_len))
+		if (format->base == 8 && (format->precision <= format->sufix_len) && (format->num != 0 || format->precision == 0))
 			format->num_prefix[0] = '0';
 	}
 }

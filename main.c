@@ -90,20 +90,37 @@ void test_char()
 {
 	int d;
 	char num1 = 0;
-	char num2 = 0;
-	char *format = "%2cvvv";
+	int num2 = 226;
+	//{%*c}
+	//{%03c}
+	char *format = "{%*C}";
 	int precision = 0;
 
-	d = ft_printf(format, num1);
+	d = ft_printf(format, num1, num2);
 	printf("\n%d\n", d);
 
-	d = printf(format, num1);
+	d = printf(format, num1, num2);
 	printf("\n%d\n", d);
+}
+
+void test_octal()
+{
+	int b;
+	char *format = "%#o";
+	size_t n = 0;
+	int width = 20;
+	int precision = 3;
+
+	b = ft_printf(format, n);
+	printf("\n%d\n", b);
+
+	b = printf(format, n);
+	printf("\n%d\n", b);
 }
 
 int main(void)
 {
-	test_string();
+	//test_string();
 	//printf("\n");
 	//test_decimal();
 	//printf("\n");
@@ -114,6 +131,8 @@ int main(void)
 	//printf("\n");
 	//test_42();
 	//printf("\n");
-	//test_char();
+	test_char();
+	printf("\n");
+	test_octal();
 	return 0;
 }
