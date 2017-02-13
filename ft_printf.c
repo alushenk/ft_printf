@@ -49,6 +49,8 @@ size_t	do_print(t_format *format, va_list ap)
 {
 	if (format->type == 's')
 		write_string(format, ap);
+	else if (format->type == 'c')
+		write_char(format, ap);
 	else if (format->type)
 	{
 		write_num(format, ap);

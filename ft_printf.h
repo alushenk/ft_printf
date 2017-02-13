@@ -83,6 +83,7 @@ void			format_string(t_format *format);
 */
 void			write_string(t_format *format, va_list ap);
 void			write_num(t_format *format, va_list ap);
+void			write_char(t_format *format, va_list ap);
 /*
 ** functions.c
 */

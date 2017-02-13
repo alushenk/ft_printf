@@ -17,9 +17,13 @@ char	*ft_strcat(char *s1, const char *s2)
 	char	*ptr;
 
 	ptr = s1;
-	ptr += ft_strlen(s1);
-	while (*s2)
-		*(ptr++) = *(s2++);
-	*ptr = '\0';
-	return (s1);
+	if (s1 && s2)
+	{
+		ptr += ft_strlen(s1);
+		while (*s2)
+			*(ptr++) = *(s2++);
+		*ptr = '\0';
+		return (s1);
+	}
+	return (NULL);
 }

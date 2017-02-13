@@ -33,6 +33,19 @@ void	write_string(t_format *format, va_list ap)
 		free(s);
 }
 
+void	write_char(t_format *format, va_list ap)
+{
+	char	c;
+
+	c = (char)va_arg(ap, int);
+	format->sufix_len = 1;
+	if (c)
+	{
+		format->sufix = ft_strnew(1);
+		format->sufix[0] = c;
+	}
+}
+
 void	write_num(t_format *format, va_list ap)
 {
 	size_t		temp;

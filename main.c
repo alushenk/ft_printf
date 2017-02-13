@@ -87,18 +87,34 @@ void test_42()
 	printf("\n%d\n", d);
 }
 
+void test_char()
+{
+	int d;
+	char num1 = 0;
+	char num2 = 0;
+	char *format = "%2cvvv";
+	int precision = 0;
+
+	d = ft_printf(format, num1);
+	printf("\n%d\n", d);
+
+	d = printf(format, num1);
+	printf("\n%d\n", d);
+}
+
 int main(void)
 {
 	//test_string();
 	//printf("\n");
 	//test_decimal();
 	//printf("\n");
-	test_pointer();
+	//test_pointer();
 	//test_size();
 	//printf("\n");
 	//test_basic();
 	//printf("\n");
-
 	//test_42();
+	//printf("\n");
+	test_char();
 	return 0;
 }
