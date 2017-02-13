@@ -47,9 +47,9 @@ size_t	cast_signed(t_format *format, va_list ap)
 
 size_t	do_print(t_format *format, va_list ap)
 {
-	if (format->type == 's')
+	if (format->type == 's' || format->type == 'S')
 		write_string(format, ap);
-	else if (format->type == 'c')
+	else if (format->type == 'c' || format->type == 'C')
 		write_char(format, ap);
 	else if (format->type)
 	{

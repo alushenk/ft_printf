@@ -40,12 +40,19 @@ void	write_char(t_format *format, va_list ap)
 {
 	char	c;
 
-	c = (char)va_arg(ap, int);
-	format->sufix_len = 1;
-	if (c)
+	if (format->size & L)
 	{
-		format->sufix = ft_strnew(1);
-		format->sufix[0] = c;
+		to_char(format, ap);
+	}
+	else
+	{
+		c = (char)va_arg(ap, int);
+		format->sufix_len = 1;
+		if (c)
+		{
+			format->sufix = ft_strnew(1);
+			format->sufix[0] = c;
+		}
 	}
 }
 

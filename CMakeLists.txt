@@ -7,8 +7,8 @@ project(ft_printf)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES main.c ft_printf.c ft_printf.h functions.c parsing.c format.c output.c)
-add_executable(ft_printf ${SOURCE_FILES} functions.c parsing.c format.c output.c)
+set(SOURCE_FILES main.c ft_printf.c ft_printf.h functions.c parsing.c format.c output.c wchar.c)
+add_executable(ft_printf ${SOURCE_FILES} functions.c parsing.c format.c output.c wchar.c)
 
 file(GLOB SOURCES_LIB libft/*.c)
 add_library(ft STATIC ${SOURCES_LIB})       # Создание статической библиотеки с именем libft

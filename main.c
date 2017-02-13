@@ -1,5 +1,6 @@
 #include "ft_printf.h"
 #include <math.h>
+#include <locale.h>
 
 void test_size()
 {
@@ -88,19 +89,47 @@ void test_42()
 
 void test_char()
 {
+	setlocale(LC_ALL, "");
+
 	int d;
-	char num1 = 0;
-	int num2 = 226;
+	int num1 = 8710;
+	wchar_t* num2 = L"∂";
 	//{%*c}
 	//{%03c}
-	char *format = "{%*C}";
+	char *format = "%C";
 	int precision = 0;
 
-	d = ft_printf(format, num1, num2);
+	d = ft_printf(format, *num2);
 	printf("\n%d\n", d);
 
-	d = printf(format, num1, num2);
+	d = printf(format, *num2);
 	printf("\n%d\n", d);
+}
+
+void test_wchar()
+{
+	int num = 8710;
+	print_mem_bytes(&num, sizeof(num));
+
+	char a, b, c;
+
+	a = 226;
+	b = 136;
+	c = 134;
+
+	char str[4] = {a, b, c, '\0'};
+
+/*
+	ft_putchar(a);
+	ft_putchar(b);
+	ft_putchar(c);
+*/
+	ft_putstr(str);
+
+	//	11100010 10001000 10000110
+	//  1110xxxx 10xxxxxx 10xxxxxx
+	//	00000000 00100010 00000110
+	//	14846086
 }
 
 void test_octal()
@@ -133,6 +162,8 @@ int main(void)
 	//printf("\n");
 	test_char();
 	printf("\n");
-	test_octal();
+	//test_octal();
+	//printf("\n");
+	test_wchar();
 	return 0;
 }

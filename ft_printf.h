@@ -91,5 +91,9 @@ int				skip_atoi(char **s);
 int				min_atoi(char *s);
 void			initialise_struct(t_format **format);
 void			add_symbol(t_format *format, char sym);
+/*
+** wchar.c
+*/
+void			to_char(t_format *format, va_list ap);
 
 #endif
