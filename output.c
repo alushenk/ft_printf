@@ -14,6 +14,7 @@
 
 void	write_string(t_format *format, va_list ap)
 {
+
 	char	*s;
 	int		is_null;
 
@@ -21,19 +22,24 @@ void	write_string(t_format *format, va_list ap)
 	s = NULL;
 	if (format->precision == 0)
 		return ;
-	s = va_arg(ap, char *);
-	if (s == NULL)
+	if (format->size & L)
+		chars_to_chars(format, ap);
+	else
 	{
-		s = ft_strdup("(null)");
-		is_null = 1;
+		s = va_arg(ap, char *);
+		if (s == NULL)
+		{
+			s = ft_strdup("(null)");
+			is_null = 1;
+		}
+		format->sufix_len = (int)ft_strlen(s);
+		if (format->precision > 0 && format->sufix_len > format->precision)
+			format->sufix_len = format->precision;
+		format->sufix = ft_strnew(sizeof(char) * format->sufix_len);
+		ft_strncpy(format->sufix, s, format->sufix_len);
+		if (is_null)
+			free(s);
 	}
-	format->sufix_len = (int)ft_strlen(s);
-	if (format->precision > 0 && format->sufix_len > format->precision)
-		format->sufix_len = format->precision;
-	format->sufix = ft_strnew(sizeof(char) * format->sufix_len);
-	ft_strncpy(format->sufix, s, format->sufix_len);
-	if (is_null)
-		free(s);
 }
 
 void	write_char(t_format *format, va_list ap)
@@ -41,9 +47,7 @@ void	write_char(t_format *format, va_list ap)
 	char	c;
 
 	if (format->size & L)
-	{
-		to_char(format, ap);
-	}
+		format->sufix = char_to_chars(va_arg(ap, int), format);
 	else
 	{
 		c = (char)va_arg(ap, int);

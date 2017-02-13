@@ -93,16 +93,17 @@ void test_char()
 
 	int d;
 	int num1 = 8710;
-	wchar_t* num2 = L"∂";
+	char c = 'c';
+	wchar_t* num2 = L"∂≈çß∂˚ƒ˙ˆ´ƒ˙ˆΩπø“˚æ¬˚πø∆ø∆ˆˆ";
 	//{%*c}
 	//{%03c}
-	char *format = "%C";
+	char *format = "%S";
 	int precision = 0;
 
-	d = ft_printf(format, *num2);
+	d = ft_printf(format, num2);
 	printf("\n%d\n", d);
 
-	d = printf(format, *num2);
+	d = printf(format, num2);
 	printf("\n%d\n", d);
 }
 

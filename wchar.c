@@ -12,40 +12,43 @@
 
 #include "ft_printf.h"
 
-void	to_char(t_format *format, va_list ap)
+char		*char_to_chars(wchar_t symbol, t_format *format)
 {
 	char	*str;
-	int		symbol;
+	char 	*result;
 	char	num;
 	int		i;
 	int 	j;
 	unsigned char mask;
+	int		len;
 
-	symbol = (int)va_arg(ap, int);
 
+
+	len = 0;
 	if (symbol >= 0 && symbol <= 127)
-		format->sufix_len = 1;
+		len = 1;
 	else if (symbol >= 128 && symbol <= 2047)
-		format->sufix_len = 2;
+		len = 2;
 	else if (symbol >= 2048 && symbol <= 65535)
-		format->sufix_len = 3;
+		len = 3;
 	else if (symbol >= 65536 && symbol <= 2097151)
-		format->sufix_len = 4;
+		len = 4;
 	else if (symbol >= 2097152 && symbol <= 67108863)
-		format->sufix_len = 5;
+		len = 5;
 	else if (symbol >= 67108864 && symbol <= 2147483647)
-		format->sufix_len = 6;
+		len = 6;
 
-	str = ft_strnew(format->sufix_len);
+	str = ft_strnew(len);
 	i = 0;
 	mask = 127;
-	while (i < format->sufix_len)
+	while (i < len)
 	{
 		num = (char)symbol;
-		if ((i + 1) == format->sufix_len)
+		if ((i + 1) == len)
 		{
 			num &= mask >> i;
-			num |= (~mask) >> i;
+			if (i)
+				num |= (~mask) >> i;
 			str[i] = num;
 		}
 		else
@@ -57,11 +60,41 @@ void	to_char(t_format *format, va_list ap)
 		symbol >>= 6;
 		i++;
 	}
-	format->sufix = ft_strnew(format->sufix_len);
+	result = ft_strnew(len);
 	j = 0;
 	while (--i >= 0)
 	{
-		format->sufix[j] = str[i];
+		result[j] = str[i];
 		j++;
+	}
+	free(str);
+	format->sufix_len += len;
+	return (result);
+}
+
+void 	chars_to_chars(t_format *format, va_list ap)
+{
+	wchar_t *symbol;
+	char	**result;
+	char 	*temp;
+	ssize_t i;
+
+	symbol = va_arg(ap, wchar_t*);
+	i = 0;
+	while (symbol[i])
+		i++;
+	result = (char**)malloc(sizeof(char*) * i);
+	i = 0;
+	while(symbol[i])
+	{
+		result[i] = char_to_chars(symbol[i], format);
+		i++;
+	}
+	while (--i >= 0)
+	{
+		temp = ft_strdup(format->sufix);
+		free(format->sufix);
+		format->sufix = ft_strjoin(result[i], temp);
+		free(result[i]);
 	}
 }
