@@ -91,7 +91,7 @@ int		func(char *fmt, va_list ap, t_format **format)
 			{
 				add_symbol(*format, *fmt);
 				fmt++;
-				break;
+				break ;
 			}
 		}
 		result += do_print(*format, ap);
@@ -107,7 +107,6 @@ int		ft_printf(char *fmt, ...)
 
 	format = NULL;
 	va_start(ap, fmt);
-
 	result = func(fmt, ap, &format);
 	va_end(ap);
 	if (result > INT_MAX)

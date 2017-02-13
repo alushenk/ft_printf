@@ -25,7 +25,6 @@ void	write_string(t_format *format, va_list ap)
 		is_null = 1;
 	}
 	format->sufix_len = (int)ft_strlen(s);
-
 	if (format->precision > 0 && format->sufix_len > format->precision)
 		format->sufix_len = format->precision;
 	format->sufix = ft_strnew(sizeof(char) * format->sufix_len);

@@ -50,7 +50,7 @@ void test_pointer()
 	int *ptr = &a;
 
 
-	b = ft_printf("suka blyad:%*.8p", 40, ptr);
+	b = ft_printf("suka blyad:%*.0p", 40, ptr);
 	printf("|||||||||\n");
 	printf("%d\n", b);
 	b = printf("suka blyad:%*.8p", 40, ptr);
@@ -93,12 +93,12 @@ int main(void)
 	//printf("\n");
 	//test_decimal();
 	//printf("\n");
-	//test_pointer();
+	test_pointer();
 	//test_size();
 	//printf("\n");
 	//test_basic();
 	//printf("\n");
 
-	test_42();
+	//test_42();
 	return 0;
 }

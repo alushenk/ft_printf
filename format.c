@@ -25,7 +25,6 @@ void	format_num_prefix(t_format *format)
 	{
 		ft_bzero(format->sufix, format->sufix_len);
 		format->sufix_len = 0;
-		//format->sufix[0] = ' ';
 	}
 	if (format->flag & HASH)
 	{
@@ -45,25 +44,13 @@ void	format_num(t_format *f)
 	ssize_t	i;
 	char	*str;
 
-
+	i = ft_strlen(f->num_prefix);
 	len = (f->precision > f->sufix_len) ? f->precision : f->sufix_len;
-	if ((f->flag & ZEROPAD) && f->width > len && f->precision == -1 && !(f->flag & LEFT))
-	{
-		len = f->width;
-		f->flag |= IS_WIDTH;
-	}
-
-	i = 0;
-	//if (f->base == 16 && (f->flag & HASH))
-	//	len += 2;
+	if ((f->flag & ZEROPAD) && f->width > len &&
+		f->precision == -1 && !(f->flag & LEFT))
+		len = f->width - i;
 	str = ft_strnew(len + 1);
-	while (f->num_prefix[i])
-	{
-		str[i] = f->num_prefix[i];
-		i++;
-	}
-	if (f->flag & IS_WIDTH)
-		len -= i;
+	ft_strcat(str, f->num_prefix);
 	while (f->sufix_len < len--)
 	{
 		str[i] = '0';
