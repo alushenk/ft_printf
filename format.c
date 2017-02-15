@@ -87,4 +87,5 @@ void	format_string(t_format *f)
 	f->sufix = f->flag & LEFT ? ft_strnjoin(temp, str, f->sufix_len, len) : ft_strnjoin(str, temp, len, f->sufix_len);
 	f->sufix_len += len;
 	free(temp);
+	free(str);
 }

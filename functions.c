@@ -70,7 +70,7 @@ void	add_symbol(t_format *format, char sym)
 	}
 	else
 		format->sufix = ft_strnew(1);
-	*(format->sufix + len) = sym;
+	format->sufix[len] = sym;
 	format->sufix_len++;
 	if (temp)
 		free(temp);

@@ -82,10 +82,10 @@ void test_42()
 	char *format = "%jd";
 	int precision = 0;
 
-	d = ft_printf("{%*c}", -15, 0);
+	d = ft_printf("{%*C}", -13, 0);
 	printf("\n%d\n", d);
 
-	d = printf("{%*c}", -15, 0);
+	d = printf("{%*C}", -13, 0);
 	printf("\n%d\n", d);
 }
 

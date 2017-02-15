@@ -32,7 +32,7 @@ int			wchar_length(wchar_t symbol)
 	return (len);
 }
 
-char		*wchar_to_chars(wchar_t symbol, t_format *format, int len)
+char		*wchar_to_str(wchar_t symbol, t_format *format, int len)
 {
 	char	*str;
 	char 	*result;
@@ -100,7 +100,7 @@ void		wstr_to_str(t_format *format, va_list ap)
 		len += wchar_length(string[i]);
 		if (format->precision > 0 && len > format->precision)
 			break ;
-		result[i] = wchar_to_chars(string[i], format, wchar_length(string[i]));
+		result[i] = wchar_to_str(string[i], format, wchar_length(string[i]));
 		i++;
 	}
 	while (--i >= 0)

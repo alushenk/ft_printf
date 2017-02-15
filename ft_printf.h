@@ -64,7 +64,7 @@ typedef struct	s_format
 int				ft_printf(char *fmt, ...);
 /*
 ** cast.c
-**/
+*/
 size_t			cast_signed(t_format *format, va_list ap);
 size_t			cast_unsigned(t_format *format, va_list ap);
 /*
@@ -97,9 +97,9 @@ void			add_symbol(t_format *format, char sym);
 ** wchar.c
 */
 int				wchar_length(wchar_t symbol);
-char			*wchar_to_chars(wchar_t symbol, t_format *format, int len);
+char			*wchar_to_str(wchar_t symbol, t_format *format, int len);
 void			wstr_to_str(t_format *format, va_list ap);
 
-int 			g_error;
+int				g_error;
 
 #endif

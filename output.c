@@ -48,28 +48,21 @@ void	write_string(t_format *format, va_list ap)
 void	write_char(t_format *format, va_list ap)
 {
 	wchar_t	c;
-	int test;
 
 	if (format->size & L)
 	{
 		c = va_arg(ap, wint_t);
-		test = c;
-		format->sufix = wchar_to_chars(c, format, wchar_length(c));
+		format->sufix = wchar_to_str(c, format, wchar_length(c));
 	}
 	else
 	{
 		c = (char)va_arg(ap, int);
 		format->sufix_len = 1;
+		format->sufix = ft_strnew(1);
 		if (c)
-		{
-			format->sufix = ft_strnew(1);
 			format->sufix[0] = c;
-		}
 		else
-		{
-			format->sufix = ft_strnew(1);
 			format->sufix[0] = '\0';
-		}
 	}
 }
 

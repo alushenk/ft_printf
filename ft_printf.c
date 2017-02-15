@@ -40,13 +40,34 @@ static size_t	do_print(t_format *f, va_list ap)
 	return (f->prefix_len + f->sufix_len);
 }
 
+static void		parse(char **fmt, va_list ap, t_format *format)
+{
+	int		skip;
+
+	skip = 0;
+	while (**fmt)
+	{
+		if (check_type(fmt, format))
+			break ;
+		if ((skip = check_flags(fmt, format)) ||
+			(skip = check_width(fmt, ap, format)) ||
+			(skip = check_precision(fmt, ap, format)) ||
+			(skip = check_size(fmt, format)))
+			(*fmt) += skip;
+		else
+		{
+			add_symbol(format, **fmt);
+			(*fmt)++;
+			break ;
+		}
+	}
+}
+
 static int		func(char *fmt, va_list ap, t_format **format)
 {
 	size_t	result;
-	int		skip;
 
 	result = 0;
-	skip = 0;
 	while (*fmt)
 	{
 		initialise_struct(format);
@@ -57,28 +78,13 @@ static int		func(char *fmt, va_list ap, t_format **format)
 		}
 		fmt += (*format)->prefix_len;
 		fmt = (*fmt) ? fmt + 1 : fmt;
-		while (*fmt)
-		{
-			if (check_type(&fmt, *format))
-				break ;
-			if ((skip = check_flags(&fmt, *format)) ||
-				(skip = check_width(&fmt, ap, *format)) ||
-				(skip = check_precision(&fmt, ap, *format)) ||
-				(skip = check_size(&fmt, *format)))
-				fmt += skip;
-			else
-			{
-				add_symbol(*format, *fmt);
-				fmt++;
-				break ;
-			}
-		}
+		parse(&fmt, ap, *format);
 		result += do_print(*format, ap);
 	}
 	return ((int)result);
 }
 
-int		ft_printf(char *fmt, ...)
+int				ft_printf(char *fmt, ...)
 {
 	va_list		ap;
 	t_format	*format;
