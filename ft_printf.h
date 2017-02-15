@@ -19,6 +19,7 @@
 # include <stdarg.h>
 # include <limits.h>
 # include <locale.h>
+# include <wchar.h>
 
 /*
 ** flag
@@ -62,6 +63,7 @@ typedef struct	s_format
 */
 size_t			get_len(char *str);
 size_t			cast_signed(t_format *format, va_list ap);
+size_t			cast_unsigned(t_format *format, va_list ap);
 size_t			do_print(t_format *format, va_list ap);
 int				func(char *fmt, va_list ap, t_format **format);
 int				ft_printf(char *fmt, ...);
@@ -98,5 +100,7 @@ void			add_symbol(t_format *format, char sym);
 int				wchar_length(wchar_t symbol);
 char			*char_to_chars(wchar_t symbol, t_format *format, int len);
 void			chars_to_chars(t_format *format, va_list ap);
+
+int 			g_error;
 
 #endif

@@ -11,6 +11,6 @@ set(SOURCE_FILES main.c ft_printf.c ft_printf.h functions.c parsing.c format.c o
 add_executable(ft_printf ${SOURCE_FILES} functions.c parsing.c format.c output.c wchar.c)
 
 file(GLOB SOURCES_LIB libft/*.c)
-add_library(ft STATIC ${SOURCES_LIB})       # Создание статической библиотеки с именем libft
+add_library(ft STATIC ${SOURCES_LIB} libft/ft_wstrlen.c)       # Создание статической библиотеки с именем libft
 
 target_link_libraries(ft_printf ft)	        # Линковка программы с библиотекой

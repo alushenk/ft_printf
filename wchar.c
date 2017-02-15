@@ -77,25 +77,31 @@ char		*char_to_chars(wchar_t symbol, t_format *format, int len)
 
 void		chars_to_chars(t_format *format, va_list ap)
 {
-	wchar_t *symbol;
+	wchar_t *string;
 	char	**result;
 	char 	*temp;
 	ssize_t i;
 	ssize_t	len;
 
-	symbol = va_arg(ap, wchar_t*);
+	string = va_arg(ap, wchar_t*);
+	if (string == NULL)
+	{
+		format->sufix = ft_strdup("(null)");
+		g_error = 1;
+		return ;
+	}
 	i = 0;
-	while (symbol[i])
+	while (string[i])
 		i++;
 	result = (char**)malloc(sizeof(char*) * i);
 	i = 0;
 	len = 0;
-	while(symbol[i])
+	while(string[i])
 	{
-		len += wchar_length(symbol[i]);
+		len += wchar_length(string[i]);
 		if (format->precision > 0 && len > format->precision)
 			break ;
-		result[i] = char_to_chars(symbol[i], format, wchar_length(symbol[i]));
+		result[i] = char_to_chars(string[i], format, wchar_length(string[i]));
 		i++;
 	}
 	while (--i >= 0)

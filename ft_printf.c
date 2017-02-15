@@ -27,21 +27,40 @@ size_t	cast_signed(t_format *format, va_list ap)
 	size_t result;
 
 	if (format->size & Z)
-		result = (size_t)va_arg(ap, size_t);
+		result = va_arg(ap, size_t);
 	else if (format->size & J)
-		result = (uintmax_t)va_arg(ap, uintmax_t);
+		result = va_arg(ap, intmax_t);
 	else if (format->size & LL)
-		result = (unsigned long long)va_arg(ap, unsigned long long);
+		result = va_arg(ap, long long);
 	else if (format->size & L)
-		result = (unsigned long)va_arg(ap, unsigned long);
-	else if (format->size & U)
-		result = (unsigned)va_arg(ap, unsigned);
+		result = va_arg(ap, long);
 	else if (format->size & H)
 		result = (short)va_arg(ap, int);
 	else if (format->size & HH)
 		result = (char)va_arg(ap, int);
 	else
 		result = (size_t)va_arg(ap, int);
+	return (result);
+}
+
+size_t	cast_unsigned(t_format *format, va_list ap)
+{
+	size_t result;
+
+	if (format->size & Z)
+		result = va_arg(ap, size_t);
+	else if (format->size & J)
+		result = va_arg(ap, uintmax_t);
+	else if (format->size & LL)
+		result = va_arg(ap, unsigned long long);
+	else if (format->size & L)
+		result = va_arg(ap, unsigned long);
+	else if (format->size & H)
+		result = (unsigned short)va_arg(ap, int);
+	else if (format->size & HH)
+		result = (unsigned char)va_arg(ap, int);
+	else
+		result = va_arg(ap, unsigned int);
 	return (result);
 }
 
@@ -107,11 +126,12 @@ int		ft_printf(char *fmt, ...)
 	t_format	*format;
 	int			result;
 
+	g_error = 0;
 	format = NULL;
 	va_start(ap, fmt);
 	result = func(fmt, ap, &format);
 	va_end(ap);
-	if (result > INT_MAX)
+	if (result > INT_MAX || g_error)
 		result = -1;
 	if (format)
 	{

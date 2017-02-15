@@ -77,15 +77,15 @@ void test_basic()
 void test_42()
 {
 	int d;
-	int num1 = 0;
+	intmax_t num1 = 9223372036854775807;
 	int num2 = 0;
-	char *format = "@moulitest: %#.o %#.0x";
+	char *format = "%jd";
 	int precision = 0;
 
-	d = ft_printf(format, num1, num2);
+	d = ft_printf("{%05.c}", 0);
 	printf("\n%d\n", d);
 
-	d = printf(format, num1, num2);
+	d = printf("{%05.c}", 0);
 	printf("\n%d\n", d);
 }
 
@@ -163,8 +163,8 @@ int main(void)
 	//printf("\n");
 	//test_basic();
 	//printf("\n");
-	//test_42();
-	//printf("\n");
+	test_42();
+	printf("\n");
 	test_char();
 	printf("\n");
 	//test_octal();

@@ -47,11 +47,13 @@ void	write_string(t_format *format, va_list ap)
 
 void	write_char(t_format *format, va_list ap)
 {
-	char	c;
+	wchar_t	c;
+	int test;
 
 	if (format->size & L)
 	{
-		c = va_arg(ap, wchar_t);
+		c = va_arg(ap, wint_t);
+		test = c;
 		format->sufix = char_to_chars(c, format, wchar_length(c));
 	}
 	else
@@ -78,7 +80,7 @@ void	write_num(t_format *format, va_list ap)
 	int			i;
 
 	mas = (format->type == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
-	format->num = cast_signed(format, ap);
+	format->num = (format->size & U) ? cast_unsigned(format, ap) : cast_signed(format, ap);
 	temp = 1;
 	if ((format->flag & SIGNED) && (format->num & temp << 63))
 	{

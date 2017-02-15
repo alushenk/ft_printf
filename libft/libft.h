@@ -15,6 +15,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <wchar.h>
 
 typedef struct		s_list
 {
@@ -103,5 +104,8 @@ int					ft_isxdigit(int c);
 void				print_mem_bytes(void *adress, ssize_t size);
 void				ft_putstrn(char const *s, int n);
 size_t				ft_putwcharn(char *s, size_t n);
+wchar_t				*ft_wstrdup(wchar_t *s1);
+wchar_t				*ft_wstrcpy(wchar_t *dst, wchar_t *src);
+size_t				ft_wstrlen(wchar_t *str);
 
 #endif
