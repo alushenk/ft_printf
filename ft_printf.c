@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-size_t	get_len(char *str)
+static size_t	get_len(char *str)
 {
 	size_t i;
 
@@ -22,49 +22,7 @@ size_t	get_len(char *str)
 	return (i);
 }
 
-size_t	cast_signed(t_format *format, va_list ap)
-{
-	size_t result;
-
-	if (format->size & Z)
-		result = va_arg(ap, size_t);
-	else if (format->size & J)
-		result = va_arg(ap, intmax_t);
-	else if (format->size & LL)
-		result = va_arg(ap, long long);
-	else if (format->size & L)
-		result = va_arg(ap, long);
-	else if (format->size & H)
-		result = (short)va_arg(ap, int);
-	else if (format->size & HH)
-		result = (char)va_arg(ap, int);
-	else
-		result = (size_t)va_arg(ap, int);
-	return (result);
-}
-
-size_t	cast_unsigned(t_format *format, va_list ap)
-{
-	size_t result;
-
-	if (format->size & Z)
-		result = va_arg(ap, size_t);
-	else if (format->size & J)
-		result = va_arg(ap, uintmax_t);
-	else if (format->size & LL)
-		result = va_arg(ap, unsigned long long);
-	else if (format->size & L)
-		result = va_arg(ap, unsigned long);
-	else if (format->size & H)
-		result = (unsigned short)va_arg(ap, int);
-	else if (format->size & HH)
-		result = (unsigned char)va_arg(ap, int);
-	else
-		result = va_arg(ap, unsigned int);
-	return (result);
-}
-
-size_t	do_print(t_format *f, va_list ap)
+static size_t	do_print(t_format *f, va_list ap)
 {
 	if (f->type == 's' || f->type == 'S')
 		write_string(f, ap);
@@ -82,7 +40,7 @@ size_t	do_print(t_format *f, va_list ap)
 	return (f->prefix_len + f->sufix_len);
 }
 
-int		func(char *fmt, va_list ap, t_format **format)
+static int		func(char *fmt, va_list ap, t_format **format)
 {
 	size_t	result;
 	int		skip;

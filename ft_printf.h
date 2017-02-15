@@ -61,12 +61,12 @@ typedef struct	s_format
 /*
 ** ft_printf.c
 */
-size_t			get_len(char *str);
+int				ft_printf(char *fmt, ...);
+/*
+** cast.c
+**/
 size_t			cast_signed(t_format *format, va_list ap);
 size_t			cast_unsigned(t_format *format, va_list ap);
-size_t			do_print(t_format *format, va_list ap);
-int				func(char *fmt, va_list ap, t_format **format);
-int				ft_printf(char *fmt, ...);
 /*
 ** parsing.c
 */
@@ -91,15 +91,14 @@ void			write_char(t_format *format, va_list ap);
 ** functions.c
 */
 int				skip_atoi(char **s);
-int				min_atoi(char *s);
 void			initialise_struct(t_format **format);
 void			add_symbol(t_format *format, char sym);
 /*
 ** wchar.c
 */
 int				wchar_length(wchar_t symbol);
-char			*char_to_chars(wchar_t symbol, t_format *format, int len);
-void			chars_to_chars(t_format *format, va_list ap);
+char			*wchar_to_chars(wchar_t symbol, t_format *format, int len);
+void			wstr_to_str(t_format *format, va_list ap);
 
 int 			g_error;
 

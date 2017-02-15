@@ -26,20 +26,6 @@ int		skip_atoi(char **s)
 	return (i);
 }
 
-int		min_atoi(char *s)
-{
-	size_t i;
-
-	i = 0;
-	while (ft_isdigit(*s))
-	{
-		i = i * 10 + *s++ - '0';
-		if (i > INT_MAX)
-			return (INT_MAX);
-	}
-	return (i);
-}
-
 void	initialise_struct(t_format **format)
 {
 	if (!*format)

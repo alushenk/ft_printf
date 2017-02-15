@@ -24,7 +24,7 @@ void	write_string(t_format *format, va_list ap)
 		return ;
 	if (format->size & L)
 	{
-		chars_to_chars(format, ap);
+		wstr_to_str(format, ap);
 		s = format->sufix;
 	}
 	else
@@ -54,7 +54,7 @@ void	write_char(t_format *format, va_list ap)
 	{
 		c = va_arg(ap, wint_t);
 		test = c;
-		format->sufix = char_to_chars(c, format, wchar_length(c));
+		format->sufix = wchar_to_chars(c, format, wchar_length(c));
 	}
 	else
 	{

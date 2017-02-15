@@ -17,7 +17,8 @@ SRC =   ft_printf.c \
         format.c \
         output.c \
         parsing.c \
-        wchar.c
+        wchar.c \
+        cast.c
 
 OBJ = $(SRC:.c=.o)
 

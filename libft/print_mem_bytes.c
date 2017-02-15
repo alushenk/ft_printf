@@ -1,14 +1,22 @@
-//
-// Created by Anton Lushenko on 2/2/17.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_mem_bytes.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alushenk <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/02/15 19:46:58 by alushenk          #+#    #+#             */
+/*   Updated: 2017/02/15 19:47:49 by alushenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
-void print_mem_bytes(void *adress, ssize_t size)
+void		print_mem_bytes(void *adress, ssize_t size)
 {
-	char *ptr;
-	int buf;
-	int mask;
+	char	*ptr;
+	int		buf;
+	int		mask;
 
 	ptr = (char*)adress;
 	ft_putstr("| ");
