@@ -96,5 +96,7 @@ void 	chars_to_chars(t_format *format, va_list ap)
 		free(format->sufix);
 		format->sufix = ft_strjoin(result[i], temp);
 		free(result[i]);
+		free(temp);
 	}
+	free(result);
 }

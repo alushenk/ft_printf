@@ -58,8 +58,8 @@ size_t	do_print(t_format *format, va_list ap)
 		format_num(format);
 	}
 	format_string(format);
-	ft_putstr(format->prefix);
-	ft_putstr(format->sufix);
+	ft_putstrn(format->prefix, format->prefix_len);
+	ft_putstrn(format->sufix, format->sufix_len);
 	return (format->prefix_len + format->sufix_len);
 }
 

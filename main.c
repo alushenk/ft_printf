@@ -27,18 +27,19 @@ void test_string()
 void test_decimal()
 {
 	int b;
-	size_t n = 42;
+	size_t n = 9223372036854775807;
 	//"%0 .1 025.15-+zddd\n"
 	//"%020.0d vvv\n" - при пресижене ноль не надо ставить нули в начало
-	char *format = "%+#0*.*d vvv\n";
+	//"%20.15d\n", 54321
+	char *format = "%jd\n";
 	int width = 20;
 	int precision = 3;
 
-	b = ft_printf(format, width, precision, n);
+	b = ft_printf(format, n);
 	printf("%d\n", b);
 	//print_mem_bytes(&n, sizeof(n));
 
-	b = printf(format, width, precision, n);
+	b = printf(format, n);
 	printf("%d\n", b);
 	//print_mem_bytes(&n, sizeof(n));
 }
@@ -47,13 +48,14 @@ void test_pointer()
 {
 	int a = 55;
 	int b;
-	int *ptr = NULL;
-	char *format = "%.0p, %.p";
+	int *ptr = &ft_printf;
+	//char *format = "%.0p, %.p";
+	char *format = "%p\n";
 
-	b = ft_printf(format, NULL);
+	b = ft_printf(format, &ft_printf);
 	printf("|||||||||\n");
 	printf("%d\n", b);
-	b = printf(format, NULL);
+	b = printf(format, &ft_printf);
 	printf("|||||||||\n");
 	printf("%d\n", b);
 }
@@ -92,12 +94,12 @@ void test_char()
 	setlocale(LC_ALL, "");
 
 	int d;
-	int num1 = 8710;
+	int num1 = 0;
 	char c = 'c';
-	wchar_t* num2 = L"∂≈çß∂˚ƒ˙ˆ´ƒ˙ˆΩπø“˚æ¬˚πø∆ø∆ˆˆ";
+	wchar_t* num2 = L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B";
 	//{%*c}
 	//{%03c}
-	char *format = "%S";
+	char *format = "%.4S";
 	int precision = 0;
 
 	d = ft_printf(format, num2);
@@ -148,6 +150,7 @@ void test_octal()
 	printf("\n%d\n", b);
 }
 
+
 int main(void)
 {
 	//test_string();
@@ -155,6 +158,7 @@ int main(void)
 	//test_decimal();
 	//printf("\n");
 	//test_pointer();
+	//printf("\n");
 	//test_size();
 	//printf("\n");
 	//test_basic();
@@ -165,6 +169,43 @@ int main(void)
 	printf("\n");
 	//test_octal();
 	//printf("\n");
-	test_wchar();
+	//test_wchar();
 	return 0;
 }
+
+/*
+int main(void)
+{
+	ft_printf("\n");
+	ft_printf("%%\n");
+	ft_printf("%d\n", 42);
+	ft_printf("%d%d\n", 42, 41);
+	ft_printf("%d%d%d\n", 42, 43, 44);
+	ft_printf("%ld\n", 2147483647);
+	ft_printf("%lld\n", 9223372036854775807);
+	ft_printf("%x\n", 505);
+	ft_printf("%X\n", 505);
+	ft_printf("%p\n", &ft_printf);
+	ft_printf("%20.15d\n", 54321);
+	ft_printf("%-10d\n", 3);
+	ft_printf("% d\n", 3);
+	ft_printf("%+d\n", 3);
+	ft_printf("%010d\n", 1);
+	ft_printf("%hhd\n", 0);
+	ft_printf("%jd\n", 9223372036854775807);
+	ft_printf("%zd\n", 4294967295);
+	ft_printf("%\n");
+	ft_printf("%U\n", 4294967295);
+	ft_printf("%u\n", 4294967295);
+	ft_printf("%o\n", 40);
+	ft_printf("%%#08x\n", 42);
+	ft_printf("%x\n", 1000);
+	ft_printf("%#X\n", 1000);
+	ft_printf("%s\n", NULL);
+	ft_printf("%S\n", L"ݗݜशব");
+	ft_printf("%s%s\n", "test", "test");
+	ft_printf("%s%s%s\n", "test", "test", "test");
+	ft_printf("%C\n", 15000);
+	return (0);
+}
+*/
