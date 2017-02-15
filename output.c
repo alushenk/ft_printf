@@ -50,7 +50,10 @@ void	write_char(t_format *format, va_list ap)
 	char	c;
 
 	if (format->size & L)
-		format->sufix = char_to_chars(va_arg(ap, int), format);
+	{
+		c = va_arg(ap, wchar_t);
+		format->sufix = char_to_chars(c, format, wchar_length(c));
+	}
 	else
 	{
 		c = (char)va_arg(ap, int);

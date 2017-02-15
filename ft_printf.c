@@ -45,22 +45,22 @@ size_t	cast_signed(t_format *format, va_list ap)
 	return (result);
 }
 
-size_t	do_print(t_format *format, va_list ap)
+size_t	do_print(t_format *f, va_list ap)
 {
-	if (format->type == 's' || format->type == 'S')
-		write_string(format, ap);
-	else if (format->type == 'c' || format->type == 'C')
-		write_char(format, ap);
-	else if (format->type)
+	if (f->type == 's' || f->type == 'S')
+		write_string(f, ap);
+	else if (f->type == 'c' || f->type == 'C')
+		write_char(f, ap);
+	else if (f->type)
 	{
-		write_num(format, ap);
-		format_num_prefix(format);
-		format_num(format);
+		write_num(f, ap);
+		format_num_prefix(f);
+		format_num(f);
 	}
-	format_string(format);
-	ft_putstrn(format->prefix, format->prefix_len);
-	ft_putstrn(format->sufix, format->sufix_len);
-	return (format->prefix_len + format->sufix_len);
+	format_string(f);
+	ft_putstrn(f->prefix, f->prefix_len);
+	ft_putstrn(f->sufix, f->sufix_len);
+	return (f->prefix_len + f->sufix_len);
 }
 
 int		func(char *fmt, va_list ap, t_format **format)

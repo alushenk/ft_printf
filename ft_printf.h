@@ -95,7 +95,8 @@ void			add_symbol(t_format *format, char sym);
 /*
 ** wchar.c
 */
-char			*char_to_chars(wchar_t symbol, t_format *format);
+int				wchar_length(wchar_t symbol);
+char			*char_to_chars(wchar_t symbol, t_format *format, int len);
 void			chars_to_chars(t_format *format, va_list ap);
 
 #endif

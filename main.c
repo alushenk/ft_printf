@@ -96,10 +96,10 @@ void test_char()
 	int d;
 	int num1 = 0;
 	char c = 'c';
-	wchar_t* num2 = L"ÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B";
+	wchar_t* num2 = L"ÊÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B";
 	//{%*c}
 	//{%03c}
-	char *format = "%.4S";
+	char *format = "%S";
 	int precision = 0;
 
 	d = ft_printf(format, num2);

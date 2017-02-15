@@ -12,17 +12,9 @@
 
 #include "ft_printf.h"
 
-char		*char_to_chars(wchar_t symbol, t_format *format)
+int			wchar_length(wchar_t symbol)
 {
-	char	*str;
-	char 	*result;
-	char	num;
-	int		i;
-	int 	j;
-	unsigned char mask;
 	int		len;
-
-
 
 	len = 0;
 	if (symbol >= 0 && symbol <= 127)
@@ -37,6 +29,17 @@ char		*char_to_chars(wchar_t symbol, t_format *format)
 		len = 5;
 	else if (symbol >= 67108864 && symbol <= 2147483647)
 		len = 6;
+	return (len);
+}
+
+char		*char_to_chars(wchar_t symbol, t_format *format, int len)
+{
+	char	*str;
+	char 	*result;
+	char	num;
+	int		i;
+	int 	j;
+	char	mask;
 
 	str = ft_strnew(len);
 	i = 0;
@@ -72,12 +75,13 @@ char		*char_to_chars(wchar_t symbol, t_format *format)
 	return (result);
 }
 
-void 	chars_to_chars(t_format *format, va_list ap)
+void		chars_to_chars(t_format *format, va_list ap)
 {
 	wchar_t *symbol;
 	char	**result;
 	char 	*temp;
 	ssize_t i;
+	ssize_t	len;
 
 	symbol = va_arg(ap, wchar_t*);
 	i = 0;
@@ -85,9 +89,13 @@ void 	chars_to_chars(t_format *format, va_list ap)
 		i++;
 	result = (char**)malloc(sizeof(char*) * i);
 	i = 0;
+	len = 0;
 	while(symbol[i])
 	{
-		result[i] = char_to_chars(symbol[i], format);
+		len += wchar_length(symbol[i]);
+		if (format->precision > 0 && len > format->precision)
+			break ;
+		result[i] = char_to_chars(symbol[i], format, wchar_length(symbol[i]));
 		i++;
 	}
 	while (--i >= 0)

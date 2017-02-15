@@ -102,5 +102,6 @@ int					ft_isxdigit(int c);
 */
 void				print_mem_bytes(void *adress, ssize_t size);
 void				ft_putstrn(char const *s, int n);
+size_t				ft_putwcharn(char *s, size_t n);
 
 #endif
