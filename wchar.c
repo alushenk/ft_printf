@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int			wchar_length(wchar_t symbol)
+int			wchar_length(wint_t symbol)
 {
 	int		len;
 	size_t test;

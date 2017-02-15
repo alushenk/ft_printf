@@ -96,8 +96,8 @@ void			add_symbol(t_format *format, char sym);
 /*
 ** wchar.c
 */
-int				wchar_length(wchar_t symbol);
-char			*wchar_to_str(wchar_t symbol, t_format *format, int len);
+int				wchar_length(wint_t symbol);
+char			*wchar_to_str(wint_t symbol, t_format *format, int len);
 void			wstr_to_str(t_format *format, va_list ap);
 
 int				g_error;
