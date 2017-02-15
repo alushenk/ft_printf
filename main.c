@@ -77,15 +77,15 @@ void test_basic()
 void test_42()
 {
 	int d;
-	intmax_t num1 = 9223372036854775807;
+	wint_t num1 = 128;
 	int num2 = 0;
-	char *format = "%jd";
+	char *format = "%C";
 	int precision = 0;
 
-	d = ft_printf("{%*C}", -13, 0);
+	d = ft_printf(format, num1);
 	printf("\n%d\n", d);
 
-	d = printf("{%*C}", -13, 0);
+	d = printf(format, num1);
 	printf("\n%d\n", d);
 }
 
