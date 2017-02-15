@@ -87,7 +87,6 @@ void		chars_to_chars(t_format *format, va_list ap)
 	if (string == NULL)
 	{
 		format->sufix = ft_strdup("(null)");
-		g_error = 1;
 		return ;
 	}
 	i = 0;

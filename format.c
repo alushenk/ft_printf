@@ -72,9 +72,8 @@ void	format_string(t_format *f)
 
 	if ((len = f->width - f->sufix_len) <= 0)
 		return ;
-	f->sufix_len += len;
 	c = (f->flag & ZEROPAD && !(f->flag & LEFT)) ? '0' : ' ';
-	if (f->type != 'S' && f->type != 's' && f->precision != -1)
+	if (((f->flag & SIGNED) || (f->size & U)) && f->precision >= 0)
 		c = ' ';
 	str = ft_strnew(sizeof(char) * len);
 	i = 0;
@@ -85,6 +84,7 @@ void	format_string(t_format *f)
 	}
 	temp = ft_strdup(f->sufix);
 	free(f->sufix);
-	f->sufix = f->flag & LEFT ? ft_strjoin(temp, str) : ft_strjoin(str, temp);
+	f->sufix = f->flag & LEFT ? ft_strnjoin(temp, str, f->sufix_len, len) : ft_strnjoin(str, temp, len, f->sufix_len);
+	f->sufix_len += len;
 	free(temp);
 }

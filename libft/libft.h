@@ -107,5 +107,6 @@ size_t				ft_putwcharn(char *s, size_t n);
 wchar_t				*ft_wstrdup(wchar_t *s1);
 wchar_t				*ft_wstrcpy(wchar_t *dst, wchar_t *src);
 size_t				ft_wstrlen(wchar_t *str);
+char				*ft_strnjoin(char *s1, char *s2, size_t len1, size_t len2);
 
 #endif

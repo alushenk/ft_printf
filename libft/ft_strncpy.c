@@ -21,8 +21,6 @@ char	*ft_strncpy(char *dst, const char *src, size_t len)
 	{
 		if (*src)
 			*(dst++) = *(src++);
-		else
-			*(dst++) = '\0';
 	}
 	return (ptr);
 }
