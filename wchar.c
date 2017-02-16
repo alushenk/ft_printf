@@ -15,9 +15,7 @@
 int			wchar_length(wint_t symbol)
 {
 	int		len;
-	size_t test;
 
-	test = symbol;
 	len = 0;
 	if (symbol >= 0 && symbol <= 127)
 		len = 1;
@@ -38,10 +36,10 @@ char		*wchar_to_str(wint_t symbol, t_format *format, int len)
 {
 	char	*str;
 	char 	*result;
-	int	num;
+	char	num;
 	int		i;
 	int 	j;
-	int	mask;
+	char	mask;
 
 	str = ft_strnew(len);
 	i = 0;
