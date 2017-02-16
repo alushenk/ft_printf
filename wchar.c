@@ -38,10 +38,10 @@ char		*wchar_to_str(wint_t symbol, t_format *format, int len)
 {
 	char	*str;
 	char 	*result;
-	char	num;
+	int	num;
 	int		i;
 	int 	j;
-	char	mask;
+	int	mask;
 
 	str = ft_strnew(len);
 	i = 0;
@@ -51,9 +51,9 @@ char		*wchar_to_str(wint_t symbol, t_format *format, int len)
 		num = (char)symbol;
 		if ((i + 1) == len)
 		{
-			num &= mask >> i;
+			num &= (mask >> i);
 			if (i)
-				num |= (~mask) >> i;
+				num |= ((~mask) >> i);
 			str[i] = num;
 		}
 		else

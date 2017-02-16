@@ -77,10 +77,8 @@ void test_basic()
 void test_42()
 {
 	int d;
-	wint_t num1 = 128;
-	int num2 = 0;
+	wint_t num1 = 250;
 	char *format = "%C";
-	int precision = 0;
 
 	d = ft_printf(format, num1);
 	printf("\n%d\n", d);
@@ -91,16 +89,13 @@ void test_42()
 
 void test_char()
 {
-	setlocale(LC_ALL, "");
 
 	int d;
 	int num1 = 0;
-	char c = 'c';
-	wchar_t* num2 = L"ÊÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B";
+	wint_t num2 = L'ø';
 	//{%*c}
 	//{%03c}
-	char *format = "%S";
-	int precision = 0;
+	char *format = "%C";
 
 	d = ft_printf(format, num2);
 	printf("\n%d\n", d);
@@ -111,28 +106,19 @@ void test_char()
 
 void test_wchar()
 {
-	int num = 8710;
-	print_mem_bytes(&num, sizeof(num));
 
-	char a, b, c;
+	int d;
+	int num1 = 0;
+	char c = 'c';
+	wchar_t* num2 = L"ÊÊM-M-^QÊM-^XØ‰∏M-ÂM-^O™ÁM-^L´„M-M-^B";
+	char *format = "%S";
+	int precision = 0;
 
-	a = 226;
-	b = 136;
-	c = 134;
+	d = ft_printf(format, num2);
+	printf("\n%d\n", d);
 
-	char str[4] = {a, b, c, '\0'};
-
-/*
-	ft_putchar(a);
-	ft_putchar(b);
-	ft_putchar(c);
-*/
-	ft_putstr(str);
-
-	//	11100010 10001000 10000110
-	//  1110xxxx 10xxxxxx 10xxxxxx
-	//	00000000 00100010 00000110
-	//	14846086
+	d = printf(format, num2);
+	printf("\n%d\n", d);
 }
 
 void test_octal()
@@ -153,6 +139,8 @@ void test_octal()
 
 int main(void)
 {
+	//setlocale(LC_ALL, "");
+
 	//test_string();
 	//printf("\n");
 	//test_decimal();
@@ -169,7 +157,7 @@ int main(void)
 	printf("\n");
 	//test_octal();
 	//printf("\n");
-	//test_wchar();
+	test_wchar();
 	return 0;
 }
 

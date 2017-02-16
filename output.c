@@ -52,7 +52,19 @@ void	write_char(t_format *format, va_list ap)
 	if (format->size & L)
 	{
 		c = va_arg(ap, wint_t);
-		format->sufix = wchar_to_str(c, format, wchar_length(c));
+		/*
+		if (c >=0 && c <= 255)
+		{
+			format->sufix_len = 1;
+			format->sufix = ft_strnew(1);
+			if (c)
+				format->sufix[0] = c;
+			else
+				format->sufix[0] = '\0';
+		}
+		else
+		 */
+			format->sufix = wchar_to_str(c, format, wchar_length(c));
 	}
 	else
 	{
