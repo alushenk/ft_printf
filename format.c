@@ -33,7 +33,8 @@ void	format_num_prefix(t_format *format)
 			format->num_prefix[0] = '0';
 			format->num_prefix[1] = (format->type == 'X') ? 'X' : 'x';
 		}
-		if (format->base == 8 && (format->precision <= format->sufix_len) && (format->num != 0 || format->precision == 0))
+		if (format->base == 8 && (format->precision <= format->sufix_len)
+			&& (format->num != 0 || format->precision == 0))
 			format->num_prefix[0] = '0';
 	}
 }
@@ -77,14 +78,13 @@ void	format_string(t_format *f)
 		c = ' ';
 	str = ft_strnew(sizeof(char) * len);
 	i = 0;
-	while (i < len)
-	{
-		str[i] = (char)c;
-		i++;
-	}
+	ft_memset(str, c, len);
 	temp = ft_strdup(f->sufix);
 	free(f->sufix);
-	f->sufix = f->flag & LEFT ? ft_strnjoin(temp, str, f->sufix_len, len) : ft_strnjoin(str, temp, len, f->sufix_len);
+	if (f->flag & LEFT)
+		f->sufix = ft_strnjoin(temp, str, f->sufix_len, len);
+	else
+		f->sufix = ft_strnjoin(str, temp, len, f->sufix_len);
 	f->sufix_len += len;
 	free(temp);
 	free(str);
