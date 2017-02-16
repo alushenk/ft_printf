@@ -32,18 +32,12 @@ int			wchar_length(wint_t symbol)
 	return (len);
 }
 
-char		*wchar_to_str(wint_t symbol, t_format *format, int len)
+static int	split_wchar(int len, wint_t symbol, char *str, char mask)
 {
-	char	*str;
-	char 	*result;
 	char	num;
 	int		i;
-	int 	j;
-	char	mask;
 
-	str = ft_strnew(len);
 	i = 0;
-	mask = 127;
 	while (i < len)
 	{
 		num = (char)symbol;
@@ -63,7 +57,19 @@ char		*wchar_to_str(wint_t symbol, t_format *format, int len)
 		symbol >>= 6;
 		i++;
 	}
+	return (i);
+}
+
+char		*wchar_to_str(wint_t symbol, t_format *format, int len)
+{
+	char	*str;
+	char	*result;
+	int		i;
+	int		j;
+
+	str = ft_strnew(len);
 	result = ft_strnew(len);
+	i = split_wchar(len, symbol, str, 127);
 	j = 0;
 	while (--i >= 0)
 	{
@@ -75,27 +81,16 @@ char		*wchar_to_str(wint_t symbol, t_format *format, int len)
 	return (result);
 }
 
-void		wstr_to_str(t_format *format, va_list ap)
+void		write_wstr(wchar_t *string, t_format *format, int i)
 {
-	wchar_t *string;
-	char	**result;
-	char 	*temp;
-	ssize_t i;
 	ssize_t	len;
+	char	**result;
+	char	*temp;
 
-	string = va_arg(ap, wchar_t*);
-	if (string == NULL)
-	{
-		format->sufix = ft_strdup("(null)");
-		return ;
-	}
+	result = (char**)malloc(sizeof(char*) * i);
+	len = 0;
 	i = 0;
 	while (string[i])
-		i++;
-	result = (char**)malloc(sizeof(char*) * i);
-	i = 0;
-	len = 0;
-	while(string[i])
 	{
 		len += wchar_length(string[i]);
 		if (format->precision > 0 && len > format->precision)
@@ -112,4 +107,21 @@ void		wstr_to_str(t_format *format, va_list ap)
 		free(temp);
 	}
 	free(result);
+}
+
+void		wstr_to_str(t_format *format, va_list ap)
+{
+	wchar_t *string;
+	ssize_t i;
+
+	string = va_arg(ap, wchar_t*);
+	if (string == NULL)
+	{
+		format->sufix = ft_strdup("(null)");
+		return ;
+	}
+	i = 0;
+	while (string[i])
+		i++;
+	write_wstr(string, format, i);
 }

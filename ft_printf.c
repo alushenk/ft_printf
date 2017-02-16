@@ -90,7 +90,6 @@ int				ft_printf(char *fmt, ...)
 	t_format	*format;
 	int			result;
 
-	setlocale(LC_ALL, "");
 	g_error = 0;
 	format = NULL;
 	va_start(ap, fmt);

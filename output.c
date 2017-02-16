@@ -14,7 +14,6 @@
 
 void	write_string(t_format *format, va_list ap)
 {
-
 	char	*s;
 	int		is_null;
 
@@ -48,34 +47,14 @@ void	write_string(t_format *format, va_list ap)
 void	write_char(t_format *format, va_list ap)
 {
 	char	c;
-/*
-	if (format->size & L)
-	{
-		c = va_arg(ap, wint_t);
 
-		if (c >=0 && c <= 255)
-		{
-			format->sufix_len = 1;
-			format->sufix = ft_strnew(1);
-			if (c)
-				format->sufix[0] = c;
-			else
-				format->sufix[0] = '\0';
-		}
-		else
-			format->sufix = wchar_to_str(c, format, wchar_length(c));
-	}
+	c = va_arg(ap, int);
+	format->sufix_len = 1;
+	format->sufix = ft_strnew(1);
+	if (c)
+		format->sufix[0] = c;
 	else
-	{
- */
-		c = va_arg(ap, int);
-		format->sufix_len = 1;
-		format->sufix = ft_strnew(1);
-		if (c)
-			format->sufix[0] = c;
-		else
-			format->sufix[0] = '\0';
-
+		format->sufix[0] = '\0';
 }
 
 void	write_num(t_format *format, va_list ap)

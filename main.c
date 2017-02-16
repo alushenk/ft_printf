@@ -77,7 +77,7 @@ void test_basic()
 void test_42()
 {
 	int d;
-	int num1 = 255;
+	int num1 = 0;
 	char *format = "%c";
 
 	d = ft_printf(format, num1);
