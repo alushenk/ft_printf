@@ -12,29 +12,33 @@
 
 #include "ft_printf.h"
 
-void	write_string(t_format *format, va_list ap)
+static int	read_string(t_format *format, va_list ap, char **s)
+{
+	if (format->size & L)
+	{
+		wstr_to_str(format, ap);
+		*s = ft_strdup(format->sufix);
+		free(format->sufix);
+		return (1);
+	}
+	*s = va_arg(ap, char *);
+	if (*s == NULL)
+	{
+		*s = ft_strdup("(null)");
+		return (1);
+	}
+	return (0);
+}
+
+void		write_string(t_format *format, va_list ap)
 {
 	char	*s;
 	int		is_null;
 
-	is_null = 0;
 	s = NULL;
 	if (format->precision == 0)
 		return ;
-	if (format->size & L)
-	{
-		wstr_to_str(format, ap);
-		s = format->sufix;
-	}
-	else
-	{
-		s = va_arg(ap, char *);
-		if (s == NULL)
-		{
-			s = ft_strdup("(null)");
-			is_null = 1;
-		}
-	}
+	is_null = read_string(format, ap, &s);
 	format->sufix_len = (int)ft_strlen(s);
 	if (format->precision > 0 && format->sufix_len > format->precision)
 		format->sufix_len = format->precision;
@@ -44,7 +48,7 @@ void	write_string(t_format *format, va_list ap)
 		free(s);
 }
 
-void	write_char(t_format *format, va_list ap)
+void		write_char(t_format *format, va_list ap)
 {
 	char	c;
 
@@ -57,14 +61,29 @@ void	write_char(t_format *format, va_list ap)
 		format->sufix[0] = '\0';
 }
 
-void	write_num(t_format *format, va_list ap)
+static void	write_num_sufix(t_format *format, size_t num, int len)
 {
-	size_t		temp;
-	char		*mas;
-	int			i;
+	char	*mas;
 
 	mas = (format->type == 'X') ? "0123456789ABCDEF" : "0123456789abcdef";
-	format->num = (format->size & U) ? cast_unsigned(format, ap) : cast_signed(format, ap);
+	format->sufix = ft_strnew(sizeof(char) * len);
+	format->sufix_len = len;
+	while (--len >= 0)
+	{
+		format->sufix[len] = mas[num % format->base];
+		num /= format->base;
+	}
+}
+
+void		write_num(t_format *format, va_list ap)
+{
+	size_t	temp;
+	int		i;
+
+	if (format->size & U)
+		format->num = cast_unsigned(format, ap);
+	else
+		format->num = cast_signed(format, ap);
 	temp = 1;
 	if ((format->flag & SIGNED) && (format->num & temp << 63))
 	{
@@ -79,12 +98,5 @@ void	write_num(t_format *format, va_list ap)
 		temp /= format->base;
 		i++;
 	}
-	format->sufix = ft_strnew(sizeof(char) * i);
-	format->sufix_len = i;
-	temp = format->num;
-	while (--i >= 0)
-	{
-		format->sufix[i] = mas[temp % format->base];
-		temp /= format->base;
-	}
+	write_num_sufix(format, format->num, i);
 }
