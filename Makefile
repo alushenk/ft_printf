@@ -12,6 +12,8 @@
 
 NAME = libftprintf.a
 
+SRCDIR = src
+
 SRC =   ft_printf.c \
         functions.c \
         format.c \
@@ -20,7 +22,7 @@ SRC =   ft_printf.c \
         wchar.c \
         cast.c
 
-OBJ = $(SRC:.c=.o)
+OBJ = $($(SRCDIR)/SRC:.c=.o)
 
 LIB_PATH = ../../LIBFT/
 
