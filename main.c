@@ -1,4 +1,4 @@
-#include "ft_printf.h"
+#include "src/ft_printf.h"
 #include <math.h>
 #include <locale.h>
 
@@ -48,7 +48,7 @@ void test_pointer()
 {
 	int a = 55;
 	int b;
-	int *ptr = &ft_printf;
+	//int *ptr = &ft_printf;
 	//char *format = "%.0p, %.p";
 	char *format = "%p\n";
 
@@ -138,7 +138,7 @@ void test_octal()
 
 int main(void)
 {
-	//setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "");
 
 	//test_string();
 	//printf("\n");

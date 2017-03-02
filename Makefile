@@ -12,44 +12,44 @@
 
 NAME = libftprintf.a
 
-SRCDIR = src
+OBJ  =  src/cast.o \
+        src/format.o \
+        src/ft_printf.o \
+        src/functions.o \
+        src/output.o \
+        src/parsing.o \
+        src/wchar.o \
 
-SRC =   ft_printf.c \
-        functions.c \
-        format.c \
-        output.c \
-        parsing.c \
-        wchar.c \
-        cast.c
 
-OBJ = $($(SRCDIR)/SRC:.c=.o)
+LIB_OBJ = libft/*.o
 
-LIB_PATH = ../../LIBFT/
+HEAD = src/ft_printf.h
 
-LIBOBJ = $(LIB_PATH)*.o
-
-HEAD = -I ft_printf.h
-
-CFLAGS = -c -Wall -Wextra -Werror
-
-LIBINC = -I $(LIB_PATH)libft.h -L.$(LIB_PATH) -lft
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	make -C $(LIB_PATH)
-	ar rc $(NAME) $(OBJ) $(LIBOBJ)
-	ranlib $(NAME)
+make_lib:
+	@make -C libft/
+make_obj: $(OBJ)
 
-%.o: %.c
-	gcc $(HEAD) $(CFLAGS) -o $@ $<
+$(NAME): make_lib make_obj
+	@echo "archiving ft_printf with libft objects"
+	@ar rc $(NAME) $(OBJ) $(LIB_OBJ)
+	@echo "indexing libftprintf.a"
+
+
+%.o: %.c &(HEAD)
+	@gcc $(CFLAGS) $(HEAD) -o $@ -c $<
 
 clean:
-	rm -f $(OBJ)
-	make clean -C $(LIB_PATH)
+	@echo "cleaning libft directory:"
+	@make clean -C libft/
+	@echo "removing ft_printf objects from src.."
+	@rm -rf $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
-	make fclean -C $(LIB_PATH)
-
+	@make fclean -C libft/
+	@echo "removing libftprintf.a"
+	@rm -rf $(NAME)
 re: fclean all
