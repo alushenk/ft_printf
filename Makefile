@@ -22,7 +22,7 @@ SRC  =  src/wchar.c \
 
 OBJ = $(SRC:.c=.o)
 
-LIB_OBJ = $(shell ar -t libft/libft.a | awk 'NR != 1' | sed -e 's/^/libft\//')
+LIB_OBJ = $(shell ar -t libft/libft.a | sed -e 's/^/libft\//')
 
 CFLAGS = -Wall -Wextra -Werror
 
