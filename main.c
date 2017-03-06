@@ -77,8 +77,8 @@ void test_basic()
 void test_42()
 {
 	int d;
-	int num1 = 0;
-	char *format = "%c";
+	int num1 = 255;
+	char *format = "%C";
 
 	d = ft_printf(format, num1);
 	printf("\n%d\n", d);
@@ -135,10 +135,32 @@ void test_octal()
 	printf("\n%d\n", b);
 }
 
+void test_locale()
+{
+	struct lconv* currentlocale;
+	currentlocale = localeconv();
+	printf("In current locale standard currency symbol is %c\n", *(currentlocale->currency_symbol));
+
+	//setlocale(LC_ALL, "");
+
+	currentlocale = localeconv();
+	printf("In current locale standard currency symbol is %c\n", *(currentlocale->currency_symbol));
+
+	printf("\n");
+}
 
 int main(void)
 {
-	setlocale(LC_ALL, "");
+	wint_t a;
+
+	//setlocale(LC_ALL, "");
+
+
+	a = L'∂';
+	printf("%zu\n", sizeof(a));
+	printf("\n");
+
+	test_locale();
 
 	//test_string();
 	//printf("\n");

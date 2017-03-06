@@ -22,7 +22,7 @@ SRC  =  src/cast.c \
 
 OBJ = $(SRC:.c=.o)
 
-LIB_OBJ = ./libft/libft.a
+LIB_OBJ = $(shell ar -t libft/libft.a | awk 'NR != 1' | sed -e 's/^/libft\//')
 
 HEAD = src/ft_printf.h libft/libft.h
 
