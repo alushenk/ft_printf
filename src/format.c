@@ -66,7 +66,6 @@ void	format_num(t_format *f)
 void	format_string(t_format *f)
 {
 	int		c;
-	ssize_t	i;
 	ssize_t len;
 	char	*str;
 	char	*temp;
@@ -77,7 +76,6 @@ void	format_string(t_format *f)
 	if (((f->flag & SIGNED) || (f->size & U)) && f->precision >= 0)
 		c = ' ';
 	str = ft_strnew(sizeof(char) * len);
-	i = 0;
 	ft_memset(str, c, len);
 	temp = ft_strdup(f->sufix);
 	free(f->sufix);
