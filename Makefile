@@ -12,13 +12,13 @@
 
 NAME = libftprintf.a
 
-SRC  =  src/cast.c \
+SRC  =  src/wchar.c \
+		src/cast.c \
         src/format.c \
         src/ft_printf.c \
         src/functions.c \
         src/output.c \
-        src/parsing.c \
-        src/wchar.c \
+        src/parsing.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -28,11 +28,12 @@ HEAD = src/ft_printf.h libft/libft.h
 
 CFLAGS = -Wall -Wextra -Werror
 
+all: $(NAME)
+
 make_lib:
 	@make -C libft/
 make_obj: $(OBJ)
 
-all: $(NAME)
 $(NAME): make_lib make_obj
 	@echo "archiving ft_printf with libft objects"
 	@ar rc $(NAME) $(OBJ) $(LIB_OBJ)
@@ -46,10 +47,11 @@ clean:
 	@echo "cleaning libft directory:"
 	@make clean -C libft/
 	@echo "removing ft_printf objects from src.."
-	@rm -rf src/$(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
 	@make fclean -C libft/
 	@echo "removing libftprintf.a"
-	@rm -rf $(NAME)
+	@rm -f $(NAME)
+
 re: fclean all
