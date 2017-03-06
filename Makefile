@@ -35,23 +35,18 @@ make_lib:
 make_obj: $(OBJ)
 
 $(NAME): make_lib make_obj
-	#@echo "archiving ft_printf with libft objects"
 	ar rc $(NAME) $(OBJ) $(LIB_OBJ)
-	#@echo "indexing libftprintf.a"
 	ranlib $(NAME)
 
 %.o: %.c $(HEAD)
 	gcc -c -o $@ $< $(CFLAGS)
 
 clean:
-	#@echo "cleaning libft directory:"
 	make clean -C libft/
-	#@echo "removing ft_printf objects from src.."
 	rm -f $(OBJ)
 
 fclean: clean
 	make fclean -C libft/
-	#@echo "removing libftprintf.a"
 	rm -f $(NAME)
 
 re: fclean all
