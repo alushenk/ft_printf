@@ -24,8 +24,6 @@ OBJ = $(SRC:.c=.o)
 
 LIB_OBJ = $(shell ar -t libft/libft.a | awk 'NR != 1' | sed -e 's/^/libft\//')
 
-HEAD = src/ft_printf.h libft/libft.h
-
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
@@ -38,7 +36,7 @@ $(NAME): make_lib make_obj
 	ar rc $(NAME) $(OBJ) $(LIB_OBJ)
 	ranlib $(NAME)
 
-%.o: %.c $(HEAD)
+%.o: %.c
 	gcc -c -o $@ $< $(CFLAGS)
 
 clean:
