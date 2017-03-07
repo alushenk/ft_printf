@@ -22,8 +22,6 @@ SRC  =  src/wchar.c \
 
 OBJ = $(SRC:.c=.o)
 
-LIB_OBJ = $(shell ar -t libft/libft.a | if [ "$1" != "ft_memset.c \" ]; then 'NR != 1' fi | sed -e 's/^/libft\//')
-
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
@@ -31,9 +29,11 @@ all: $(NAME)
 make_lib:
 	@make -C libft/
 make_obj: $(OBJ)
+copy_lib:
+	cp libft/libft.a $(NAME)
 
-$(NAME): make_lib make_obj
-	ar rc $(NAME) $(OBJ) $(LIB_OBJ)
+$(NAME): make_lib make_obj copy_lib
+	ar -q $(NAME) $(OBJ)
 	ranlib $(NAME)
 
 %.o: %.c

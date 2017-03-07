@@ -17,7 +17,7 @@ int			wchar_length(wint_t symbol)
 	int		len;
 
 	len = 0;
-	if (symbol >= 0 && symbol <= 127)
+	if (symbol <= 127)
 		len = 1;
 	else if (symbol >= 128 && symbol <= 2047)
 		len = 2;
