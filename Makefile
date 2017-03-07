@@ -27,7 +27,7 @@ CFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 make_lib:
-	@make -C libft/
+	make -C libft/
 make_obj: $(OBJ)
 copy_lib:
 	cp libft/libft.a $(NAME)
@@ -37,7 +37,7 @@ $(NAME): make_lib make_obj copy_lib
 	ranlib $(NAME)
 
 %.o: %.c
-	gcc -c -o $@ $< $(CFLAGS)
+	gcc $(CFLAGS) -c -o $@ $< 
 
 clean:
 	make clean -C libft/

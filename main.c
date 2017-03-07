@@ -153,10 +153,13 @@ int main(void)
 {
 	wint_t a;
 
-	//setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "");
 
 
 	a = L'∂';
+
+	print_mem_bytes(&a, sizeof(a));
+
 	printf("%zu\n", sizeof(a));
 	printf("\n");
 
